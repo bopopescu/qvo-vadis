@@ -1,9 +1,11 @@
 var tableId = '1hpPoQWl-G6e6FjagnqOZ2pAicWOAC9x7txR1mXk';
 var locationColumn = 'latitude';
+var tags = 'Eucharistie,Gebedsdienst,Gebed,Vorming,Vergadering,Ontspanning,Concert,Biechtgelegenheid,Begrafenis';
 var map, layer;
 var now, midnight, midnight1, midnight7;
 var state = {
-    parseHash: function(hash) {
+    parseHash: function() {
+        var hash = window.location.hash;
         var map, timeframe, tags, view, location, event;
         var strings = hash.replace(/^#/,'').split('/');
         for (var i=0; i<strings.length; i++) {
@@ -16,9 +18,9 @@ var state = {
                 tags = s;
             else if (!view && s.match(/marker|location|list|event/))
                 view = s;
-            else if (view.match(/marker|location/))
+            else if (view && view.match(/marker|location/))
                 location = s;
-            else if (view.match(/event/))
+            else if (view && view.match(/event/))
                 event = s;
         }
         if (map) {
@@ -38,51 +40,96 @@ var state = {
         } else {
             this.timeframe = 'week'; // default
         }
+        if (tags) {
+            this.tags = tags.split(',');
+        } else {
+            this.tags = []; // default
+        }
+        this.view = view;
+        this.location = location;
+        this.event = event;
     },
-    panned: function(lat, lon) {
-        this.lat = lat;
-        this.lon = lon;
-    },
-    doPan: function(lat, lon) {
+    doPan: function(lat, lon, doNotComposeHash) {
         var loc = new google.maps.LatLng(lat, lon);
         map.setCenter(loc);
-        this.panned(lat,lon);
+        this.lat = lat;
+        this.lon = lon;
+        if (!doNotComposeHash)
+            this.composeHash();
     },
-    zoomed: function(zoom) {
+    syncPan: function() {
+        var loc = map.getCenter();
+        this.lat = loc.lat();
+        this.lon = loc.lng();
+        this.composeHash();
+    },
+    doZoom: function(zoom,doNotComposeHash) {
+        map.setZoom(zoom);
         this.zoom = zoom;
+        if (!doNotComposeHash)
+            this.composeHash();
+    },
+    syncZoom: function() {
+        var zoom = map.getZoom();
+        this.zoom = zoom;
+        this.composeHash();
     },
     setTimeframe: function(timeframe) {
         this.timeframe = timeframe;
         $('#filter-controls span').removeClass('active');
         $('#' + timeframe).addClass('active');
-        var query;
-        if (timeframe == 'now')
-            // start < now and end > now
-            query = "start < '" + now + "' and end > '" + now + "'";
-        else if (timeframe == 'today')
-            // start > now and start < midnight
-            query = "start > '" + now + "' and start < '" + midnight + "'";
-        else if (timeframe == 'tomorrow')
-            // start > midnight and start < midnight + 1 day
-            query = "start > '" + midnight + "' and start < '" + midnight1 + "'";
-        else if (timeframe == 'week')
-            // start > now and start < midnight + 7 days
-            query = "start > '" + midnight + "' and start < '" + midnight7 + "'";
-        else if (timeframe == 'all')
-            // start > now
-            query = "start > '" + now + "'";
-        layer.setOptions({
-            query: {
-                select: locationColumn,
-                from: tableId,
-                where: query
-            }
-        });
+        updateLayerQuery(this.timeframe, this.tags);
+        this.composeHash();
+    },
+    toggleTag: function(tag) {
+       var i;
+       if ((i = $.inArray(tag, this.tags)) > -1 ) {
+            // tag active
+            this.tags.splice(i,1); // remove tag
+            $('#' + tag).removeClass('active');
+       } else {
+            // tag not active
+            this.tags.push(tag); // add tag
+            $('#' + tag).addClass('active');
+       }
+       updateLayerQuery(this.timeframe, this.tags);
+       this.composeHash();
+    },
+    panDirty: false, // dirty flag when map is being panned
+    zoomDirty: false, // dirty flag when map is zoomed
+    composeHash: function() {
+        var map, timeframe, tags, view, location, event;
+        map = this.lat.toFixed(6) + ',' + this.lon.toFixed(6);
+        map += ',' + this.zoom + 'z';
+        var mapDiv = $('#map-canvas');
+        map += ',' + Math.min(mapDiv.height(), mapDiv.width()) + 'px';
+        timeframe = this.timeframe;
+        tags = this.tags.join(',');
+        view = this.view;
+        location = this.location;
+        event = this.location;
+        var hash = '#' + map;
+        if (timeframe)
+            hash += '/' + timeframe;
+        if (tags)
+            hash += '/' + tags;
+        if (view)
+            hash += '/' + view;
+        if (location)
+            hash += '/' + location;
+        if (event)
+            hash += '/' + event;
+        window.location.hash = hash;
+    },
+    doHash: function() {
+        this.parseHash();
+        this.doPan(this.lat,this.lon,"doNotComposeHash");
+        this.doZoom(this.zoom,"doNotComposeHash");
     }
 };
 
 // parse the hash; the coordinates are used by the google map initialization
-state.parseHash(window.location.hash);
+state.parseHash();
             
         
 // helper function for updating a set of global variables each minutes,
@@ -178,6 +225,25 @@ function initialize() {
     // setTimeframe method uses layer, so only now the state can be applied
     state.setTimeframe(state.timeframe);
 
+    google.maps.event.addListener(map, 'drag', function() {
+        state.panDirty = true;
+    })
+
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        state.zoomDirty = true;
+    })
+
+    google.maps.event.addListener(map, 'idle', function() {
+        if (state.panDirty) {
+            state.syncPan();
+            state.panDirty = false;
+        }
+        if (state.zoomDirty) {
+            state.syncZoom();
+            state.zoomDirty = false;
+        }
+    })
+
     return;
 }
 
@@ -192,5 +258,65 @@ $(document).ready(function() {
       state.setTimeframe(this.id);
     });
 
+    // create the tag buttons
+    $.each(tags.split(','), function(index, tag) {
+        $('<span/>',{id: slugify(tag)}).text(tag).appendTo('#tags');
+    })
+
+    $('#tags').on("click", "span", function() {
+        state.toggleTag(this.id);
+    });
+
+    window.onhashchange = function() {
+        state.doHash();
+    };
+
     return;
 });
+
+function slugify(str) {
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
+    var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+    var to = "aaaaaeeeeeiiiiooooouuuunc------";
+    for (var i = 0, l = from.length; i < l; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+    return str;
+}
+
+// helper function to create a query string for setup of the fusion tables layer
+function updateLayerQuery(timeframe, tags) {
+    var query;
+    if (timeframe == 'now')
+    // start < now and end > now
+        query = "start < '" + now + "' and end > '" + now + "'";
+    else if (timeframe == 'today')
+    // start > now and start < midnight
+        query = "start > '" + now + "' and start < '" + midnight + "'";
+    else if (timeframe == 'tomorrow')
+    // start > midnight and start < midnight + 1 day
+        query = "start > '" + midnight + "' and start < '" + midnight1 + "'";
+    else if (timeframe == 'week')
+    // start > now and start < midnight + 7 days
+        query = "start > '" + midnight + "' and start < '" + midnight7 + "'";
+    else if (timeframe == 'all')
+    // start > now
+        query = "start > '" + now + "'";
+    for (var i = 0; i < tags.length; i++) {
+        query += " AND tags CONTAINS '#" + tags[i] + "#'";
+        // tags in the fustion table are surrounded by hash characters to avoid
+        // confusion if one tag would be a substring of another tag
+    }
+    layer.setOptions({
+        query: {
+            select: locationColumn,
+            from: tableId,
+            where: query
+        }
+    });
+}
+
