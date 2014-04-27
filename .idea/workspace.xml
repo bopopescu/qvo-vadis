@@ -2,23 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/oauth2_three_legged.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jinja_templates/calendar.ics" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ical.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oauth2_three_legged.py" afterPath="$PROJECT_DIR$/oauth2_three_legged.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398285953284" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398627874692" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1397418524774" ignored="false" />
-    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1397927132778" ignored="false" />
-    <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398622883230" ignored="false" />
-    <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398284868410" ignored="false" />
+    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398631472093" ignored="false" />
+    <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398631853990" ignored="false" />
+    <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398630716697" ignored="false" />
     <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398373903415" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
     <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398623018450" ignored="false" />
-    <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398625132373" ignored="false" />
+    <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398628990135" ignored="false" />
+    <file path="/ical.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398632819328" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,18 +54,31 @@
       <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="4" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
+            <state line="8" column="41" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="oauth2_three_legged.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ical.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ical.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="8" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oauth2_three_legged.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="71" selection-start="639" selection-end="663" vertical-scroll-proportion="0.24425288">
+            <state line="52" column="41" selection-start="1996" selection-end="1996" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
+                <marker date="1398629009512" expanded="true" signature="497:1769" placeholder="..." />
+                <marker date="1398629009512" expanded="true" signature="550:1769" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -70,10 +87,19 @@
       <file leaf-file-name="map.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/map.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
+            <state line="31" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calendar.ics" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/calendar.ics">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3210" column="0" selection-start="94039" selection-end="94039" vertical-scroll-proportion="3.552163">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,12 +124,14 @@
       <list>
         <option value="$PROJECT_DIR$/app.yaml" />
         <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
-        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
-        <option value="$PROJECT_DIR$/static/scripts/map.js" />
-        <option value="$PROJECT_DIR$/map.py" />
         <option value="$PROJECT_DIR$/google_credentials.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/oauth2_three_legged.py" />
+        <option value="$PROJECT_DIR$/static/scripts/map.js" />
+        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/map.py" />
+        <option value="$PROJECT_DIR$/ical.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/calendar.ics" />
       </list>
     </option>
   </component>
@@ -390,7 +418,11 @@
       <created>1398285957143</created>
       <updated>1398285957143</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="coordinates in URL synced">
+      <created>1398627878808</created>
+      <updated>1398627878808</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -403,11 +435,11 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2579832" sideWeight="0.599359" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40064102" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2579832" sideWeight="0.67147434" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40064102" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32852563" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -478,26 +510,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="6" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/map.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="3" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="27" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
@@ -540,27 +556,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="-16.115385">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="12" selection-start="8426" selection-end="8426" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Google/google_appengine/lib/webapp2-2.5.2/webapp2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="569" column="0" selection-start="19382" selection-end="19382" vertical-scroll-proportion="0.90229887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="21" selection-start="228" selection-end="228" vertical-scroll-proportion="0.519084">
@@ -575,28 +570,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="41" selection-start="1996" selection-end="1996" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <marker date="1398629009512" expanded="true" signature="497:1769" placeholder="..." />
+            <marker date="1398629009512" expanded="true" signature="550:1769" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/Google/google_appengine/lib/webapp2-2.5.2/webapp2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="569" column="0" selection-start="19382" selection-end="19382" vertical-scroll-proportion="0.90229887">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="4" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
+        <state line="8" column="41" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="33" selection-end="33" vertical-scroll-proportion="0.044736844">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="40" selection-start="941" selection-end="941" vertical-scroll-proportion="1.2043597">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/map.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="340" selection-end="340" vertical-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
+    <entry file="file://$PROJECT_DIR$/ical.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="71" selection-start="639" selection-end="663" vertical-scroll-proportion="0.24425288">
+        <state line="10" column="8" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#51#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/calendar.ics">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3210" column="0" selection-start="94039" selection-end="94039" vertical-scroll-proportion="3.552163">
+          <folding />
         </state>
       </provider>
     </entry>

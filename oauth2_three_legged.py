@@ -31,7 +31,8 @@ class Oauth2_service():
                 flow = OAuth2WebServerFlow(client_id=google_credentials.CLIENT_ID,
                                            client_secret=google_credentials.CLIENT_SECRET,
                                            scope=scope,
-                                           redirect_uri=request.host_url + '/oauth2callback')
+                                           redirect_uri=request.host_url + '/oauth2callback',
+                                           access_type='offline')
                 state = {'original_url': request.url, 'scope': scope}
                 state_string = pickle.dumps(state)
                 auth_uri = flow.step1_get_authorize_url() + '&' + urllib.urlencode({'state': state_string})
@@ -55,7 +56,8 @@ class OauthHandler(webapp2.RequestHandler):
         flow = OAuth2WebServerFlow(client_id=google_credentials.CLIENT_ID,
                                    client_secret=google_credentials.CLIENT_SECRET,
                                    scope=scope,
-                                   redirect_uri=request.path_url)
+                                   redirect_uri=request.path_url,
+                                   access_type='offline')
         credentials = flow.step2_exchange(code)
         user = users.get_current_user()
         storage = StorageByKeyName(CredentialsModel, CREDENTIALS_STORAGE_KEY, 'credentials')

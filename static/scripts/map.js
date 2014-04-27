@@ -1,6 +1,4 @@
-var tableId = '1hpPoQWl-G6e6FjagnqOZ2pAicWOAC9x7txR1mXk';
 var locationColumn = 'latitude';
-var tags = 'Eucharistie,Gebedsdienst,Gebed,Vorming,Vergadering,Ontspanning,Concert,Biechtgelegenheid,Begrafenis';
 var map, layer;
 var now, midnight, midnight1, midnight7;
 

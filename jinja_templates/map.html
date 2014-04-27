@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>Quo?</title>
+    <title>{{configuration['title']}}</title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="stylesheets/map.css"/>
 </head>
 
 <body>
 <div id="filter-controls">
-    <h1>Quo?</h1>
+    <h1>{{configuration['title']}}</h1>
     <div id="timeframe">
         <span id="now">Nu</span>
         <span id="today">Vandaag</span>
@@ -23,6 +23,10 @@
 <div id="map-canvas"></div>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="scripts/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    var tableId = '{{configuration["slave table"]}}';
+    var tags = '{{configuration["tags"]}}';
+</script>
 <script type="text/javascript" src="scripts/map.js"></script>
 </body>
 </html>
