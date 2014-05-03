@@ -128,7 +128,7 @@ var state = {
             query = "start > '" + now + "'";
         for (var i = 0; i < tags.length; i++) {
             query += " AND tags CONTAINS '#" + tags[i] + "#'";
-            // tags in the fustion table are surrounded by hash characters to avoid
+            // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
         }
         layer.setOptions({
@@ -289,7 +289,7 @@ $(document).ready(function() {
         state.setMapCenterpoint(state.lat,state.lon);
         state.setMapZoom(state.zoom);
         state.highlightTimeframeButton(state.timeframe);
-        state.disableAllTagButons();
+        state.disableAllTagButtons();
         for (var i=0; i<state.tags.length; i++) {
             state.toggleTagButton(state.tags[i]);
         }
