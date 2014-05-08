@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html manifest="/status.appcache">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>{{data[0]['location name']}}</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="/stylesheets/cards.css"/>
+</head>
+
+<body onload="parent.on_body_resize_in_iframe()">
+    <div class="header item">
+        <div class="item_block static_map">
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data[0]['latitude']}},{{data[0]['longitude']}}&markers=color:green%7C{{data[0]['latitude']}},{{data[0]['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
+                 onclick="parent.on_click_static_map_in_iframe()"/>
+        </div>
+        <div class="item_title">{{data[0]['location name']}}</div>
+        <div class="item_suppressed">{{data[0]['address']}}</div>
+    </div>
+    {% if no_results_message %}
+    <div class="item">
+        <div class="item_suppressed">{{no_results_message}}</div>
+    </div>
+    {% else %}
+    {% for row in data %}
+    <div class="item" onclick="parent.on_click_event_in_iframe('{{row['event slug']}}')">
+        <div class="item_block">
+            <div class="item_date">
+                <div>{{date_time_reformat(row['start'], format='EE d/M', lang='nl')}}</div>
+                <div>{{date_time_reformat(row['start'], format='H:mm', lang='nl')}}</div>
+            </div>
+        </div>
+        <div class="item_title">{{row['event name']}}</div>
+        <div class="item_suppressed">{{row['organization']}}</div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html manifest="/status.appcache">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>{{data['location name']}} - {{data['event name']}}</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="/stylesheets/cards.css"/>
+</head>
+
+<body onload="parent.on_body_resize_in_iframe()">
+    {% if no_results_message %}
+    <div class="item">
+        <div class="item_suppressed">{{no_results_message}}</div>
+    </div>
+    {% else %}
+    <div class="header item">
+        <div class="item_block static_map">
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data['latitude']}},{{data['longitude']}}&markers=color:green%7C{{data['latitude']}},{{data['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
+                 onclick="parent.on_click_static_map_in_iframe()"/>
+            <div class="item_date">
+                {% if data['start'] and data['end'] and not data['multi day'] %}
+                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
+                <div>{{date_time_reformat(data['start'], format='H:mm', lang='nl')}}</div>
+                <div>&mdash;</div>
+                <div>{{date_time_reformat(data['end'], format='H:mm', lang='nl')}}</div>
+                {% elif data['start'] and data['end'] and data['multi day'] %}
+                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
+                <div>&mdash;</div>
+                <div>{{date_time_reformat(data['end'], format='EE d/M', lang='nl')}}</div>
+                {% else %}
+                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
+                <div>{{date_time_reformat(data['start'], format='H:mm', lang='nl')}}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="item_title">{{data['event name']}}</div>
+        <div class="item_suppressed">{{data['organization']}}</div>
+        <div class="item_emphasized">{{data['location name']}}</div>
+        <div class="item_emphasized">{{data['location details']}}</div>
+        <div class="item_suppressed">{{data['address']}}</div>
+        <div class="item_plain">{{data['description']}}</div>
+        {% if data['website'] %}
+        <div class="item_plain"><a href="{{data['website']}}" target="_blank">Ga naar de website</a></div>
+        {% endif %}
+        {% if data['contact'] %}
+        <div class="item_plain"><a href="mailto:{{data['contact']}}">Contacteer de organisator</a></div>
+        <!-- TODO implement mailing form -->
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>{{configuration['title']}}</title>
     <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="stylesheet" href="stylesheets/map.css"/>
+    <link rel="stylesheet" href="/stylesheets/map.css"/>
 </head>
 
 <body>
@@ -22,13 +22,13 @@
     <div id="tags"></div>
 </div>
 
-<!--div id="iframe" class="content"></div-->
+<div id="iframe" class="content"></div>
 
 <div id="background">
     <div id="map-canvas"></div>
 </div>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"></script>
 <script type="text/javascript" src="scripts/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
     var tableId = '{{configuration["slave table"]}}';

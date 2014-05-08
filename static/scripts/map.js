@@ -14,16 +14,16 @@ var state = {
             var s = strings[i];
             if (!map && s.match(/\d+\.\d+,\d+\.\d+,\d+z,\d+px/))
                 map = s;
-            else if (!timeframe && s.match(/now|today|tomorrow|week|all/)) 
-                timeframe = s;
-            else if (!tags && !s.match(/marker|location|list|event/))
-                tags = s;
             else if (!view && s.match(/marker|location|list|event/))
                 view = s;
             else if (view && view.match(/marker|location/))
                 location = s;
             else if (view && view.match(/event/))
                 event = s;
+            else if (!timeframe && s.match(/now|today|tomorrow|week|all/))
+                timeframe = s;
+            else if (!tags && !s.match(/marker|location|list|event/))
+                tags = s;
         }
         if (map) {
             var coords = map.split(',');
@@ -77,6 +77,17 @@ var state = {
             this.tags.push(tag); // add tag
         }
     },
+    setViewLocation: function(location_slug) {
+        this.view = 'location';
+        this.location = location_slug;
+    },
+    setViewMap: function() {
+        this.view = 'map';
+    },
+    setViewEvent: function(event_slug) {
+        this.view = 'event';
+        this.event = event_slug;
+    },
 
     // methods acting on the hash string
 
@@ -96,12 +107,13 @@ var state = {
             hash += '/' + timeframe;
         if (tags)
             hash += '/' + tags;
-        if (view)
+        if (view && view !== 'map')
             hash += '/' + view;
-        if (location)
+        if (view == 'location' && location)
             hash += '/' + location;
-        if (event)
+        if (view == 'event' && event)
             hash += '/' + event;
+        this.ignoreHashChange = true;
         window.location.hash = hash;
     },
 
@@ -142,33 +154,66 @@ var state = {
 
     // methods acting on the GUI (map, buttons, ...)
 
-    setMapCenterpoint: function(lat, lon) {
-        var loc = new google.maps.LatLng(lat, lon);
+    setMapCenterpoint: function() {
+        var loc = new google.maps.LatLng(this.lat, this.lon);
         map.setCenter(loc);
     },
-    setMapZoom: function(zoom) {
-        map.setZoom(zoom);
-        this.zoom = zoom;
+    setMapZoom: function() {
+        map.setZoom(this.zoom);
     },
-    highlightTimeframeButton: function(timeframe) {
+    highlightTimeframeButton: function() {
         $('#timeframe span').removeClass('active');
-        $('#' + timeframe).addClass('active');
+        $('#' + this.timeframe).addClass('active');
     },
-    toggleTagButton: function(tag) {
-        if ($('#' + tag).hasClass('active')) {
-            // tag active
-            $('#' + tag).removeClass('active');
-        } else {
-            // tag not active
-            $('#' + tag).addClass('active');
+    highlightTagButtons: function() {
+        // disable all tag buttons
+        $('#tags span').removeClass('active');
+        // enable all selected tag buttons
+        for (var i=0; i<this.tags.length; i++) {
+            $('#' + this.tags[i]).addClass('active');
         }
     },
-    disableAllTagButtons: function() {
-        $('#tags span').removeClass('active');
+    displayIFrame: function() {
+        $('#iframe iframe').remove(); // removing the iframe to not make it part of browser history
+        if (this.view == 'location' || this.view == 'list' || this.view == 'event') {
+            // compose the URL for the iframe (TODO: update for other views than location)
+            var url = window.location.protocol + "//" + window.location.host;
+            if (this.view)
+                url += '/' + this.view;
+            if (this.view == 'location' && this.location)
+                url += '/' + this.location;
+            if (this.view == 'event' && this.event)
+                url += '/' + this.event;
+            if (this.view !== 'event' && this.timeframe)
+                url += '/' + this.timeframe;
+            var tags = this.tags.join(',');
+            if (this.view !== 'event' && tags)
+                url += '/' + tags;
+            // append the ?id= parameter if present in the location, just for debugging on localhost
+            // and also append the client timestamp
+            if (location.search) {
+                url += location.search;
+                url += '&';
+            } else {
+                url += '?';
+            }
+            url += 'now=' + now;
+            // set the URL and display the iframe
+            $('<iframe/>').appendTo('#iframe');
+            $('#iframe iframe').attr('src', url);
+            $('#iframe').show();
+
+        } else {
+            $('#iframe').hide();
+        }
     },
 
+
+    // attributes
+
     panDirty: false, // dirty flag when map is being panned
-    zoomDirty: false // dirty flag when map is zoomed
+    zoomDirty: false, // dirty flag when map is zoomed
+    ignoreHashChange: false // used to ignore hash changes triggered by myself
 };
 
 // parse the hash; the coordinates are used by the google map initialization
@@ -223,18 +268,18 @@ function initialize() {
         browserSupportFlag = true;
         navigator.geolocation.getCurrentPosition(function (position) {
             state.setCenterpoint(position.coords.latitude, position.coords.longitude);
-            state.setMapCenterpoint(position.coords.latitude, position.coords.longitude);
+            state.setMapCenterpoint();
             state.generateNewHashString();
         });
     }
 
     google.maps.event.addListener(map, 'drag', function() {
         state.panDirty = true;
-    })
+    });
 
     google.maps.event.addListener(map, 'zoom_changed', function() {
         state.zoomDirty = true;
-    })
+    });
 
     google.maps.event.addListener(map, 'idle', function() {
         if (state.panDirty) {
@@ -247,7 +292,13 @@ function initialize() {
             state.generateNewHashString();
             state.zoomDirty = false;
         }
-    })
+    });
+
+    google.maps.event.addListener(layer, 'click', function(e) {
+        state.setViewLocation(e.row['location slug'].value);
+        state.generateNewHashString();
+        state.displayIFrame();
+    });
 
     return;
 }
@@ -258,17 +309,17 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // jQuery ready
 $(document).ready(function() {
 
-    state.highlightTimeframeButton(state.timeframe);
-    for (var i=0; i<state.tags.length; i++) {
-        state.toggleTagButton(state.tags[i]);
-    }
+    state.highlightTimeframeButton();
+    state.highlightTagButtons();
+    state.displayIFrame();
 
     // add event handlers to the timeframe buttons
     $('#timeframe').on("click", "span", function() {
         state.setTimeframe(this.id);
         state.generateNewQueryString();
         state.generateNewHashString();
-        state.highlightTimeframeButton(this.id);
+        state.highlightTimeframeButton();
+        state.displayIFrame();
     });
 
     // create the tag buttons
@@ -280,23 +331,50 @@ $(document).ready(function() {
         state.toggleTagInList(this.id);
         state.generateNewQueryString();
         state.generateNewHashString();
-        state.toggleTagButton(this.id);
+        state.highlightTagButtons();
+        state.displayIFrame();
     });
 
     window.onhashchange = function() {
-        state.parseHashStringIntoState();
-        state.generateNewQueryString();
-        state.setMapCenterpoint(state.lat,state.lon);
-        state.setMapZoom(state.zoom);
-        state.highlightTimeframeButton(state.timeframe);
-        state.disableAllTagButtons();
-        for (var i=0; i<state.tags.length; i++) {
-            state.toggleTagButton(state.tags[i]);
+        if (state.ignoreHashChange) {
+            state.ignoreHashChange = false;
+        } else {
+            state.parseHashStringIntoState();
+            state.generateNewQueryString();
+            state.setMapCenterpoint();
+            state.setMapZoom();
+            state.highlightTimeframeButton();
+            state.highlightTagButtons();
+            state.displayIFrame();
         }
     };
 
     return;
 });
+
+function on_click_static_map_in_iframe() {
+    // callable from within iframe
+    state.setViewMap();
+    state.generateNewHashString();
+    state.displayIFrame();
+    return;
+}
+
+function on_click_event_in_iframe(event_slug) {
+    // callable from within iframe
+    state.setViewEvent(event_slug);
+    state.generateNewHashString();
+    state.displayIFrame();
+    return;
+}
+
+function on_body_resize_in_iframe() {
+    // callable from within iframe
+    var height = $('#iframe iframe').contents().find('body').height();
+    if ($('#iframe').css('height') !== '100%')
+        $('#iframe').css('height', height);
+    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
+}
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
@@ -313,7 +391,8 @@ function slugify(str) {
 }
 
 // helper function for updating a set of global variables each minutes,
-// used when filtering the fusion table on timeframe
+// used when filtering the fusion table on timeframe and
+// as part of the iframe URL to provide the server with client time
 function updateNowAndMidnight() {
     function format(date) {
         // day = 0 for Sunday, 1 for Monday etc...
@@ -329,22 +408,20 @@ function updateNowAndMidnight() {
         var s = yyyy + '-' + mm + '-' + dd + ' ' + hours + ':' + minutes + ':00';
         return s;
     }
-    var now_d = new Date();
-    var midnight_d = now_d;
-    midnight_d.setDate(midnight_d.getDate() + 1);
-    midnight_d.setHours(0);
-    midnight_d.setMinutes(0);
-    var midnight1_d = midnight_d;
-    midnight1_d.setDate(midnight1_d.getDate() + 1);
-    var midnight7_d = midnight_d;
-    midnight7_d.setDate(midnight7_d.getDate() + 7);
-    // update the global vars
-    now = format(now_d);
-    midnight = format(midnight_d);
-    midnight1 = format(midnight1_d);
-    midnight7 = format(midnight7_d);
-    // from now on, update every minute
-    setTimeout(updateNowAndMidnight, 60000);
+    var d = new Date();
+    now = format(d);
+    d.setDate(d.getDate() + 1);
+    d.setHours(0);
+    d.setMinutes(0);
+    midnight = format(d);
+    d.setDate(d.getDate() + 1);
+    midnight1 = format(d);
+    d.setDate(d.getDate() + 7);
+    midnight7 = format(d);
+    // from now on, update every hour (this value is in the iframe URL because the server only knows
+    // server time, and if the frequency would be increased, the browser caching wouldn't make
+    // much sense)
+    setTimeout(updateNowAndMidnight, 3600000);
     return;
 }
 
