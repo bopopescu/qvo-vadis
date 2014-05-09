@@ -25,7 +25,6 @@ html, body {
 }
 
 .item_title {
-    margin-left: 85px;
     margin-top: 7px;
     font-size: 13pt;
 }
@@ -38,17 +37,17 @@ html, body {
 img {
     display: block; /* get rid of space below image */
 }
-.item_plain {
+.item_details {
     margin-left: 85px;
+}
+.item_plain {
     font-size: 9pt;
 }
 .item_suppressed {
-    margin-left: 85px;
     color: darkgray;
     font-size: 9pt;
 }
 .item_emphasized {
-    margin-left: 85px;
     font-size: 9pt;
     font-weight: bold;
 }

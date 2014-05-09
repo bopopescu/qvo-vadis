@@ -11,11 +11,13 @@
 <body onload="parent.on_body_resize_in_iframe()">
     <div class="header item">
         <div class="item_block static_map">
-            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data[0]['latitude']}},{{data[0]['longitude']}}&markers=color:green%7C{{data[0]['latitude']}},{{data[0]['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data[0]['latitude']}},{{data[0]['longitude']}}&markers=color:red%7C{{data[0]['latitude']}},{{data[0]['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
                  onclick="parent.on_click_static_map_in_iframe()"/>
         </div>
-        <div class="item_title">{{data[0]['location name']}}</div>
-        <div class="item_suppressed">{{data[0]['address']}}</div>
+        <div class="item_details">
+            <div class="item_title">{{data[0]['location name']}}</div>
+            <div class="item_suppressed">{{data[0]['address']}}</div>
+        </div>
     </div>
     {% if no_results_message %}
     <div class="item">
@@ -30,8 +32,10 @@
                 <div>{{date_time_reformat(row['start'], format='H:mm', lang='nl')}}</div>
             </div>
         </div>
-        <div class="item_title">{{row['event name']}}</div>
-        <div class="item_suppressed">{{row['organization']}}</div>
+        <div class="item_details">
+            <div class="item_title">{{row['event name']}}</div>
+            <div class="item_suppressed">{{row['organization']}}</div>
+        </div>
     </div>
     {% endfor %}
     {% endif %}

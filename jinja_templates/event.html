@@ -16,7 +16,7 @@
     {% else %}
     <div class="header item">
         <div class="item_block static_map">
-            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data['latitude']}},{{data['longitude']}}&markers=color:green%7C{{data['latitude']}},{{data['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data['latitude']}},{{data['longitude']}}&markers=color:red%7C{{data['latitude']}},{{data['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
                  onclick="parent.on_click_static_map_in_iframe()"/>
             <div class="item_date">
                 {% if data['start'] and data['end'] and not data['multi day'] %}
@@ -34,19 +34,21 @@
                 {% endif %}
             </div>
         </div>
-        <div class="item_title">{{data['event name']}}</div>
-        <div class="item_suppressed">{{data['organization']}}</div>
-        <div class="item_emphasized">{{data['location name']}}</div>
-        <div class="item_emphasized">{{data['location details']}}</div>
-        <div class="item_suppressed">{{data['address']}}</div>
-        <div class="item_plain">{{data['description']}}</div>
-        {% if data['website'] %}
-        <div class="item_plain"><a href="{{data['website']}}" target="_blank">Ga naar de website</a></div>
-        {% endif %}
-        {% if data['contact'] %}
-        <div class="item_plain"><a href="mailto:{{data['contact']}}">Contacteer de organisator</a></div>
-        <!-- TODO implement mailing form -->
-        {% endif %}
+        <div class="item_details">
+            <div class="item_title">{{data['event name']}}</div>
+            <div class="item_suppressed">{{data['organization']}}</div>
+            <div class="item_emphasized">{{data['location name']}}</div>
+            <div class="item_emphasized">{{data['location details']}}</div>
+            <div class="item_suppressed">{{data['address']}}</div>
+            <div class="item_plain">{{data['description']}}</div>
+            {% if data['website'] %}
+            <div class="item_plain"><a href="{{data['website']}}" target="_blank">Ga naar de website</a></div>
+            {% endif %}
+            {% if data['contact'] %}
+            <div class="item_plain"><a href="mailto:{{data['contact']}}">Contacteer de organisator</a></div>
+            <!-- TODO implement mailing form -->
+            {% endif %}
+        </div>
     </div>
     {% endif %}
 </body>

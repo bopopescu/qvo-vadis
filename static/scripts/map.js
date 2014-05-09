@@ -151,6 +151,27 @@ var state = {
             }
         });
     },
+    highlightLocationMarker: function() {
+        if (state.view == 'location' || state.view == 'event') {
+            layer.set('styles', [{
+                markerOptions: {
+                    iconName: "large_green"
+                }
+            },
+            {
+                where: "'location slug' = '" + state.location + "'",
+                markerOptions: {
+                    iconName: "large_red"
+                }
+            }]);
+        } else {
+            layer.set('styles', [{
+                markerOptions: {
+                    iconName: "large_green"
+                }
+            }]);
+        }
+    },
 
     // methods acting on the GUI (map, buttons, ...)
 
@@ -246,11 +267,11 @@ function initialize() {
         heatmap: {
             enabled: false
         },
-        query: {
-            select: locationColumn,
-            from: tableId,
-            where: "start > '" + now + "'" // default filter, relies on global timeframe filter variable !!
-        },
+//        query: {
+//            select: locationColumn,
+//            from: tableId,
+//            where: "start > '" + now + "'" // default filter, relies on global timeframe filter variable !!
+//        },
         styles: [{
             markerOptions: {
                iconName: "large_green"
@@ -262,6 +283,9 @@ function initialize() {
             suppressInfoWindows: true
         }
     });
+
+    state.generateNewQueryString();
+    state.highlightLocationMarker();
 
     // re-center the map if a geo position is available and no coordinates were in the URL
     if (!state.port && navigator.geolocation) {
@@ -298,6 +322,7 @@ function initialize() {
         state.setViewLocation(e.row['location slug'].value);
         state.generateNewHashString();
         state.displayIFrame();
+        state.highlightLocationMarker();
     });
 
     return;
@@ -346,6 +371,7 @@ $(document).ready(function() {
             state.highlightTimeframeButton();
             state.highlightTagButtons();
             state.displayIFrame();
+            state.highlightLocationMarker();
         }
     };
 
@@ -357,6 +383,7 @@ function on_click_static_map_in_iframe() {
     state.setViewMap();
     state.generateNewHashString();
     state.displayIFrame();
+    state.highlightLocationMarker();
     return;
 }
 
@@ -370,10 +397,15 @@ function on_click_event_in_iframe(event_slug) {
 
 function on_body_resize_in_iframe() {
     // callable from within iframe
+    // this is not affecting the state object
+    // it resizes the iframe and it's containing div
+    // but only in desktop views OR when the class 'variable_height' is set
     var height = $('#iframe iframe').contents().find('body').height();
-    if ($('#iframe').css('height') !== '100%')
+    if ($('#iframe').css('position') !== 'fixed' || $('#iframe').hasClass('variable_height')) {
         $('#iframe').css('height', height);
-    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
+        $('#iframe iframe').css('height', height);  // strange behaviour otherwise
+    }
+    return;
 }
 
 function slugify(str) {
