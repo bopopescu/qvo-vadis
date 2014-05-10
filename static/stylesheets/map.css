@@ -64,6 +64,9 @@ html, body {
         height: 100%;
         width: 100%;
     }
+    #tools {
+        display: none;
+    }
 }
 @media (min-width: 640px) {
     #iframe {
@@ -78,6 +81,14 @@ html, body {
         border: 0px;
         height: 100%;
         width: 100%;
+    }
+    #tools {
+        position: fixed;
+        right: 30px;
+        bottom: 15px;
+    }
+    #tools img {
+        border-style: none;
     }
 }
 

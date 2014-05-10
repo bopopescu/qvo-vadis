@@ -228,6 +228,21 @@ var state = {
             $('#iframe').hide();
         }
     },
+    displayQrIcon: function() {
+        if (this.view == 'location') {
+            var url = window.location.protocol + "//" + window.location.host + '/qr';
+            if (this.view)
+                url += '/' + this.view;
+            if (this.view == 'location' && this.location)
+                url += '/' + this.location;
+            // append the ?id= parameter if present in the location, just for debugging on localhost
+            url += window.location.search;
+            $('#qr a').attr('href', url);
+            $('#qr').show();
+        } else {
+            $('#qr').hide();
+        }
+    },
 
 
     // attributes
@@ -255,8 +270,8 @@ function initialize() {
         panControl: false,
         zoomControl: true,
         zoomControlOptions: {
-          style: google.maps.ZoomControlStyle.LARGE,
-          position: google.maps.ControlPosition.LEFT_CENTER
+          style: google.maps.ZoomControlStyle.SMALL,
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
         },
         scaleControl: false,
         streetViewControl: false
@@ -323,6 +338,7 @@ function initialize() {
         state.generateNewHashString();
         state.displayIFrame();
         state.highlightLocationMarker();
+        state.displayQrIcon();
     });
 
     return;
@@ -337,6 +353,7 @@ $(document).ready(function() {
     state.highlightTimeframeButton();
     state.highlightTagButtons();
     state.displayIFrame();
+    state.displayQrIcon();
 
     // add event handlers to the timeframe buttons
     $('#timeframe').on("click", "span", function() {
@@ -372,6 +389,7 @@ $(document).ready(function() {
             state.highlightTagButtons();
             state.displayIFrame();
             state.highlightLocationMarker();
+            state.displayQrIcon();
         }
     };
 
@@ -384,6 +402,7 @@ function on_click_static_map_in_iframe() {
     state.generateNewHashString();
     state.displayIFrame();
     state.highlightLocationMarker();
+    state.displayQrIcon();
     return;
 }
 
