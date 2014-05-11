@@ -11,6 +11,8 @@ handlers:
   static_dir: static/scripts
 - url: /images
   static_dir: static/images
+- url: /html
+  static_dir: static/html
 
 - url: /favicon\.ico
   static_files: favicon.ico
