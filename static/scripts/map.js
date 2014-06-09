@@ -8,7 +8,7 @@ var state = {
 
     parseHashStringIntoState: function() {
         var hash = window.location.hash;
-        var map, timeframe, tags, view, location, event;
+        var map, timeframe, tags, view, location, event, datetime;
         var strings = hash.replace(/^#/,'').split('/');
         for (var i=0; i<strings.length; i++) {
             var s = strings[i];
@@ -18,8 +18,11 @@ var state = {
                 view = s;
             else if (view && view.match(/marker|location/))
                 location = s;
-            else if (view && view.match(/event/))
+            else if (view && view.match(/event/)) {
                 event = s;
+                if (i++ < strings.length)
+                    datetime = strings[i];
+            }
             else if (!timeframe && s.match(/now|today|tomorrow|week|all/))
                 timeframe = s;
             else if (!tags && !s.match(/marker|location|list|event/))
@@ -50,6 +53,7 @@ var state = {
         this.view = view;
         this.location = location;
         this.event = event;
+        this.datetime = datetime;
     },
     getMapCenterpointAndSet: function() {
         var loc = map.getCenter();
@@ -84,15 +88,16 @@ var state = {
     setViewMap: function() {
         this.view = 'map';
     },
-    setViewEvent: function(event_slug) {
+    setViewEvent: function(event_slug, datetime_slug) {
         this.view = 'event';
         this.event = event_slug;
+        this.datetime = datetime_slug;
     },
 
     // methods acting on the hash string
 
     generateNewHashString: function() {
-        var map, timeframe, tags, view, location, event;
+        var map, timeframe, tags, view, location, event, datetime;
         map = this.lat.toFixed(6) + ',' + this.lon.toFixed(6);
         map += ',' + this.zoom + 'z';
         var mapDiv = $('#map-canvas');
@@ -101,7 +106,8 @@ var state = {
         tags = this.tags.join(',');
         view = this.view;
         location = this.location;
-        event = this.location;
+        event = this.event;
+        datetime = this.datetime;
         var hash = '#' + map;
         if (timeframe)
             hash += '/' + timeframe;
@@ -111,8 +117,11 @@ var state = {
             hash += '/' + view;
         if (view == 'location' && location)
             hash += '/' + location;
-        if (view == 'event' && event)
+        if (view == 'event' && event) {
             hash += '/' + event;
+            if (datetime)
+                hash += '/' + datetime;
+        }
         this.ignoreHashChange = true;
         window.location.hash = hash;
     },
@@ -203,8 +212,11 @@ var state = {
                 url += '/' + this.view;
             if (this.view == 'location' && this.location)
                 url += '/' + this.location;
-            if (this.view == 'event' && this.event)
+            if (this.view == 'event' && this.event) {
                 url += '/' + this.event;
+                if (this.datetime)
+                    url += '/' + this.datetime;
+            }
             if (this.view !== 'event' && this.timeframe)
                 url += '/' + this.timeframe;
             var tags = this.tags.join(',');
@@ -406,9 +418,9 @@ function on_click_static_map_in_iframe() {
     return;
 }
 
-function on_click_event_in_iframe(event_slug) {
+function on_click_event_in_iframe(event_slug, datetime_slug) {
     // callable from within iframe
-    state.setViewEvent(event_slug);
+    state.setViewEvent(event_slug, datetime_slug);
     state.generateNewHashString();
     state.displayIFrame();
     return;

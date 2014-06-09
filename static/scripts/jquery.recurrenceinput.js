@@ -1,5 +1,3 @@
-/*jslint regexp: false, continue: true, indent: 4 */
-/*global $, alert, jQuery */
 "use strict";
 
 (function ($) {
@@ -187,8 +185,8 @@
         shortWeekdays: [
             'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
-        longDateFormat: 'mmmm dd, yyyy',
-        shortDateFormat: 'mm/dd/yyyy',
+        longDateFormat: 'MM d, yy',
+        shortDateFormat: 'mm/dd/yy',
 
         unsupportedFeatures: 'Warning: This event uses recurrence features not ' +
                               'supported by this widget. Saving the recurrence ' +
@@ -288,8 +286,8 @@
             'zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag',
             'vrijdag', 'zaterdag'],
         shortWeekdays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-        longDateFormat: 'dddd dd mmmm yyyy',
-        shortDateFormat: 'dd.mm.yy',
+        longDateFormat: 'DD d MM yyyy',
+        shortDateFormat: 'dd/mm/y',
         unsupportedFeatures: 'Warning: This event uses recurrence features not supported by this widget. Saving the recurrence may change the recurrence in unintended ways: ',
         noTemplateMatch: 'No matching recurrence template',
         multipleDayOfMonth: 'Dieses Widget unterstützt keine mehrfach angelegten Tage in monatlicher oder jährlicher Wiederholung',
@@ -307,7 +305,7 @@
             weekdays: 'weekdag',
             weekly: 'week',
             monthly: 'maand',
-            yearly: 'jaar',
+            yearly: 'jaar'
         }
     });
 
@@ -587,7 +585,7 @@
                                     '${i18n.rangeByEndDate}',
                                 '</label>',
                                 '<input',
-                                    'type="date"',
+                                    'class="date"',
                                     'name="rirangebyenddatecalendar" />',
                             '</div>',
                         '</div>',
@@ -611,7 +609,7 @@
                     '</div>',
                     '<div class="riaddoccurrence">',
                         '<div class="errorarea"></div>',
-                        '<input type="date" name="adddate" id="adddate" />',
+                        '<input class="date" name="adddate" id="adddate" />',
                         '<input type="button" name="addaction" id="addaction" value="${i18n.add}">',
                     '</div>',
                 '</div>',
@@ -631,7 +629,7 @@
     $.template('formTmpl', FORMTMPL);
 
     // Formatting function (mostly) from jQueryTools dateinput
-    var Re = /d{1,4}|m{1,4}|yy(?:yy)?|"[^"]*"|'[^']*'/g;
+    var Re = /[dD]{1,2}|[mM]{1,2}|y(?:y)?|"[^"]*"|'[^']*'/g;
 
     function zeropad(val, len) {
         val = val.toString();
@@ -649,14 +647,14 @@
             flags = {
                 d:    d,
                 dd:   zeropad(d),
-                ddd:  conf.i18n.shortWeekdays[D],
-                dddd: conf.i18n.weekdays[D],
+                D:  conf.i18n.shortWeekdays[D],
+                DD: conf.i18n.weekdays[D],
                 m:    m + 1,
                 mm:   zeropad(m + 1),
-                mmm:  conf.i18n.shortMonths[m],
-                mmmm: conf.i18n.months[m],
-                yy:   String(y).slice(2),
-                yyyy: y
+                M:  conf.i18n.shortMonths[m],
+                MM: conf.i18n.months[m],
+                y:   String(y).slice(2),
+                yy: y
             };
 
         var result = fmt.replace(Re, function ($0) {
@@ -802,14 +800,20 @@
                     break;
                 case 'BYENDDATE':
                     field = form.find('input[name=rirangebyenddatecalendar]');
-                    date = field.data('dateinput').getValue('yyyymmdd');
+                    var date_js = field.datepicker('getDate');
+                    date = $.datepicker.formatDate('yymmdd',date_js);
                     result += ';UNTIL=' + date + 'T000000';
                     if (tz === true) {
                         // Make it UTC:
                         result += 'Z';
                     }
                     human += ', ' + conf.i18n.rangeByEndDateHuman;
-                    human += ' ' + field.data('dateinput').getValue(conf.i18n.longDateFormat);
+                    human += $.datepicker.formatDate( "DD, MM d, yy", date_js, {
+                        dayNamesShort: $.datepicker.regional['nl'].dayNamesShort,
+                        dayNames: $.datepicker.regional['nl'].dayNames,
+                        monthNamesShort: $.datepicker.regional['nl'].monthNamesShort,
+                        monthNames: $.datepicker.regional['nl'].monthNames
+                    });
                     break;
                 }
                 break;
@@ -1167,7 +1171,7 @@
                         month = until.slice(4, 6);
                         month = parseInt(month, 10) - 1;
                         day = until.slice(6, 8);
-                        input.data('dateinput').setValue(new Date(year, month, day));
+                        input.datepicker('setDate', new Date(year, month, day))
                     }
 
                     selectors = field.find('input[name=rirangetype]');
@@ -1267,10 +1271,9 @@
 
         function occurrenceAdd(event) {
             event.preventDefault();
-            var dateinput = form
-                .find('.riaddoccurrence input#adddate')
-                .data('dateinput');
-            var datevalue = dateinput.getValue('yyyymmddT000000');
+            var field = form.find('.riaddoccurrence input#adddate');
+            var date_js = field.datepicker('getDate');
+            var datevalue = $.datepicker.formatDate('yymmddT000000',date_js);
             if (form.ical.RDATE === undefined) {
                 form.ical.RDATE = [];
             }
@@ -1283,7 +1286,7 @@
                 form.ical.RDATE.push(datevalue);
                 var html = ['<div class="occurrence rdate" style="display: none;">',
                         '<span class="rdate">',
-                            dateinput.getValue(conf.i18n.longDateFormat),
+                            $.datepicker.formatDate(conf.i18n.longDateFormat,date_js),
                             '<span class="rlabel">' + conf.i18n.additionalDate + '</span>',
                         '</span>',
                         '<span class="action">',
@@ -1404,8 +1407,7 @@
             if (conf.startField) {
                 startField = getField(conf.startField);
                 // Now we have a field, see if it is a dateinput field:
-                startdate = startField.data('dateinput');
-                if (!startdate) {
+                if (!startField.hasClass('hasDatepicker')) {
                     //No, it wasn't, just try to interpret it with Date()
                     startdate = startField.val();
                     if (startdate === "") {
@@ -1414,7 +1416,7 @@
                     }
                 } else {
                     // Yes it was, get the date:
-                    startdate = startdate.getValue();
+                    startdate = startField.datepicker('getDate');
                 }
                 startdate = new Date(startdate);
             } else if (conf.startFieldYear &&
@@ -1427,6 +1429,7 @@
                                      startFieldMonth.val() - 1,
                                      startFieldDay.val());
             }
+
             if (startdate === null) {
                 return null;
             }
@@ -1442,13 +1445,12 @@
             endField = form.find('input[name=rirangebyenddatecalendar]');
 
             // Now we have a field, see if it is a dateinput field:
-            enddate = endField.data('dateinput');
-            if (!enddate) {
+            if (!endField.hasClass('hasDatepicker')) {
                 //No, it wasn't, just try to interpret it with Date()
                 enddate = endField.val();
             } else {
                 // Yes it was, get the date:
-                enddate = enddate.getValue();
+                enddate = endField.datepicker('getDate');
             }
             enddate = new Date(enddate);
 
@@ -1668,21 +1670,8 @@
         //form.overlay(conf.formOverlay).hide();
         form.ical = {RDATE: [], EXDATE: []};
 
-        $.tools.dateinput.localize(conf.lang,  {
-            months:      LABELS[conf.lang].months.join(),
-            shortMonths: LABELS[conf.lang].shortMonths.join(),
-            days:        LABELS[conf.lang].weekdays.join(),
-            shortDays:   LABELS[conf.lang].shortWeekdays.join()
-        });
-
-        // Make the date input into a calendar dateinput()
-        form.find('input[name=rirangebyenddatecalendar]').dateinput({
-            selectors: true,
-            lang: conf.lang,
-            format: conf.i18n.shortDateFormat,
-            firstDay: conf.firstDay,
-            yearRange: [-5, 10]
-        }).data('dateinput').setValue(new Date());
+        form.find('input[name=rirangebyenddatecalendar]')
+            .datepicker('setDate', new Date());
 
         if (textarea.val()) {
             var result = widgetLoadFromRfc5545(form, conf, textarea.val(), false);
@@ -1710,18 +1699,12 @@
                 // Load the form to set up the right fields to show, etc.
                 loadData(textarea.val());
                 e.preventDefault();
-                //form.overlay().load();
             }
         );
 
         // Pop up the little add form when clicking "Add"
-        form.find('div.riaddoccurrence input#adddate').dateinput({
-            selectors: true,
-            lang: conf.lang,
-            format: conf.i18n.shortDateFormat,
-            firstDay: conf.firstDay,
-            yearRange: [-5, 10]
-        }).data('dateinput').setValue(new Date());
+        form.find('div.riaddoccurrence input#adddate')
+            .datepicker('setDate', new Date());
         form.find('input#addaction').click(occurrenceAdd);
 
         // When the reload button is clicked, reload

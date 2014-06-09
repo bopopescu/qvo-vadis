@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 class MapHandler(webapp2.RequestHandler):
     def get(self):
-        configuration = customer_configuration.get_configuration(self)
+        configuration = customer_configuration.get_configuration(self.request)
         template = jinja_environment.get_template('map.html')
         content = template.render(
             configuration=configuration

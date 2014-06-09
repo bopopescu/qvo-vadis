@@ -14,21 +14,33 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
+CALLBACK_DOMAIN = "qvo-vadis.appspot.com"
+
 # global variable to store the services, should not be accessed from outside
 _services = {}
 
 
+def get_callback_domain():
+    request = webapp2.get_request()
+    host = request.host
+    if 'localhost' in host:
+        callback_domain = host
+    else:
+        callback_domain = CALLBACK_DOMAIN
+    return callback_domain
+
+
 def get_service(api_client, version, scope):
     global _services
-    id = api_client + version + scope
+    key = api_client + version + scope
     # check by id if the service is available in this session, if not
     # start an authentication flow to create it
-    if id in _services:
-        return _services[id]
+    if key in _services:
+        return _services[key]
     else:
         request = webapp2.get_request()
         # check if credentials are available in the datastore
-        cred = CredentialsModel.get_by_key_name(CREDENTIALS_STORAGE_KEY)
+        cred = CredentialsModel.get_by_key_name(key)
         if not cred:
             user = users.get_current_user()
             if not user:
@@ -36,12 +48,18 @@ def get_service(api_client, version, scope):
                 webapp2.redirect(login_url, abort=True)
             else:
                 # redirect for authentication flow
+                callback_domain = get_callback_domain()
                 flow = OAuth2WebServerFlow(client_id=google_credentials.CLIENT_ID,
                                            client_secret=google_credentials.CLIENT_SECRET,
                                            scope=scope,
-                                           redirect_uri=request.host_url + '/oauth2callback',
+                                           redirect_uri=request.scheme + '://' + callback_domain + '/oauth2callback',
                                            access_type='offline')
-                state = {'original_url': request.url, 'scope': scope}
+                state = {
+                    'original_url': request.url,
+                    'api_client': api_client,
+                    'version': version,
+                    'scope': scope
+                }
                 state_string = pickle.dumps(state)
                 auth_uri = flow.step1_get_authorize_url() + '&' + urllib.urlencode({'state': state_string})
                 webapp2.redirect(auth_uri, abort=True)
@@ -50,14 +68,13 @@ def get_service(api_client, version, scope):
             http = httplib2.Http()
             http = credentials.authorize(http)
             # store the service in the global variable
-            _services[id] = build(api_client, version, http=http)
-            return _services[id]
+            _services[key] = build(api_client, version, http=http)
+            return _services[key]
 
 
 class CredentialsModel(db.Model):
     # storing credentials object in datastore
     credentials = CredentialsProperty()
-CREDENTIALS_STORAGE_KEY = 'qvo-vadis'
 
 
 class OauthHandler(webapp2.RequestHandler):
@@ -67,7 +84,10 @@ class OauthHandler(webapp2.RequestHandler):
         code = request.get('code')
         state_string = request.get('state')
         state = pickle.loads(state_string)
+        api_client = state['api_client']
+        version = state['version']
         scope = state['scope']
+        key = api_client + version + scope
         original_url = state['original_url']  # url of the original call
         flow = OAuth2WebServerFlow(client_id=google_credentials.CLIENT_ID,
                                    client_secret=google_credentials.CLIENT_SECRET,
@@ -76,6 +96,6 @@ class OauthHandler(webapp2.RequestHandler):
                                    access_type='offline')
         credentials = flow.step2_exchange(code)
         # store the credentials in the datastore
-        storage = StorageByKeyName(CredentialsModel, CREDENTIALS_STORAGE_KEY, 'credentials')
+        storage = StorageByKeyName(CredentialsModel, key, 'credentials')
         storage.put(credentials)
         return webapp2.redirect(original_url)

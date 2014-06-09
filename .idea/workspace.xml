@@ -2,48 +2,68 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app-sync.yaml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.tmpl-beta1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.tools.dateinput-1.2.7.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/recurrenceinput.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sync.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.yaml" afterPath="$PROJECT_DIR$/app.yaml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cron.yaml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fusion_tables.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/jquery-ui-1.10.4.custom.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery-ui-1.10.4.custom.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-nl.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sqlbuilder.py" />
+      <change type="DELETED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\scripts\jquery.tools.dateinput-1.2.7.js" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\app-sync.yaml" afterPath="$PROJECT_DIR$/sync.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cards.py" afterPath="$PROJECT_DIR$/cards.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/customer_configuration.py" afterPath="$PROJECT_DIR$/customer_configuration.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/location.html" afterPath="$PROJECT_DIR$/jinja_templates/location.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oauth2_three_legged.py" afterPath="$PROJECT_DIR$/oauth2_three_legged.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qr.py" afterPath="$PROJECT_DIR$/qr.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" afterPath="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399809341332" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402000370338" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399827208512" ignored="false" />
-    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399841207269" ignored="false" />
-    <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399027452156" ignored="false" />
+    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401391688092" ignored="false" />
+    <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401912452939" ignored="false" />
     <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399752309723" ignored="false" />
-    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399754617308" ignored="false" />
+    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402333579376" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
-    <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399810989260" ignored="false" />
-    <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399049449153" ignored="false" />
+    <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401308760986" ignored="false" />
+    <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260108137" ignored="false" />
     <file path="/ical.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398632819328" ignored="false" />
-    <file path="/client.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398709388004" ignored="false" />
+    <file path="/client.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401993780509" ignored="false" />
     <file path="/map.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399754079640" ignored="false" />
     <file path="/configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398934394273" ignored="false" />
-    <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399027289532" ignored="false" />
-    <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399493544535" ignored="false" />
-    <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399665605932" ignored="false" />
-    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399837043797" ignored="false" />
+    <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402262471118" ignored="false" />
+    <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402319546608" ignored="false" />
+    <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401394359924" ignored="false" />
+    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402340743331" ignored="false" />
     <file path="/appcache.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444988337" ignored="false" />
     <file path="/status.appcache" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444999609" ignored="false" />
     <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399654734069" ignored="false" />
     <file path="/event.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399665619884" ignored="false" />
-    <file path="/qr.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399755185394" ignored="false" />
+    <file path="/qr.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402319561170" ignored="false" />
     <file path="/qr.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399753677816" ignored="false" />
     <file path="/qr.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399727709195" ignored="false" />
-    <file path="/recurrenceinput.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399834744553" ignored="false" />
-    <file path="/recurrenceinput-demo.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399837015100" ignored="false" />
-    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399836895047" ignored="false" />
+    <file path="/recurrenceinput.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400615087343" ignored="false" />
+    <file path="/recurrenceinput-demo.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400874040096" ignored="false" />
+    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400873752438" ignored="false" />
     <file path="/app-sync.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399840915110" ignored="false" />
-    <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399841317597" ignored="false" />
+    <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402258778854" ignored="false" />
+    <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400185498882" ignored="false" />
+    <file path="/sqlbuilder.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401869856395" ignored="false" />
+    <file path="/fusion_tables.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402318923814" ignored="false" />
+    <file path="/a.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233090006" ignored="false" />
+    <file path="/a.coffee" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233105231" ignored="false" />
+    <file path="/a.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233120939" ignored="false" />
+    <file path="/a.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233124911" ignored="false" />
+    <file path="/cron.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260975297" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,10 +83,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="recurrenceinput.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/recurrenceinput.py">
+      <file leaf-file-name="oauth2_three_legged.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="0" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.0">
+            <state line="70" column="27" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+                <marker date="1402260129916" expanded="true" signature="578:776" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="map.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/map.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="8" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -74,73 +106,66 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jquery.recurrenceinput.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
+      <file leaf-file-name="map.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="318" column="14" selection-start="11203" selection-end="11203" vertical-scroll-proportion="0.0">
+            <state line="44" column="6" selection-start="1359" selection-end="1359" vertical-scroll-proportion="-14.153846">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fusion_tables.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fusion_tables.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="73" column="0" selection-start="2517" selection-end="2517" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <marker date="1399837042099" expanded="true" signature="13643:13655" placeholder="..." />
-                <marker date="1399837042099" expanded="true" signature="13842:13854" placeholder="..." />
-                <marker date="1399837042099" expanded="true" signature="14079:14093" placeholder="..." />
-                <marker date="1399837042099" expanded="true" signature="54215:54229" placeholder="..." />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recurrenceinput-demo.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/html/recurrenceinput-demo.html">
+      <file leaf-file-name="cards.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cards.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="8" selection-start="1106" selection-end="1106" vertical-scroll-proportion="-0.0">
-              <folding>
-                <marker date="1399837042135" expanded="true" signature="999:1096" placeholder="..." />
-                <marker date="1399837042135" expanded="true" signature="1024:1080" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="45" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0">
+            <state line="61" column="77" selection-start="3111" selection-end="3111" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sync.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sync.py">
+      <file leaf-file-name="location.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/location.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="344" selection-end="344" vertical-scroll-proportion="0.3979933">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="13.730769">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.yaml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.yaml">
+      <file leaf-file-name="map.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="21" selection-start="21" selection-end="21" vertical-scroll-proportion="0.0">
+            <state line="24" column="12" selection-start="886" selection-end="886" vertical-scroll-proportion="0.5">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app-sync.yaml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app-sync.yaml">
+      <file leaf-file-name="qr.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="18" selection-start="130" selection-end="130" vertical-scroll-proportion="0.0">
+            <state line="28" column="76" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ical.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ical.py">
+      <file leaf-file-name="customer_configuration.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/customer_configuration.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="0" selection-end="581" vertical-scroll-proportion="0.0">
+            <state line="61" column="44" selection-start="2058" selection-end="2058" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -166,22 +191,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
-        <option value="$PROJECT_DIR$/jinja_templates/location.html" />
-        <option value="$PROJECT_DIR$/jinja_templates/event.html" />
-        <option value="$PROJECT_DIR$/static/stylesheets/qr.css" />
-        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
-        <option value="$PROJECT_DIR$/jinja_templates/qr.html" />
-        <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
-        <option value="$PROJECT_DIR$/static/scripts/map.js" />
-        <option value="$PROJECT_DIR$/qr.py" />
-        <option value="$PROJECT_DIR$/app.yaml" />
-        <option value="$PROJECT_DIR$/recurrenceinput.py" />
         <option value="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-        <option value="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" />
-        <option value="$PROJECT_DIR$/app-sync.yaml" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/lib.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/location.html" />
+        <option value="$PROJECT_DIR$/sqlbuilder.py" />
+        <option value="$PROJECT_DIR$/map.py" />
+        <option value="$PROJECT_DIR$/oauth2client/client.py" />
+        <option value="$PROJECT_DIR$/sync.yaml" />
         <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/oauth2_three_legged.py" />
+        <option value="$PROJECT_DIR$/cron.yaml" />
+        <option value="$PROJECT_DIR$/customer_configuration.py" />
+        <option value="$PROJECT_DIR$/fusion_tables.py" />
+        <option value="$PROJECT_DIR$/cards.py" />
+        <option value="$PROJECT_DIR$/qr.py" />
+        <option value="$PROJECT_DIR$/static/scripts/map.js" />
       </list>
     </option>
   </component>
@@ -217,7 +242,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,10 +273,6 @@
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stylesheets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -282,54 +302,23 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qvo-vadis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qvo-vadis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="html" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qvo-vadis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qvo-vadis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="jinja_templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="preferences.sourceCode.JavaScript" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -513,27 +502,31 @@
       <created>1399755619865</created>
       <updated>1399755619865</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="recurrenceinput demo working">
+      <created>1399842046971</created>
+      <updated>1399842046971</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="122" y="-8" width="1252" height="784" extended-state="6" />
+    <frame x="122" y="-8" width="1252" height="784" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27226892" sideWeight="0.57348245" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42651758" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20336135" sideWeight="0.67467946" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2451923" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4278846" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38942307" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3253205" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32747602" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -582,7 +575,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="iteration 2 done" />
+    <option name="LAST_COMMIT_MESSAGE" value="recurrenceinput demo working" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -602,136 +595,131 @@
     <MESSAGE value="iteration 2 just succeeded with dynamic iframe height" />
     <MESSAGE value="iteration 2 just succeeded with location marker highlighting" />
     <MESSAGE value="iteration 2 done" />
+    <MESSAGE value="recurrenceinput demo working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <option name="time" value="45" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jinja_templates/qr.html">
+    <entry file="file://$PROJECT_DIR$/sqlbuilder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="1227" selection-end="1227" vertical-scroll-proportion="-10.461538">
+        <state line="182" column="41" selection-start="5276" selection-end="5276" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+    <entry file="file://$PROJECT_DIR$/oauth2client/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="236" column="12" selection-start="8409" selection-end="8409" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="12" selection-start="875" selection-end="875" vertical-scroll-proportion="-6.5384617">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="46" selection-start="1743" selection-end="1743" vertical-scroll-proportion="0.45833334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/event.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="134" selection-start="782" selection-end="782" vertical-scroll-proportion="0.09577465">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cards.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="10" selection-start="1430" selection-end="1430" vertical-scroll-proportion="0.15485564">
-          <folding>
-            <element signature="e#0#14#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.tmpl-beta1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.tools.dateinput-1.2.7.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="318" column="14" selection-start="11203" selection-end="11203" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1399837042099" expanded="true" signature="13643:13655" placeholder="..." />
-            <marker date="1399837042099" expanded="true" signature="13842:13854" placeholder="..." />
-            <marker date="1399837042099" expanded="true" signature="14079:14093" placeholder="..." />
-            <marker date="1399837042099" expanded="true" signature="54215:54229" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/recurrenceinput.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="0" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ical.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="0" selection-end="581" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/html/recurrenceinput-demo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="1106" selection-end="1106" vertical-scroll-proportion="-0.0">
-          <folding>
-            <marker date="1399837042135" expanded="true" signature="999:1096" placeholder="..." />
-            <marker date="1399837042135" expanded="true" signature="1024:1080" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app-sync.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="18" selection-start="130" selection-end="130" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="21" selection-start="21" selection-end="21" vertical-scroll-proportion="0.0">
+        <state line="683" column="26" selection-start="19771" selection-end="19771" vertical-scroll-proportion="0.7316456">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="45" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0">
+        <state line="10" column="59" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="0" selection-start="457" selection-end="457" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="344" selection-end="344" vertical-scroll-proportion="0.3979933">
+        <state line="28" column="12" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="27" selection-start="2620" selection-end="2620" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <marker date="1402260129916" expanded="true" signature="578:776" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sync.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="17" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="12" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/customer_configuration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="44" selection-start="2058" selection-end="2058" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="8" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fusion_tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="0" selection-start="2517" selection-end="2517" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="76" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="6" selection-start="1359" selection-end="1359" vertical-scroll-proportion="-14.153846">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cards.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="77" selection-start="3111" selection-end="3111" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/location.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="13.730769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="12" selection-start="886" selection-end="886" vertical-scroll-proportion="0.5">
           <folding />
         </state>
       </provider>

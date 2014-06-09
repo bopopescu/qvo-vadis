@@ -25,7 +25,7 @@
     </div>
     {% else %}
     {% for row in data %}
-    <div class="item" onclick="parent.on_click_event_in_iframe('{{row['event slug']}}')">
+    <div class="item" onclick="parent.on_click_event_in_iframe('{{row['event slug']}}', '{{row['datetime slug']}}')">
         <div class="item_block">
             <div class="item_date">
                 <div>{{date_time_reformat(row['start'], format='EE d/M', lang='nl')}}</div>

@@ -3,41 +3,30 @@ from jinja_templates import jinja_environment
 import customer_configuration
 import logging
 import datetime
-import oauth2_three_legged
+import fusion_tables
 
 logging.basicConfig(level=logging.INFO)
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-OAUTH_SCOPE = 'https://www.googleapis.com/auth/fusiontables.readonly'
-API_CLIENT = 'fusiontables'
-VERSION = 'v1'
-
-
 class LocationHandler(webapp2.RequestHandler):
     def get(self, now=datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT), location_slug=None):
-        configuration = customer_configuration.get_configuration(self)
+        configuration = customer_configuration.get_configuration(self.request)
 
-        query = "start > '" + now + "'"
+        condition = "start > '" + now + "'"
 
         # query on location
-        query += " AND 'location slug' = '" + location_slug + "'"
+        condition += " AND 'location slug' = '" + location_slug + "'"
 
-        service = oauth2_three_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
-        c = service.query().sqlGet(sql="SELECT * FROM " + configuration['slave table'] + " WHERE " + query).execute()
-        data = []
         no_results_message = ''
-        if 'rows' in c:
-            for row in c['rows']:
-                data.append(dict(zip(c['columns'],row)))
-        else:
-            query = "'location slug' = '" + location_slug + "'"  # search without time filter
-            c = service.query().sqlGet(sql="SELECT * FROM " + configuration['slave table'] + " WHERE " + query).execute()
-            if 'rows' in c:
-                data.append(dict(zip(c['columns'],c['rows'][0])))  # take first row to get location info
-                no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
-            else:
+        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        if not data:
+            no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
+            condition = "'location slug' = '" + location_slug + "'"  # search without time filter
+            data = fusion_tables.select_first(configuration['slave table'], condition)
+            if not data:
                 # TODO what if the location's events have been deleted?
+                logging.error("No events found for location (%s)" % condition)
                 raise webapp2.abort(404)
 
         qr_url = self.request.url
