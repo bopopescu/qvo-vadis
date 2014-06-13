@@ -27,6 +27,7 @@ html, body {
 .item_title {
     margin-top: 7px;
     font-size: 13pt;
+    word-wrap: break-word;
 }
 
 .header .item_title {

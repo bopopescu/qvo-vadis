@@ -9,9 +9,12 @@ logging.basicConfig(level=logging.INFO)
 class MapHandler(webapp2.RequestHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
         template = jinja_environment.get_template('map.html')
         content = template.render(
-            configuration=configuration
+            configuration=configuration,
+            limit=limit if limit else 0
         )
         # return the web-page content
         self.response.out.write(content)

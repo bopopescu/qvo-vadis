@@ -14,7 +14,7 @@
     <h1>{{configuration['title']}}</h1>
     <div id="timeframe">
         <span id="now">Nu</span>
-        <span id="today">Vandaag</span>
+        <span id="today">Later vandaag</span>
         <span id="tomorrow">Morgen</span>
         <span id="week">7 dagen</span>
         <span id="all" class="active">Alles</span>
@@ -40,6 +40,7 @@
 <script type="text/javascript">
     var tableId = '{{configuration["slave table"]}}';
     var tags = '{{configuration["tags"]}}';
+    var start = '{{limit}}'
 </script>
 <script type="text/javascript" src="/scripts/map.js"></script>
 </body>

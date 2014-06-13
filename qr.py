@@ -13,16 +13,21 @@ class LocationHandler(webapp2.RequestHandler):
     def get(self, now=datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT), location_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
 
-        condition = "start > '" + now + "'"
+        condition = "start > '%s'" % now
+
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
 
         # query on location
-        condition += " AND 'location slug' = '" + location_slug + "'"
+        condition += " AND 'location slug' = '%s'" % location_slug
 
         no_results_message = ''
         data = fusion_tables.select(configuration['slave table'], condition=condition)
         if not data:
             no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
-            condition = "'location slug' = '" + location_slug + "'"  # search without time filter
+            condition = "'location slug' = '%s'" % location_slug  # search without time filter
             data = fusion_tables.select_first(configuration['slave table'], condition)
             if not data:
                 # TODO what if the location's events have been deleted?

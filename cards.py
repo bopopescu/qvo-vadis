@@ -10,7 +10,10 @@ logging.basicConfig(level=logging.INFO)
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class LocationHandler(webapp2.RequestHandler):
-    def get(self, now=datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT), location_slug=None, timeframe=None, tags=None):
+    def get(self, location_slug=None, timeframe=None, tags=None):
+        now = self.request.get("now")
+        if not now:
+            now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
         configuration = customer_configuration.get_configuration(self.request)
 
         # calculate midnight, midnight1 and midnight 7 based on now
@@ -38,6 +41,11 @@ class LocationHandler(webapp2.RequestHandler):
         else:  # 'all' and other timeframes are interpreted as 'all'
             # start > now
             condition = "start > '" + now + "'"
+
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
 
         # query on tags
         if tags:

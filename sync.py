@@ -19,7 +19,7 @@ class SyncHandler(webapp2.RequestHandler):
             # in the master table, find all new events
             condition = "'state' = 'new'"
             new = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing new rows in %s" % configuration['master table'])
+            logging.info("Syncing %d new rows in %s" % (len(new), configuration['master table']))
             for row in new:
                 # create slave dicts
                 (slaves, final_date) = fusion_tables.master_to_slave(row)
@@ -40,7 +40,7 @@ class SyncHandler(webapp2.RequestHandler):
             # in the master table, find all updated events
             condition = "'state' = 'updated'"
             updated = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing updated rows in %s" % configuration['master table'])
+            logging.info("Syncing %d updated rows in %s" % (len(updated), configuration['master table']))
             for row in updated:
                 # delete old slave rows
                 condition = "'event slug' = '%s'" % row['event slug']  # assuming that 'event slug' was not updated !!!
@@ -71,7 +71,7 @@ class SyncHandler(webapp2.RequestHandler):
             # in the master table, find all cancelled events
             condition = "'state' = 'cancelled'"
             cancelled = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing cancelled rows in %s" % configuration['master table'])
+            logging.info("Syncing %d cancelled rows in %s" % (len(cancelled), configuration['master table']))
             for row in cancelled:
                 # delete cancelled slave rows
                 condition = "'event slug' = '%s'" % row['event slug']
@@ -91,7 +91,7 @@ class SyncHandler(webapp2.RequestHandler):
             today_minus_one_month = (datetime.today() - timedelta(days=30)).strftime(DATE_TIME_FORMAT)
             condition = "'state' = 'cancellation' and 'update date' < '%s'" % today_minus_one_month
             cancellation = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing cancellation rows in %s" % configuration['master table'])
+            logging.info("Syncing %d cancellation rows in %s" % (len(cancellation), configuration['master table']))
             for row in cancellation:
                 # delete cancellation master rows
                 fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
@@ -128,7 +128,7 @@ class SyncHandler(webapp2.RequestHandler):
             today = datetime.today().strftime(DATE_TIME_FORMAT)
             condition = "'final date' < '%s'" % today
             outdated = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Deleting past events in master (and slave) %s" % configuration['master table'])
+            logging.info("Deleting %d past events in master (and slave) %s" % (len(outdated), configuration['master table']))
             for row in outdated:
                 # delete old slave rows
                 condition = "'event slug' = '%s'" % row['event slug']
@@ -143,7 +143,7 @@ class SyncHandler(webapp2.RequestHandler):
             today = datetime.today().strftime(DATE_TIME_FORMAT)
             condition = "'end' < '%s'" % today
             outdated = fusion_tables.select(configuration['slave table'], condition=condition)
-            logging.info("Deleting past events in slave %s" % configuration['slave table'])
+            logging.info("Deleting %d past events in slave %s" % (len(outdated), configuration['slave table']))
             for row in outdated:
                 # delete slave row
                 fusion_tables.delete_with_implicit_rowid(configuration['slave table'], row)
@@ -154,3 +154,15 @@ class SyncHandler(webapp2.RequestHandler):
             return
 
 
+class LoadHandler(webapp2.RequestHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        count = self.request.get('count')
+        for i in xrange(0, int(count)):
+            master = fusion_tables.random_master(configuration)
+            fusion_tables.insert_hold(configuration['master table'], master)
+        fusion_tables.insert_go(configuration['master table'])
+
+        # return the web-page content
+        self.response.out.write("LoadHandler finished")
+        return

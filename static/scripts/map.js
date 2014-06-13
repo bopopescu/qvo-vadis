@@ -147,11 +147,12 @@ var state = {
         else if (timeframe == 'all')
         // start > now
             query = "start > '" + now + "'";
-        for (var i = 0; i < tags.length; i++) {
+        for (var i = 0; i < tags.length; i++)
             query += " AND tags CONTAINS '#" + tags[i] + "#'";
             // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
-        }
+        if (start)
+            query += " AND start < '" + start + "'";
         layer.setOptions({
             query: {
                 select: locationColumn,
