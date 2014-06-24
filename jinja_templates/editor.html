@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- This site was created in Webflow. http://www.webflow.com-->
+<!-- Last Published: Wed Jun 18 2014 17:41:33 GMT+0000 (UTC) -->
+<html data-wf-site="539c5297a7990e780bfd820c">
+<head>
+    <meta charset="utf-8">
+    <title>qvo-vadis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Webflow">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/webflow.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/qvo-vadis.webflow.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.timepicker.css">
+    <link type="text/css" href="/stylesheets/jquery-ui-1.10.4.custom.min.css" rel="stylesheet"></link>
+    <!-- add recurrenceinput resources -->
+    <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.tmpl-beta1.js"></script>
+    <script type="text/javascript" src="/scripts/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.ui.datepicker-nl.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.timepicker.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.recurrenceinput.js"></script>
+    <!-- end of recurrenceinput resources -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+            }
+        });
+    </script>
+    <script type="text/javascript" src="/scripts/modernizr.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/placeholder/favicon.ico">
+</head>
+<body>
+<div class="w-container">
+<div class="w-form">
+<form id="email-form" name="email-form" data-name="Email Form">
+<div class="section">
+    <div class="w-row">
+        <div class="w-col w-col-6">
+            <input class="w-button top-button" type="submit" value="↰" data-wait="Please wait...">
+            <input class="w-button top-button main-button" type="submit" value="OPSLAAN" data-wait="Please wait...">
+            <input class="w-button top-button" type="submit" value="Verwijderen" data-wait="Please wait...">
+        </div>
+        <div class="w-col w-col-6">
+            <input class="w-input" id="owner" type="text"
+                   placeholder="Geef jouw emailadres hier in om de ingave te bevestigen" name="owner"
+                   required="required" autofocus="autofocus" data-name="owner">
+        </div>
+    </div>
+</div>
+<div class="message">
+    <div class="section">De gebeurtenis kan niet worden opgeslagen. Sommige velden zijn niet ingevuld.</div>
+</div>
+<div class="section">
+    <input class="w-input" id="event-name" type="text" placeholder="Gebeurtenis zonder titel" name="event-name"
+           required="required" autofocus="autofocus" data-name="event name">
+
+    <div class="w-row">
+        <div class="w-col w-col-2b column">
+            <input class="w-input error date" id="start-date" type="text" placeholder="datum" name="start-date"
+                   required="required" autofocus="autofocus" data-name="start date">
+        </div>
+        <div class="w-col w-col-2b column">
+            <input class="w-input" id="start-hour" type="text" placeholder="uur" name="start-hour" required="required"
+                   autofocus="autofocus" data-name="start hour">
+        </div>
+        <div class="w-col w-col-2b">
+            <div class="tot-en-met">tot en met</div>
+        </div>
+        <div class="w-col w-col-2b column">
+            <input class="w-input date" id="end-date" type="text" placeholder="datum" name="end-date" required="required"
+                   autofocus="autofocus" data-name="end date">
+        </div>
+        <div class="w-col w-col-2b column">
+            <input class="w-input" id="end-hour" type="text" placeholder="uur" name="end-hour" required="required"
+                   autofocus="autofocus" data-name="end hour">
+        </div>
+    </div>
+    <div class="w-row">
+        <div class="w-col w-col-3">
+            <div class="w-checkbox">
+                <input class="w-checkbox-input" id="repeating" type="checkbox" name="repeating" data-name="repeating">
+                <label class="w-form-label" for="repeating">herhalen...</label>
+            </div>
+        </div>
+        <div class="w-col w-col-9">
+            <div>
+                <label class="ridisplay inline"></label> <a href="#" name="riedit"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- recurrenceinput begin -->
+<textarea name="custom_lang_nl" class="hidden"></textarea>
+<script type="text/javascript">
+    $("textarea[name=custom_lang_nl]").recurrenceinput({lang:'nl', startField: "start-date"});
+    $(".date").datepicker( $.datepicker.regional[ "nl" ] );
+    $("#start-date").datepicker("setDate", new Date());
+    $("#end-date").datepicker("setDate", new Date());
+    $(function() {
+        var start = new Date();
+        var end = new Date();
+        var h = start.getHours();
+        start.setHours(h + 1 > 23 ? h + 1 - 24 : h + 1);
+        start.setMinutes(0);
+        end.setHours(h + 2 > 23 ? h + 2 - 24 : h + 2);
+        end.setMinutes(0);
+        $("#start-hour").timepicker();
+        $("#start-hour").timepicker("setTime", start);
+        $("#end-hour").timepicker();
+        $("#end-hour").timepicker("setTime", end);
+    })
+</script>
+<!-- recurrenceinput end -->
+
+
+<div class="section">
+    <div class="w-row">
+        <div class="w-col w-col-3">
+            <label>Locatie</label>
+        </div>
+        <div class="w-col w-col-9">
+            <div>Heilig Hart van Jezus, 2060 Antwerpen&nbsp;<a href="#">bewerken</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal section">
+    <div class="w-row">
+        <div class="w-col w-col-6 column">
+            <input class="w-input input" id="address" type="text"
+                   placeholder="Geef het adres in om te zoeken of klik op de kaart..." name="address"
+                   autofocus="autofocus" data-name="address">
+            <input class="w-input" id="location-name" type="text" placeholder="Naam van de locatie" name="location-name"
+                   autofocus="autofocus" data-name="location name">
+            <input class="w-input" id="location-details" type="text"
+                   placeholder="Details over de locatie (bv. gebouw, zaal,...)" name="location-details"
+                   autofocus="autofocus" data-name="location details"><a class="button top-button" href="#">OK</a>
+        </div>
+        <div class="w-col w-col-6 column">
+            <div class="w-widget w-widget-map map" data-widget-latlng="51.511214,-0.119824" data-widget-style="roadmap"
+                 data-widget-zoom="8" data-widget-tooltip="Locatie"></div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <label class="label" for="contact">Contactgegevens</label>
+    <input class="w-input" id="contact" type="text" placeholder="email, telefoon, ..." name="contact"
+           autofocus="autofocus" data-name="contact">
+
+    <div class="w-checkbox">
+        <input class="w-checkbox-input" id="registration-required" type="checkbox" name="registration-required"
+               data-name="registration required">
+        <label class="w-form-label" for="registration-required">Aanmelden is noodzakelijk</label>
+    </div>
+    <label for="website">Website</label>
+    <input class="w-input" id="website" type="text" placeholder="http://" name="website" autofocus="autofocus"
+           data-name="website">
+</div>
+<div class="section">
+    <label for="description">Beschrijving</label>
+
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox" type="checkbox" name="checkbox" data-name="Checkbox">
+        <label class="w-form-label" for="checkbox">Checkbox</label>
+    </div>
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox-3" type="checkbox" name="checkbox-3" data-name="Checkbox 3">
+        <label class="w-form-label" for="checkbox-3">Checkbox 3</label>
+    </div>
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox-6" type="checkbox" name="checkbox-6" data-name="Checkbox 6">
+        <label class="w-form-label" for="checkbox-6">Checkbox 6</label>
+    </div>
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox-5" type="checkbox" name="checkbox-5" data-name="Checkbox 5">
+        <label class="w-form-label" for="checkbox-5">Checkbox 5</label>
+    </div>
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox-4" type="checkbox" name="checkbox-4" data-name="Checkbox 4">
+        <label class="w-form-label" for="checkbox-4">Checkbox 4</label>
+    </div>
+    <div class="w-checkbox inline margin-right">
+        <input class="w-checkbox-input" id="checkbox-2" type="checkbox" name="checkbox-2" data-name="Checkbox 2">
+        <label class="w-form-label" for="checkbox-2">Checkbox 2</label>
+    </div>
+    <textarea class="w-input" id="description"
+              placeholder="Gebruik #hashtags in de beschrijving om later als filter te gebruiken" name="description"
+              data-name="description" autofocus="autofocus"></textarea>
+</div>
+</form>
+<div class="w-form-done">
+    <p>Thank you! Your submission has been received!</p>
+</div>
+<div class="w-form-fail">
+    <p>Oops! Something went wrong while submitting the form :(</p>
+</div>
+</div>
+</div>
+<script type="text/javascript" src="/scripts/webflow.js"></script>
+<!--[if lte IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+</body>
+</html>
