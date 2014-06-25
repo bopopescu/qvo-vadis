@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/webflow.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/qvo-vadis.webflow.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui-1.10.4.custom.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/jquery.timepicker.css">
-    <link type="text/css" href="/stylesheets/jquery-ui-1.10.4.custom.min.css" rel="stylesheet"></link>
     <!-- add recurrenceinput resources -->
     <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="/scripts/jquery.tmpl-beta1.js"></script>
@@ -21,6 +21,8 @@
     <script type="text/javascript" src="/scripts/jquery.recurrenceinput.js"></script>
     <!-- end of recurrenceinput resources -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&language=nl"></script>
+    <script type="text/javascript" src="/scripts/gmaps.js"></script>
     <script>
         WebFont.load({
             google: {
@@ -59,22 +61,22 @@
     <div class="w-row">
         <div class="w-col w-col-2b column">
             <input class="w-input error date" id="start-date" type="text" placeholder="datum" name="start-date"
-                   required="required" autofocus="autofocus" data-name="start date">
+                   required="required" autofocus="autofocus" data-name="start date" >
         </div>
         <div class="w-col w-col-2b column">
             <input class="w-input" id="start-hour" type="text" placeholder="uur" name="start-hour" required="required"
-                   autofocus="autofocus" data-name="start hour">
+                   autofocus="autofocus" data-name="start hour" >
         </div>
         <div class="w-col w-col-2b">
             <div class="tot-en-met">tot en met</div>
         </div>
         <div class="w-col w-col-2b column">
             <input class="w-input date" id="end-date" type="text" placeholder="datum" name="end-date" required="required"
-                   autofocus="autofocus" data-name="end date">
+                   autofocus="autofocus" data-name="end date" >
         </div>
         <div class="w-col w-col-2b column">
             <input class="w-input" id="end-hour" type="text" placeholder="uur" name="end-hour" required="required"
-                   autofocus="autofocus" data-name="end hour">
+                   autofocus="autofocus" data-name="end hour" >
         </div>
     </div>
     <div class="w-row">
@@ -86,7 +88,7 @@
         </div>
         <div class="w-col w-col-9">
             <div>
-                <label class="ridisplay inline"></label> <a href="#" name="riedit"></a>
+                <label class="ridisplay inline"></label> <a href=javascript: void(0)" name="riedit"></a>
             </div>
         </div>
     </div>
@@ -95,11 +97,12 @@
 <!-- recurrenceinput begin -->
 <textarea name="custom_lang_nl" class="hidden"></textarea>
 <script type="text/javascript">
-    $("textarea[name=custom_lang_nl]").recurrenceinput({lang:'nl', startField: "start-date"});
-    $(".date").datepicker( $.datepicker.regional[ "nl" ] );
-    $("#start-date").datepicker("setDate", new Date());
-    $("#end-date").datepicker("setDate", new Date());
     $(function() {
+        $("textarea[name=custom_lang_nl]").recurrenceinput({lang:'nl', startField: "start-date"});
+        $.datepicker.setDefaults( $.datepicker.regional[ "nl" ] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
+        $(".date").datepicker();
+        $("#start-date").datepicker("setDate", new Date());
+        $("#end-date").datepicker("setDate", new Date());
         var start = new Date();
         var end = new Date();
         var h = start.getHours();
@@ -107,9 +110,9 @@
         start.setMinutes(0);
         end.setHours(h + 2 > 23 ? h + 2 - 24 : h + 2);
         end.setMinutes(0);
-        $("#start-hour").timepicker();
+        $("#start-hour").timepicker({ 'timeFormat': 'H:i' });
         $("#start-hour").timepicker("setTime", start);
-        $("#end-hour").timepicker();
+        $("#end-hour").timepicker({ 'timeFormat': 'H:i' });
         $("#end-hour").timepicker("setTime", end);
     })
 </script>
@@ -122,12 +125,15 @@
             <label>Locatie</label>
         </div>
         <div class="w-col w-col-9">
-            <div>Heilig Hart van Jezus, 2060 Antwerpen&nbsp;<a href="#">bewerken</a>
+            <div><span id="location"></span> <a href="javascript: void(0)#" id="edit-location" class="hidden">bewerken</a>
             </div>
         </div>
     </div>
 </div>
-<div class="modal section">
+<span id='gmaps-output-latitude' class="hidden"></span>
+<span id='gmaps-output-longitude' class="hidden"></span>
+<span id='gmaps-output-postal-code' class="hidden"></span>
+<div class="modal section" id="location-modal">
     <div class="w-row">
         <div class="w-col w-col-6 column">
             <input class="w-input input" id="address" type="text"
@@ -137,11 +143,14 @@
                    autofocus="autofocus" data-name="location name">
             <input class="w-input" id="location-details" type="text"
                    placeholder="Details over de locatie (bv. gebouw, zaal,...)" name="location-details"
-                   autofocus="autofocus" data-name="location details"><a class="button top-button" href="#">OK</a>
+                   autofocus="autofocus" data-name="location details">
+            <a class="button top-button" id="location-ok" href="#">Gereed</a>
         </div>
         <div class="w-col w-col-6 column">
-            <div class="w-widget w-widget-map map" data-widget-latlng="51.511214,-0.119824" data-widget-style="roadmap"
-                 data-widget-zoom="8" data-widget-tooltip="Locatie"></div>
+            <div id="gmaps-error"></div>
+            <div id="gmaps-canvas"></div>
+            <!--div class="w-widget w-widget-map map" data-widget-latlng="51.511214,-0.119824" data-widget-style="roadmap"
+                 data-widget-zoom="8" data-widget-tooltip="Locatie"></div-->
         </div>
     </div>
 </div>
@@ -162,30 +171,13 @@
 <div class="section">
     <label for="description">Beschrijving</label>
 
+    {% for tag in configuration["tags"].split(',') %}
     <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox" type="checkbox" name="checkbox" data-name="Checkbox">
-        <label class="w-form-label" for="checkbox">Checkbox</label>
+        <input class="w-checkbox-input" id="{{slugify(tag)}}" type="checkbox" name="{{slugify(tag)}}">
+        <label class="w-form-label" for="{{slugify(tag)}}">{{tag}}</label>
     </div>
-    <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox-3" type="checkbox" name="checkbox-3" data-name="Checkbox 3">
-        <label class="w-form-label" for="checkbox-3">Checkbox 3</label>
-    </div>
-    <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox-6" type="checkbox" name="checkbox-6" data-name="Checkbox 6">
-        <label class="w-form-label" for="checkbox-6">Checkbox 6</label>
-    </div>
-    <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox-5" type="checkbox" name="checkbox-5" data-name="Checkbox 5">
-        <label class="w-form-label" for="checkbox-5">Checkbox 5</label>
-    </div>
-    <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox-4" type="checkbox" name="checkbox-4" data-name="Checkbox 4">
-        <label class="w-form-label" for="checkbox-4">Checkbox 4</label>
-    </div>
-    <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="checkbox-2" type="checkbox" name="checkbox-2" data-name="Checkbox 2">
-        <label class="w-form-label" for="checkbox-2">Checkbox 2</label>
-    </div>
+    {% endfor %}
+
     <textarea class="w-input" id="description"
               placeholder="Gebruik #hashtags in de beschrijving om later als filter te gebruiken" name="description"
               data-name="description" autofocus="autofocus"></textarea>
@@ -202,5 +194,9 @@
 <script type="text/javascript" src="/scripts/webflow.js"></script>
 <!--[if lte IE 9]>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript">
+    var id = '{{configuration["id"]}}';
+    var tags = '{{configuration["tags"]}}';
+</script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import webapp2
 from jinja_templates import jinja_environment
 import customer_configuration
 import logging
+from lib import slugify
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,6 +13,7 @@ class EditHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('editor.html')
         content = template.render(
             configuration=configuration,
+            slugify=slugify
         )
         # return the web-page content
         self.response.out.write(content)

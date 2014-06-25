@@ -65,6 +65,7 @@ p {
 }
 .top-button {
   margin-right: 9px;
+  margin-bottom: 9px;
   border-radius: 3px;
   background-color: #dbdbdb;
   color: black;
@@ -126,8 +127,14 @@ p {
   margin-bottom: 0px;
   padding: 0px 6px;
 }
+.hidden {
+  display: none;
+}
 .ributtons {
   margin-top: 10px;
+}
+#gmaps-canvas {
+  height: 200px;
 }
 @media (max-width: 991px) {
 }
@@ -138,4 +145,11 @@ p {
   }
 }
 @media (max-width: 479px) {
+  .section {
+    padding: 12px 6px;
+  }
+  .w-col {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }

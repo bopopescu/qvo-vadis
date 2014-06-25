@@ -266,7 +266,7 @@
             'zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag',
             'vrijdag', 'zaterdag'],
         shortWeekdays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-        longDateFormat: 'DD d MM yyyy',
+        longDateFormat: 'DD d MM yy',
         shortDateFormat: 'dd/mm/y',
         unsupportedFeatures: 'Warning: This event uses recurrence features not supported by this widget. Saving the recurrence may change the recurrence in unintended ways: ',
         noTemplateMatch: 'No matching recurrence template',
@@ -539,7 +539,7 @@
                                     '<label class="w-form-label label inline" for="${name}rangetype:BYENDDATE">',
                                         '${i18n.rangeByEndDate}',
                                     '</label>',
-                                    '<input class="w-input input-date date inline" id="rirangebyenddatecalendar" type="text" name="rirangebyenddatecalendar">',
+                                    '<input class="w-input input-date date inline" id="rirangebyenddatecalendar" type="text" name="rirangebyenddatecalendar" >',
                                 '</div>',
                             '</div>',
                         '</div>',
@@ -558,8 +558,8 @@
                 '</div>',
                 '<div class="riaddoccurrence">',
                     '<div class="errorarea"></div>',
-                    '<input class="date" name="adddate" id="adddate" />',
-                    '<input type="button" name="addaction" id="addaction" value="${i18n.add}">',
+                    '<input class="w-input input-date inline date" name="adddate" id="adddate" />',
+                    '<a class="button top-button" name="addaction" id="addaction">${i18n.add}</a>',
                 '</div>',
             '</div>',  //rioccrrenceactions
             '<div class="ributtons">',
@@ -1431,6 +1431,8 @@
 
             if (startdate !== null) {
                 // If the date is a real date, set the defaults in the form
+                // disabled because the real reference is the RRULE string, not the start date
+                /*
                 form.find('select[name=rimonthlydayofmonthday]').val(startdate.getDate());
                 dayindex = conf.orderIndexes[Math.floor((startdate.getDate() - 1) / 7)];
                 day = conf.weekdays[startdate.getDay()];
@@ -1441,6 +1443,7 @@
                 form.find('select[name=riyearlyweekdayofmonthindex]').val(dayindex);
                 form.find('select[name=riyearlyweekdayofmonthday]').val(day);
                 form.find('select[name=riyearlyweekdayofmonthmonth]').val(startdate.getMonth() + 1);
+                */
 
                 // Now when we have a start date, we can also do an ajax call to calculate occurrences:
                 loadOccurrences(startdate, widgetSaveToRfc5545(form, conf, false).result, 0, false);
@@ -1659,7 +1662,7 @@
         // Pop up the little add form when clicking "Add"
         form.find('div.riaddoccurrence input#adddate')
             .datepicker('setDate', new Date());
-        form.find('input#addaction').click(occurrenceAdd);
+        form.find('a#addaction').click(occurrenceAdd);
 
         // When the reload button is clicked, reload
 //        form.find('a.rirefreshbutton').click(

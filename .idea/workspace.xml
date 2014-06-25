@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="ommercial limit works">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/edit.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/jquery.timepicker.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.timepicker.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/modernizr.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/normalize.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/webflow.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/webflow.js" />
+    <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/jquery-ui-1.10.4.custom.css" />
+      <change type="DELETED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\stylesheets\jquery-ui-1.10.4.custom.min.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/editor.html" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery-ui-1.10.4.custom.min.js" afterPath="$PROJECT_DIR$/static/scripts/jquery-ui-1.10.4.custom.min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" afterPath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403298952713" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403642590748" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399827208512" ignored="false" />
     <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403209483921" ignored="false" />
     <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694023641" ignored="false" />
-    <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402693941744" ignored="false" />
+    <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403729971006" ignored="false" />
     <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694107294" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
     <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402518826053" ignored="false" />
@@ -34,7 +31,7 @@
     <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694741857" ignored="false" />
     <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402686197351" ignored="false" />
     <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401394359924" ignored="false" />
-    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403641845775" ignored="false" />
+    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403733248108" ignored="false" />
     <file path="/appcache.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444988337" ignored="false" />
     <file path="/status.appcache" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444999609" ignored="false" />
     <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399654734069" ignored="false" />
@@ -44,7 +41,7 @@
     <file path="/qr.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399727709195" ignored="false" />
     <file path="/recurrenceinput.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400615087343" ignored="false" />
     <file path="/recurrenceinput-demo.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400874040096" ignored="false" />
-    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403639681478" ignored="false" />
+    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403730388325" ignored="false" />
     <file path="/app-sync.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399840915110" ignored="false" />
     <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402520491358" ignored="false" />
     <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400185498882" ignored="false" />
@@ -55,10 +52,11 @@
     <file path="/a.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233120939" ignored="false" />
     <file path="/a.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233124911" ignored="false" />
     <file path="/cron.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260975297" ignored="false" />
-    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403640813035" ignored="false" />
-    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403210318645" ignored="false" />
+    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403733238108" ignored="false" />
+    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403731155513" ignored="false" />
     <file path="/webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403631162213" ignored="false" />
-    <file path="/qvo-vadis.webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403637858943" ignored="false" />
+    <file path="/qvo-vadis.webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403713407128" ignored="false" />
+    <file path="/gmaps.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403729483458" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +88,7 @@
       <file leaf-file-name="edit.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/edit.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="12" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
+            <state line="14" column="22" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -101,7 +99,7 @@
       <file leaf-file-name="map.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/map.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="667" vertical-scroll-proportion="0.0">
+            <state line="21" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -109,24 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="editor.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="editor.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="10" selection-start="5473" selection-end="5473" vertical-scroll-proportion="-17.653847">
+            <state line="176" column="56" selection-start="8913" selection-end="8913" vertical-scroll-proportion="0.4473684">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jquery.recurrenceinput.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1702" column="0" selection-start="73136" selection-end="73136" vertical-scroll-proportion="0.9470752">
-              <folding>
-                <marker date="1403642089532" expanded="false" signature="13090:13102" placeholder="..." />
-                <marker date="1403642089532" expanded="true" signature="13325:13339" placeholder="..." />
-                <marker date="1403642089532" expanded="false" signature="54587:54601" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -134,25 +119,7 @@
       <file leaf-file-name="qvo-vadis.webflow.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="15" selection-start="2079" selection-end="2079" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webflow.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/stylesheets/webflow.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="293" column="12" selection-start="8140" selection-end="8140" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="recurrenceinput-demo.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/html/recurrenceinput-demo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="894" selection-end="894" vertical-scroll-proportion="-14.884615">
+            <state line="67" column="21" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,7 +128,16 @@
       <file leaf-file-name="map.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="40" selection-start="558" selection-end="558" vertical-scroll-proportion="-11.115385">
+            <state line="41" column="33" selection-start="1274" selection-end="1274" vertical-scroll-proportion="-18.23077">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="map.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="380" column="11" selection-start="12899" selection-end="12899" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -185,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
         <option value="$PROJECT_DIR$/sync.py" />
         <option value="$PROJECT_DIR$/cron.yaml" />
         <option value="$PROJECT_DIR$/fusion_tables.py" />
@@ -195,20 +170,21 @@
         <option value="$PROJECT_DIR$/static/scripts/map.js" />
         <option value="$PROJECT_DIR$/customer_configuration.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
-        <option value="$PROJECT_DIR$/edit.py" />
         <option value="$PROJECT_DIR$/static/stylesheets/webflow.css" />
         <option value="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
-        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
+        <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
+        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
         <option value="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
+        <option value="$PROJECT_DIR$/edit.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="122" />
-    <option name="y" value="-8" />
-    <option name="width" value="1252" />
-    <option name="height" value="784" />
+    <option name="x" value="140" />
+    <option name="y" value="1" />
+    <option name="width" value="1148" />
+    <option name="height" value="766" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -544,11 +520,15 @@
       <created>1402696092474</created>
       <updated>1402696092474</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="recurring event gui works">
+      <created>1403642599368</created>
+      <updated>1403642599368</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="122" y="-8" width="1252" height="784" extended-state="0" />
+    <frame x="140" y="1" width="1148" height="766" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -557,11 +537,11 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1907563" sideWeight="0.67147434" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5144231" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31767955" sideWeight="0.67161715" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52970296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38942307" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32852563" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32838285" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -613,7 +593,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="ommercial limit works" />
+    <option name="LAST_COMMIT_MESSAGE" value="recurring event gui works" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -636,20 +616,14 @@
     <MESSAGE value="recurrenceinput demo working" />
     <MESSAGE value="sync working and cronned" />
     <MESSAGE value="ommercial limit works" />
+    <MESSAGE value="recurring event gui works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="56" />
+      <option name="time" value="57" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="24" selection-start="9282" selection-end="9282" vertical-scroll-proportion="3.2670157">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/customer_configuration.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="0" selection-start="878" selection-end="878" vertical-scroll-proportion="0.21628499">
@@ -686,29 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="0" selection-start="11950" selection-end="11950" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/map.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="667" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="40" selection-start="558" selection-end="558" vertical-scroll-proportion="-11.115385">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput - kopie.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -730,15 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="12" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/stylesheets/webflow.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="293" column="12" selection-start="8140" selection-end="8140" vertical-scroll-proportion="0.0">
@@ -748,26 +690,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="15" selection-start="2079" selection-end="2079" vertical-scroll-proportion="0.0">
+        <state line="67" column="21" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
+    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="10" selection-start="5473" selection-end="5473" vertical-scroll-proportion="-17.653847">
+        <state line="367" column="0" selection-start="13103" selection-end="13103" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1702" column="0" selection-start="73136" selection-end="73136" vertical-scroll-proportion="0.9470752">
+        <state line="560" column="74" selection-start="27837" selection-end="27837" vertical-scroll-proportion="0.5596708">
           <folding>
-            <marker date="1403642089532" expanded="false" signature="13090:13102" placeholder="..." />
-            <marker date="1403642089532" expanded="true" signature="13325:13339" placeholder="..." />
-            <marker date="1403642089532" expanded="false" signature="54587:54601" placeholder="..." />
+            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="380" column="11" selection-start="12899" selection-end="12899" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="33" selection-start="1274" selection-end="1274" vertical-scroll-proportion="-18.23077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/edit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="22" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="56" selection-start="8913" selection-end="8913" vertical-scroll-proportion="0.4473684">
+          <folding />
         </state>
       </provider>
     </entry>
