@@ -1,6 +1,6 @@
 from sqlbuilder import SQL
 import oauth2_three_legged
-from lib import slugify
+from lib import slugify, location_slug, event_slug
 import logging
 from recurrenceinput import calculate_occurrences
 from datetime import datetime
@@ -17,7 +17,7 @@ OAUTH_SCOPE = 'https://www.googleapis.com/auth/fusiontables'
 API_CLIENT = 'fusiontables'
 VERSION = 'v1'
 
-DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+FUSION_TABLE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 DATE_FORMAT = '%Y-%m-%d'
 ISO_DATE_TIME_FORMAT = '%Y%m%dT%H%M%S'
 
@@ -50,6 +50,10 @@ def list_of_dicts_to_csv(table_id, list_of_dicts):
     csv = StringIO.StringIO()
     cols = table_cols(table_id)
     w = DictWriter(csv, cols)
+    for dict in list_of_dicts:
+        for key, value in dict.iteritems():
+            if isinstance(value, unicode):
+                dict[key] = value.encode('utf8')
     w.writerows(list_of_dicts)
     return csv
 
@@ -66,6 +70,10 @@ def select(table_id, cols=None, condition=None):
 
 
 def select_first(table_id, cols=None, condition=None):
+    """
+    cols: a list of strings identifying the columns to be returned
+    condition: e.g. "'name' = 'John Cleese' and 'group' = 'The Rolling Stones'"
+    """
     if not cols:
         cols = table_cols(table_id)
         # make sure you return the rowid, that's useful for later 'updates'
@@ -176,7 +184,7 @@ def master_to_slave(master):
     # then calculate the date occurrences
     if master['calendar rule']:
         # start (and end) fields hold the start date for the recurrence rule
-        start_date = datetime.strptime(master['start'], DATE_TIME_FORMAT).date()
+        start_date = datetime.strptime(master['start'], FUSION_TABLE_DATE_TIME_FORMAT).date()
         today_date = datetime.today().date()
         if start_date <= today_date:
             start_date = today_date
@@ -189,8 +197,8 @@ def master_to_slave(master):
             'batch_size': 10,
             'start': 0
         }
-        start = datetime.strptime(master['start'], DATE_TIME_FORMAT).time()
-        end = datetime.strptime(master['end'], DATE_TIME_FORMAT).time()
+        start = datetime.strptime(master['start'], FUSION_TABLE_DATE_TIME_FORMAT).time()
+        end = datetime.strptime(master['end'], FUSION_TABLE_DATE_TIME_FORMAT).time()
         today_plus_13_months_date = today_date + timedelta(days=13*30)  # naive, don't care
         slaves = []
         done = False
@@ -202,8 +210,8 @@ def master_to_slave(master):
                 if today_date <= date < today_plus_13_months_date:
                     # only add events within one year timeframe from now
                     new_slave = copy.deepcopy(slave)
-                    new_slave['start'] = datetime.combine(date, start).strftime(DATE_TIME_FORMAT)
-                    new_slave['end'] = datetime.combine(date, end).strftime(DATE_TIME_FORMAT)
+                    new_slave['start'] = datetime.combine(date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    new_slave['end'] = datetime.combine(date, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
                     new_slave['datetime slug'] = slugify(new_slave['start'])
                     if final_date < new_slave['end']:
                         final_date = new_slave['end']
@@ -231,14 +239,10 @@ def fusion_table_query_result_as_list_of_dict(data):
     return list
 
 
-def location_slug(event):
-    return slugify(event['location name'] + ' ' + event['address'])
-
-
 def random_master(configuration=None):
     master = {}
     start = datetime(2014, randint(1, 12), randint(1, 28), randint(8, 20), 0, 0)
-    master['start'] = start.strftime(DATE_TIME_FORMAT)
+    master['start'] = start.strftime(FUSION_TABLE_DATE_TIME_FORMAT)
     master['description'] = random_text(sentences=1)
     master['contact'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
     master['website'] = "http://www.%s.com" % random_text(words=1)
@@ -248,9 +252,9 @@ def random_master(configuration=None):
     master['moderator'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
     master['state'] = "new"
     master['sequence'] = "0"
-    master['entry date'] = datetime.today().strftime(DATE_TIME_FORMAT)
-    master['update date'] = datetime.today().strftime(DATE_TIME_FORMAT)
-    master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(DATE_TIME_FORMAT)
+    master['entry date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    master['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
     master['location name'] = random_text(words=randint(1, 4))
     postal_code = randint(1000,9999)
     master['address'] = "%s %d, %d %s" % (random_text(words=1), randint(1,100), postal_code, random_text(words=1))
@@ -267,10 +271,10 @@ def random_master(configuration=None):
     # second
     multi_day = True if randint(1, 10) < 2 else False
     if multi_day:
-        master['end'] = (start + timedelta(hours=randint(0, 3), days=randint(1, 7))).strftime(DATE_TIME_FORMAT)
+        master['end'] = (start + timedelta(hours=randint(0, 3), days=randint(1, 7))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         master['calendar rule'] = ''
     else:
-        master['end'] = (start + timedelta(hours=randint(1, 3))).strftime(DATE_TIME_FORMAT)
+        master['end'] = (start + timedelta(hours=randint(1, 3))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         chance = randint(1, 10)
         if chance < 3:
             master['calendar rule'] = "RRULE:FREQ=DAILY;UNTIL=%s" % (start + timedelta(days=30 * 6)).strftime(ISO_DATE_TIME_FORMAT)
@@ -279,7 +283,7 @@ def random_master(configuration=None):
         else:
             master['calendar rule'] = "RRULE:FREQ=MONTHLY;BYMONTHDAY=%d" % start.day
     master['event name'] = "%s %s" % (master['location name'], master['calendar rule'])
-    master['event slug'] = slugify("%s %s" % (master['location slug'], master['event name']))
+    master['event slug'] = event_slug(master)
     return master
 
 

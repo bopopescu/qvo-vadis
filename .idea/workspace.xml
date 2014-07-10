@@ -2,36 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/stylesheets/jquery-ui-1.10.4.custom.css" />
-      <change type="DELETED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\stylesheets\jquery-ui-1.10.4.custom.min.css" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-en.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/localization.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submit.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cards.py" afterPath="$PROJECT_DIR$/cards.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/editor.html" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery-ui-1.10.4.custom.min.js" afterPath="$PROJECT_DIR$/static/scripts/jquery-ui-1.10.4.custom.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fusion_tables.py" afterPath="$PROJECT_DIR$/fusion_tables.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/gmaps.js" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" afterPath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.py" afterPath="$PROJECT_DIR$/lib.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlbuilder.py" afterPath="$PROJECT_DIR$/sqlbuilder.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/webflow.js" afterPath="$PROJECT_DIR$/static/scripts/webflow.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403642590748" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404905433256" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399827208512" ignored="false" />
-    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403209483921" ignored="false" />
+    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404916057182" ignored="false" />
     <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694023641" ignored="false" />
     <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403729971006" ignored="false" />
-    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694107294" ignored="false" />
+    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405026853328" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
-    <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402518826053" ignored="false" />
+    <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404937833481" ignored="false" />
     <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260108137" ignored="false" />
     <file path="/ical.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398632819328" ignored="false" />
     <file path="/client.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401993780509" ignored="false" />
     <file path="/map.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399754079640" ignored="false" />
     <file path="/configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398934394273" ignored="false" />
     <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402694741857" ignored="false" />
-    <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402686197351" ignored="false" />
+    <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405026056581" ignored="false" />
     <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401394359924" ignored="false" />
-    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403733248108" ignored="false" />
+    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405027263500" ignored="false" />
     <file path="/appcache.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444988337" ignored="false" />
     <file path="/status.appcache" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444999609" ignored="false" />
     <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399654734069" ignored="false" />
@@ -41,22 +47,23 @@
     <file path="/qr.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399727709195" ignored="false" />
     <file path="/recurrenceinput.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400615087343" ignored="false" />
     <file path="/recurrenceinput-demo.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400874040096" ignored="false" />
-    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403730388325" ignored="false" />
+    <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403808784340" ignored="false" />
     <file path="/app-sync.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399840915110" ignored="false" />
-    <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402520491358" ignored="false" />
-    <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1400185498882" ignored="false" />
-    <file path="/sqlbuilder.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401869856395" ignored="false" />
-    <file path="/fusion_tables.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402693029549" ignored="false" />
+    <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404851446634" ignored="false" />
+    <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405023812396" ignored="false" />
+    <file path="/sqlbuilder.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404937788062" ignored="false" />
+    <file path="/fusion_tables.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405023630480" ignored="false" />
     <file path="/a.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233090006" ignored="false" />
     <file path="/a.coffee" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233105231" ignored="false" />
     <file path="/a.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233120939" ignored="false" />
     <file path="/a.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233124911" ignored="false" />
     <file path="/cron.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260975297" ignored="false" />
-    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403733238108" ignored="false" />
-    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403731155513" ignored="false" />
+    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404044128814" ignored="false" />
+    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404678220373" ignored="false" />
     <file path="/webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403631162213" ignored="false" />
     <file path="/qvo-vadis.webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403713407128" ignored="false" />
-    <file path="/gmaps.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403729483458" ignored="false" />
+    <file path="/gmaps.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1405024755261" ignored="false" />
+    <file path="/submit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1404939386364" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,11 +83,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="gmaps.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="434" column="0" selection-start="15912" selection-end="15912" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="35" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
+            <state line="9" column="45" selection-start="625" selection-end="625" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="submit.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/submit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="54" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -88,56 +115,63 @@
       <file leaf-file-name="edit.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/edit.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="22" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+            <state line="12" column="0" selection-start="298" selection-end="298" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cards.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cards.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="93" column="40" selection-start="4181" selection-end="4181" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fusion_tables.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fusion_tables.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="71" column="4" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/map.py">
+      <file leaf-file-name="sqlbuilder.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sqlbuilder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editor.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="176" column="56" selection-start="8913" selection-end="8913" vertical-scroll-proportion="0.4473684">
+            <state line="174" column="0" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qvo-vadis.webflow.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css">
+      <file leaf-file-name="sync.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="21" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
+            <state line="29" column="0" selection-start="1081" selection-end="1081" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
+      <file leaf-file-name="lib.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="33" selection-start="1274" selection-end="1274" vertical-scroll-proportion="-18.23077">
+            <state line="37" column="0" selection-start="1281" selection-end="1281" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="map.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="380" column="11" selection-start="12899" selection-end="12899" vertical-scroll-proportion="0.0">
+            <state line="163" column="4" selection-start="5700" selection-end="5700" vertical-scroll-proportion="0.23743017">
               <folding />
             </state>
           </provider>
@@ -161,30 +195,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/sync.py" />
-        <option value="$PROJECT_DIR$/cron.yaml" />
-        <option value="$PROJECT_DIR$/fusion_tables.py" />
-        <option value="$PROJECT_DIR$/qr.py" />
-        <option value="$PROJECT_DIR$/cards.py" />
-        <option value="$PROJECT_DIR$/map.py" />
-        <option value="$PROJECT_DIR$/static/scripts/map.js" />
-        <option value="$PROJECT_DIR$/customer_configuration.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/static/stylesheets/webflow.css" />
-        <option value="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
-        <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
-        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
         <option value="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-        <option value="$PROJECT_DIR$/edit.py" />
+        <option value="$PROJECT_DIR$/static/i18n/localization.json" />
+        <option value="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-en.js" />
+        <option value="$PROJECT_DIR$/static/scripts/webflow.js" />
+        <option value="$PROJECT_DIR$/localization.csv" />
         <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
+        <option value="$PROJECT_DIR$/edit.py" />
+        <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/sqlbuilder.py" />
+        <option value="$PROJECT_DIR$/fusion_tables.py" />
+        <option value="$PROJECT_DIR$/lib.py" />
+        <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/cards.py" />
+        <option value="$PROJECT_DIR$/submit.py" />
+        <option value="$PROJECT_DIR$/static/scripts/map.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="140" />
-    <option name="y" value="1" />
-    <option name="width" value="1148" />
-    <option name="height" value="766" />
+    <option name="x" value="122" />
+    <option name="y" value="-8" />
+    <option name="width" value="1252" />
+    <option name="height" value="780" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -320,11 +354,11 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="preferences.sourceCode.JavaScript" />
+    <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -343,10 +377,90 @@
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\jinja_templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static" />
     </key>
   </component>
   <component name="RunManager" selected="App Engine server.qvo-vadis">
+    <configuration default="false" name="cards" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qvo-vadis" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cards.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="submit" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qvo-vadis" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\submit.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Doctests in C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" type="tests" factoryName="Doctests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qvo-vadis" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="$PROJECT_DIR$" />
+      <option name="TEST_TYPE" value="TEST_FOLDER" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qvo-vadis" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="Python.AppEngineServer" factoryName="App Engine server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -448,9 +562,21 @@
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="App Engine server.qvo-vadis" />
+      <item index="1" class="java.lang.String" itemvalue="Python.cards" />
+      <item index="2" class="java.lang.String" itemvalue="Python.submit" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
+      <item index="4" class="java.lang.String" itemvalue="Python.main" />
     </list>
+    <recent_temporary>
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.main" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
+        <item index="2" class="java.lang.String" itemvalue="Python.submit" />
+        <item index="3" class="java.lang.String" itemvalue="Python.cards" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
@@ -524,28 +650,32 @@
       <created>1403642599368</created>
       <updated>1403642599368</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="recurring event gui works better now and location gui as well">
+      <created>1403733752382</created>
+      <updated>1403733752382</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="140" y="1" width="1148" height="766" extended-state="0" />
+    <frame x="122" y="-8" width="1252" height="780" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32419354" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31767955" sideWeight="0.67161715" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52970296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31092438" sideWeight="0.67419356" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42096773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38942307" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32838285" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32580644" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -593,7 +723,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="recurring event gui works" />
+    <option name="LAST_COMMIT_MESSAGE" value="recurring event gui works better now and location gui as well" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -617,137 +747,129 @@
     <MESSAGE value="sync working and cronned" />
     <MESSAGE value="ommercial limit works" />
     <MESSAGE value="recurring event gui works" />
+    <MESSAGE value="recurring event gui works better now and location gui as well" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="57" />
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="77" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/static/scripts/webflow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1354" column="0" selection-start="59391" selection-end="59391" vertical-scroll-proportion="0.05263158" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oauth2_three_legged.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="1067" selection-end="1067" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#51#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1480" column="0" selection-start="59057" selection-end="59057" vertical-scroll-proportion="0.6020067">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/customer_configuration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="878" selection-end="878" vertical-scroll-proportion="0.21628499">
-          <folding>
-            <element signature="e#0#14#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fusion_tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="0" selection-start="3011" selection-end="3011" vertical-scroll-proportion="0.5368421">
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cards.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="2101" selection-end="2101" vertical-scroll-proportion="1.254453">
-          <folding>
-            <element signature="e#0#14#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="677" selection-end="677" vertical-scroll-proportion="0.82188296">
-          <folding>
-            <element signature="e#0#14#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput - kopie.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="1" column="0" selection-start="15" selection-end="15" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/html/recurrenceinput-demo.html">
+    <entry file="file://C:/Program Files (x86)/Google/google_appengine/lib/webapp2-2.5.2/webapp2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="894" selection-end="894" vertical-scroll-proportion="-14.884615">
+        <state line="1101" column="0" selection-start="38248" selection-end="38248" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/sqlbuilder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="35" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
+        <state line="174" column="0" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/stylesheets/webflow.css">
+    <entry file="file://$PROJECT_DIR$/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="293" column="12" selection-start="8140" selection-end="8140" vertical-scroll-proportion="0.0">
+        <state line="29" column="0" selection-start="1081" selection-end="1081" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css">
+    <entry file="file://C:/Python27/Lib/csv.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="21" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
+        <state line="153" column="0" selection-start="4922" selection-end="4922" vertical-scroll-proportion="0.5819398">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/edit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="298" selection-end="298" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="1281" selection-end="1281" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="367" column="0" selection-start="13103" selection-end="13103" vertical-scroll-proportion="0.0">
+        <state line="434" column="0" selection-start="15912" selection-end="15912" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="560" column="74" selection-start="27837" selection-end="27837" vertical-scroll-proportion="0.5596708">
+        <state line="9" column="45" selection-start="625" selection-end="625" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fusion_tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="4" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1403730412194" expanded="false" signature="-1:-1" placeholder="..." />
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cards.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="40" selection-start="4181" selection-end="4181" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/submit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="54" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="380" column="11" selection-start="12899" selection-end="12899" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="33" selection-start="1274" selection-end="1274" vertical-scroll-proportion="-18.23077">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/map.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="22" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="56" selection-start="8913" selection-end="8913" vertical-scroll-proportion="0.4473684">
+        <state line="163" column="4" selection-start="5700" selection-end="5700" vertical-scroll-proportion="0.23743017">
           <folding />
         </state>
       </provider>

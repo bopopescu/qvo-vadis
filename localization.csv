@@ -1,0 +1,23 @@
+id,en,nl
+save-capitals,SAVE,OPSLAAN
+discard,Discard,Verwijderen
+enter-your-email,Enter your email address to confirm the entry,Geef jouw emailadres hier in om de ingave te bevestigen
+event-cannot-be-saved-fields-not-filled-in,The event cannot be saved. Some fields are not filled in.,De gebeurtenis kan niet worden opgeslagen. Sommige velden zijn niet ingevuld.
+untitled-event,Untitled event,Gebeurtenis zonder titel
+date,date,datum
+time,time,uur
+repeat,repeat...,herhalen...
+edit,edit,bewerken
+location,Location,Locatie
+enter-address-to-search,Enter the address to search or click the map,Geef het adres in om te zoeken of klik op de kaart...
+name-of-location,Name of the location,Naam van de locatie
+location-details,"Location details (e.g. building, room,...)","Details over de locatie (bv. gebouw, zaal,...)"
+save,Save,Gereed
+email-phone,"email, phone,...","email, telefoon, ..."
+contact-details,Contact details,Contactgegevens
+registration-required,Registration is required,Aanmelden is noodzakelijk
+website,Website,Website
+description,Description,Beschrijving
+use-hashtags,Use #hashtags in the description to filter later,Gebruik #hashtags in de beschrijving om later als filter te gebruiken
+to,to,tot
+add-event,Add a new event,Voeg een evenement toe

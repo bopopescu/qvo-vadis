@@ -751,10 +751,10 @@
                     }
                     human += ', ' + conf.i18n.rangeByEndDateHuman;
                     human += $.datepicker.formatDate( "DD, MM d, yy", date_js, {
-                        dayNamesShort: $.datepicker.regional['nl'].dayNamesShort,
-                        dayNames: $.datepicker.regional['nl'].dayNames,
-                        monthNamesShort: $.datepicker.regional['nl'].monthNamesShort,
-                        monthNames: $.datepicker.regional['nl'].monthNames
+                        dayNamesShort: $.datepicker.regional[language].dayNamesShort,
+                        dayNames: $.datepicker.regional[language].dayNames,
+                        monthNamesShort: $.datepicker.regional[language].monthNamesShort,
+                        monthNames: $.datepicker.regional[language].monthNames
                     });
                     break;
                 }

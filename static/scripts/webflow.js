@@ -1074,6 +1074,7 @@ Webflow.define('touch', function ($, _) {
  * ----------------------------------------------------------------------
  * Webflow: Forms
  */
+/*
 Webflow.define('forms', function ($, _) {
   'use strict';
 
@@ -1352,6 +1353,7 @@ Webflow.define('forms', function ($, _) {
   // Export module
   return api;
 });
+ */
 /**
  * ----------------------------------------------------------------------
  * Webflow: Maps widget

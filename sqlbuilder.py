@@ -169,19 +169,19 @@ class SQL:
     Returns:
       the sql statement
     """
-    stringValues = ""
+    stringValues = u""
     count = 1
     cols = values.keys()
     values = values.values()
     for value in values:
       if type(value).__name__=='int':
-        stringValues = '%s%d' % (stringValues, value)
+        stringValues = u'%s%d' % (stringValues, value)
       elif type(value).__name__=='float':
-        stringValues = '%s%f' % (stringValues, value)
+        stringValues = u'%s%f' % (stringValues, value)
       else:
-        stringValues = "%s'%s'" % (stringValues,
-                                   value.encode('unicode-escape'))
-      if count < len(values): stringValues = "%s," % (stringValues)
+        stringValues = u"%s'%s'" % (stringValues,
+                                   value)  # was value.encode('unicode-escape')
+      if count < len(values): stringValues = u"%s," % (stringValues)
       count += 1
 
     return 'INSERT INTO %s (%s) VALUES (%s)' % \

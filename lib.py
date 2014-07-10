@@ -12,3 +12,45 @@ def slugify(value):
     value = unicode(re.sub('[-\s]+', '-', value))
     return value
 
+
+def location_slug(event):
+    location_presentation = ''
+    if event['location name']:
+        location_presentation += event['location name']
+    if event['location name'] and event['address']:
+        location_presentation += ', '
+    if event['address']:
+        location_presentation += event['address']
+    if not event['address']:
+        location_presentation += event['postal code']
+    return slugify(location_presentation)
+
+
+def event_slug(event):
+    # TODO if presentation would ever be needed, this must be refined
+    event_presentation = ''
+    event_presentation += event['event name']
+    # event_presentation += ', '
+    # event_presentation += event['start']
+    event_presentation += ', '
+    event_presentation += event['location slug']
+    return slugify(event_presentation)
+
+
+def extract_hash_tags(s):
+    import re
+    return set([re.sub(r"(\W+)$", "", j) for j in set([i for i in s.split() if i.startswith("#")])])
+
+
+def get_localization():
+    import csv
+    localization_reader = csv.reader(open('localization.csv', 'rb'))
+    localization = {}
+    header_row = localization_reader.next()
+    for column_name in header_row[1:]:
+        localization[column_name] = {}
+    for row in localization_reader:
+        header_with_row = zip(header_row,row)
+        for field in header_with_row[1:]:
+            localization[field[0]][row[0]] = field[1]
+    return localization

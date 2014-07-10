@@ -4,7 +4,7 @@
 <html data-wf-site="539c5297a7990e780bfd820c">
 <head>
     <meta charset="utf-8">
-    <title>qvo-vadis</title>
+    <title>{{localization['add-event']}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Webflow">
     <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
@@ -16,12 +16,12 @@
     <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="/scripts/jquery.tmpl-beta1.js"></script>
     <script type="text/javascript" src="/scripts/jquery-ui-1.10.4.custom.min.js"></script>
-    <script type="text/javascript" src="/scripts/jquery.ui.datepicker-nl.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.ui.datepicker-{{configuration['language']}}.js"></script>
     <script type="text/javascript" src="/scripts/jquery.timepicker.js"></script>
     <script type="text/javascript" src="/scripts/jquery.recurrenceinput.js"></script>
     <!-- end of recurrenceinput resources -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&language=nl"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&language={{configuration['language']}}"></script>
     <script type="text/javascript" src="/scripts/gmaps.js"></script>
     <script>
         WebFont.load({
@@ -40,80 +40,88 @@
 <div class="section">
     <div class="w-row">
         <div class="w-col w-col-6">
-            <input class="w-button top-button" type="submit" value="↰" data-wait="Please wait...">
-            <input class="w-button top-button main-button" type="submit" value="OPSLAAN" data-wait="Please wait...">
-            <input class="w-button top-button" type="submit" value="Verwijderen" data-wait="Please wait...">
+            <input class="w-button top-button" id="main-cancel" type="submit" value="↰" data-wait="Please wait...">
+            <input class="w-button top-button main-button" id="main-save" type="submit" value="{{localization['save-capitals']}}" data-wait="Please wait...">
+            <input class="w-button top-button" id="main-discard" type="submit" value="{{localization['discard']}}" data-wait="Please wait...">
         </div>
         <div class="w-col w-col-6">
             <input class="w-input" id="owner" type="text"
-                   placeholder="Geef jouw emailadres hier in om de ingave te bevestigen" name="owner"
+                   placeholder="{{localization['enter-your-email']}}" name="owner"
                    required="required" autofocus="autofocus" data-name="owner">
         </div>
     </div>
 </div>
 <div class="message">
-    <div class="section">De gebeurtenis kan niet worden opgeslagen. Sommige velden zijn niet ingevuld.</div>
+    <div class="section">{{localization['event-cannot-be-saved-fields-not-filled-in']}}</div>
 </div>
 <div class="section">
-    <input class="w-input" id="event-name" type="text" placeholder="Gebeurtenis zonder titel" name="event-name"
+    <input class="w-input" id="event-name" type="text" placeholder="{{localization['untitled-event']}}" name="event-name"
            required="required" autofocus="autofocus" data-name="event name">
 
     <div class="w-row">
         <div class="w-col w-col-2b column">
-            <input class="w-input error date" id="start-date" type="text" placeholder="datum" name="start-date"
+            <input class="w-input date" id="start-date" type="text" placeholder="{{localization['date']}}" name="start-date"
                    required="required" autofocus="autofocus" data-name="start date" >
         </div>
         <div class="w-col w-col-2b column">
-            <input class="w-input" id="start-hour" type="text" placeholder="uur" name="start-hour" required="required"
+            <input class="w-input time" id="start-hour" type="text" placeholder="{{localization['time']}}" name="start-hour" required="required"
                    autofocus="autofocus" data-name="start hour" >
         </div>
         <div class="w-col w-col-2b">
-            <div class="tot-en-met">tot en met</div>
+            <div class="tot-en-met">{{localization['to']}}</div>
         </div>
         <div class="w-col w-col-2b column">
-            <input class="w-input date" id="end-date" type="text" placeholder="datum" name="end-date" required="required"
-                   autofocus="autofocus" data-name="end date" >
-        </div>
-        <div class="w-col w-col-2b column">
-            <input class="w-input" id="end-hour" type="text" placeholder="uur" name="end-hour" required="required"
+            <input class="w-input time" id="end-hour" type="text" placeholder="{{localization['time']}}" name="end-hour" required="required"
                    autofocus="autofocus" data-name="end hour" >
+        </div>
+        <div class="w-col w-col-2b column">
+            <input class="w-input date" id="end-date" type="text" placeholder="{{localization['date']}}" name="end-date" required="required"
+                   autofocus="autofocus" data-name="end date" >
         </div>
     </div>
     <div class="w-row">
         <div class="w-col w-col-3">
             <div class="w-checkbox">
                 <input class="w-checkbox-input" id="repeating" type="checkbox" name="repeating" data-name="repeating">
-                <label class="w-form-label" for="repeating">herhalen...</label>
+                <label class="w-form-label" for="repeating">{{localization['repeat']}}</label>
             </div>
         </div>
         <div class="w-col w-col-9">
             <div>
-                <label class="ridisplay inline"></label> <a href=javascript: void(0)" name="riedit"></a>
+                <label class="ridisplay inline"></label> <a href="javascript: void(0)" name="riedit"></a>
             </div>
         </div>
     </div>
 </div>
 
 <!-- recurrenceinput begin -->
-<textarea name="custom_lang_nl" class="hidden"></textarea>
+<textarea id="rrule" class="hidden"></textarea>
 <script type="text/javascript">
     $(function() {
-        $("textarea[name=custom_lang_nl]").recurrenceinput({lang:'nl', startField: "start-date"});
-        $.datepicker.setDefaults( $.datepicker.regional[ "nl" ] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
+        var duration = 3600000;
+        $("#rrule").recurrenceinput({lang:language, startField: "start-date"});
+        $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
         $(".date").datepicker();
-        $("#start-date").datepicker("setDate", new Date());
-        $("#end-date").datepicker("setDate", new Date());
+        $(".time").timepicker({ 'timeFormat': 'H:i' });
         var start = new Date();
         var end = new Date();
-        var h = start.getHours();
-        start.setHours(h + 1 > 23 ? h + 1 - 24 : h + 1);
-        start.setMinutes(0);
-        end.setHours(h + 2 > 23 ? h + 2 - 24 : h + 2);
-        end.setMinutes(0);
-        $("#start-hour").timepicker({ 'timeFormat': 'H:i' });
+        end.setTime(start.getTime() + duration);
+        $("#start-date").datepicker("setDate", start);
+        $("#end-date").datepicker("setDate", end);
         $("#start-hour").timepicker("setTime", start);
-        $("#end-hour").timepicker({ 'timeFormat': 'H:i' });
         $("#end-hour").timepicker("setTime", end);
+        $("#start-date,#start-hour").change(function() {
+            var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
+            var end = new Date();
+            end.setTime(start.getTime() + duration);
+            $("#end-date").datepicker("setDate", end);
+            $("#end-hour").timepicker("setTime", end);
+        });
+        $("#end-date,#end-hour").change(function() {
+            var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
+            var end = $("#end-hour").timepicker("getTime",$("#end-date").datepicker("getDate"));
+            duration = end - start;
+        });
     })
 </script>
 <!-- recurrenceinput end -->
@@ -122,10 +130,10 @@
 <div class="section">
     <div class="w-row">
         <div class="w-col w-col-3">
-            <label>Locatie</label>
+            <label>{{localization['location']}}</label>
         </div>
         <div class="w-col w-col-9">
-            <div><span id="location"></span> <a href="javascript: void(0)#" id="edit-location" class="hidden">bewerken</a>
+            <div><span id="location"></span> <a href="javascript: void(0)#" id="edit-location" class="hidden">{{localization['edit']}}</a>
             </div>
         </div>
     </div>
@@ -137,14 +145,14 @@
     <div class="w-row">
         <div class="w-col w-col-6 column">
             <input class="w-input input" id="address" type="text"
-                   placeholder="Geef het adres in om te zoeken of klik op de kaart..." name="address"
+                   placeholder="{{localization['enter-address-to-search']}}" name="address"
                    autofocus="autofocus" data-name="address">
-            <input class="w-input" id="location-name" type="text" placeholder="Naam van de locatie" name="location-name"
+            <input class="w-input" id="location-name" type="text" placeholder="{{localization['name-of-location']}}" name="location-name"
                    autofocus="autofocus" data-name="location name">
             <input class="w-input" id="location-details" type="text"
-                   placeholder="Details over de locatie (bv. gebouw, zaal,...)" name="location-details"
+                   placeholder="{{localization['location-details']}}" name="location-details"
                    autofocus="autofocus" data-name="location details">
-            <a class="button top-button" id="location-ok" href="#">Gereed</a>
+            <a class="button top-button" id="location-ok" href="#">{{localization['save']}}</a>
         </div>
         <div class="w-col w-col-6 column">
             <div id="gmaps-error"></div>
@@ -155,31 +163,31 @@
     </div>
 </div>
 <div class="section">
-    <label class="label" for="contact">Contactgegevens</label>
-    <input class="w-input" id="contact" type="text" placeholder="email, telefoon, ..." name="contact"
+    <label class="label" for="contact">{{localization['contact-details']}}</label>
+    <input class="w-input" id="contact" type="text" placeholder="{{localization['email-phone']}}" name="contact"
            autofocus="autofocus" data-name="contact">
 
     <div class="w-checkbox">
         <input class="w-checkbox-input" id="registration-required" type="checkbox" name="registration-required"
                data-name="registration required">
-        <label class="w-form-label" for="registration-required">Aanmelden is noodzakelijk</label>
+        <label class="w-form-label" for="registration-required">{{localization['registration-required']}}</label>
     </div>
-    <label for="website">Website</label>
+    <label for="website">{{localization['website']}}</label>
     <input class="w-input" id="website" type="text" placeholder="http://" name="website" autofocus="autofocus"
            data-name="website">
 </div>
 <div class="section">
-    <label for="description">Beschrijving</label>
+    <label for="description">{{localization['description']}}</label>
 
     {% for tag in configuration["tags"].split(',') %}
     <div class="w-checkbox inline margin-right">
-        <input class="w-checkbox-input" id="{{slugify(tag)}}" type="checkbox" name="{{slugify(tag)}}">
+        <input class="w-checkbox-input tag" id="{{slugify(tag)}}" type="checkbox" name="{{slugify(tag)}}">
         <label class="w-form-label" for="{{slugify(tag)}}">{{tag}}</label>
     </div>
     {% endfor %}
 
     <textarea class="w-input" id="description"
-              placeholder="Gebruik #hashtags in de beschrijving om later als filter te gebruiken" name="description"
+              placeholder="{{localization['use-hashtags']}}" name="description"
               data-name="description" autofocus="autofocus"></textarea>
 </div>
 </form>
@@ -197,6 +205,7 @@
 <script type="text/javascript">
     var id = '{{configuration["id"]}}';
     var tags = '{{configuration["tags"]}}';
+    var language = '{{configuration["language"]}}';
 </script>
 </body>
 </html>

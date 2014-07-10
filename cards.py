@@ -88,9 +88,10 @@ class EventHandler(webapp2.RequestHandler):
 
         # query on event
         condition = "'event slug' = '%s'" % event_slug
-        condition += " AND "
-        condition += "'datetime slug' = '%s'" % datetime_slug
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        if datetime_slug:
+            condition += " AND "
+            condition += "'datetime slug' = '%s'" % datetime_slug
+        data = fusion_tables.select_first(configuration['slave table'], condition=condition)
         no_results_message = ''
         if not data:
             no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'

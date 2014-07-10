@@ -162,7 +162,7 @@ var state = {
         });
     },
     highlightLocationMarker: function() {
-        if (state.view == 'location' || state.view == 'event') {
+        if (state.view == 'location') {
             layer.set('styles', [{
                 markerOptions: {
                     iconName: "large_green"
@@ -172,6 +172,18 @@ var state = {
                 where: "'location slug' = '" + state.location + "'",
                 markerOptions: {
                     iconName: "large_red"
+                }
+            }]);
+        } else if (state.view == 'event') {
+            layer.set('styles', [{
+                markerOptions: {
+                    iconName: "large_green"
+                }
+            },
+                {
+                    where: "'event slug' = '" + state.event + "'",
+                    markerOptions: {
+                        iconName: "large_red"
                 }
             }]);
         } else {

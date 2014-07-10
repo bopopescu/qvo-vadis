@@ -358,6 +358,9 @@ function get_postal_code(res) {
 	return zip;
 }
 
+function pad(n) { return ("0" + n).slice(-2); }
+
+
 $(document).ready(function() {
     if ($('#gmaps-canvas').length) {
         gmaps_init();
@@ -374,5 +377,79 @@ $(document).ready(function() {
     });
     $('#edit-location').click(function() {
         $('#location-modal').show();
+    });
+
+    // Event handling for the editing form in general, not limited to gmaps
+
+    $('form').submit(function() {
+        return false;
+    });
+    $('#main-save').click(function() {
+        var event = {};
+        event['event slug'] = '';
+        var start_date = $("#start-date").datepicker("getDate");
+        var start_date_string = $.datepicker.formatDate("yy-mm-dd", start_date);
+        var start_time_string = $('#start-hour').val() + ":00";
+        event['start'] = start_date_string + " " + start_time_string;
+        var end_date = $("#end-date").datepicker("getDate");
+        var end_date_string = $.datepicker.formatDate("yy-mm-dd", end_date);
+        var end_time_string = $('#end-hour').val() + ":00";
+        event['end'] = end_date_string + " " + end_time_string;
+        event['calendar rule'] = $('#rrule').val();
+        event['event name'] = $('#event-name').val();
+        event['description'] = $('#description').val();
+        event['contact'] = $('#contact').val();
+        event['website'] = $('#website').val();
+        event['registration required'] = $('#registration-required').is(':checked') ? 'true' : 'false';
+        event['owner'] = $('#owner').val();
+        event['state'] = 'new';
+        event['sequence'] = 1;
+        event['location name'] = $('#location-name').val();
+        event['address'] = $('#address').val();
+        event['postal code'] = $('#gmaps-output-postal-code').text();
+        event['latitude'] = $('#gmaps-output-latitude').text();
+        event['longitude'] = $('#gmaps-output-longitude').text();
+        event['location details'] = $('#location-details').val();
+        var tags = [];
+        $('.tag').each(function() {
+            if ( $(this).is(':checked') ) {
+                tags.push('#' + $(this).attr('id') + '#');
+            }
+        })
+        event['tags'] = tags.join();
+        var data = JSON.stringify(event);
+        var url = "submit/new";
+        if (location.search) {
+            url += location.search;
+        }
+        $('input,textarea').prop('disable', true);
+        $.post(url, {data: data})
+            .done(function(data) {
+                var url = '/';
+                if (location.search) {
+                    url += location.search;
+                }
+                url += '#event/';
+                url += data;
+                location.href = url;
+            });
+        return false;
+    });
+    $('#main-cancel').click(function() {
+        return false;
+    });
+    $('#main-discard').click(function() {
+        return false;
+    });
+    $("div.section:not('.modal') input").keypress(function(event) {
+        if (event.which == 13) {  // enter key
+            event.preventDefault();
+            $("#main-save").click();
+        }
+    });
+    $("div.section.modal input").keypress(function(event) {
+        if (event.which == 13) {  // enter key
+            event.preventDefault();
+        }
     });
 });
