@@ -33,7 +33,10 @@ def get_limit(request):
     id = get_id(request)
     if id not in _limit:
         configuration = get_configuration(request)
-        limit = int(configuration["commercial limit"])
+        try:
+            limit = int(configuration["commercial limit"])
+        except ValueError:
+            return False
         if not limit:
             return False
         threshold_slave = fusion_tables.select_nth(configuration['slave table'], cols=['start'], n=limit)

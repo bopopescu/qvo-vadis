@@ -29,7 +29,9 @@ function gmaps_init() {
     map = new google.maps.Map(document.getElementById("gmaps-canvas"), options);
 
     // re-center the map if a geo position is available and no coordinates were in the URL
-    if (navigator.geolocation) {
+    if (original_event) {
+        map.setCenter(new google.maps.LatLng(original_event['latitude'], original_event['longitude']))
+    } else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             map.setCenter(position)
         });
@@ -346,6 +348,7 @@ function autocomplete_init() {
             $('#address').autocomplete("enable");
         }
     });
+
 } // autocomplete_init
 
 function get_postal_code(res) {
@@ -360,8 +363,68 @@ function get_postal_code(res) {
 
 function pad(n) { return ("0" + n).slice(-2); }
 
+function initialize_data() {
+    // called from $(), *after* datepicker is initialized
+    if (original_event) {
+        $('#start-date').datepicker('setDate', new Date(original_event['start']));
+        $('#start-time').timepicker('setTime', new Date(original_event['start']));
+        $('#end-date').datepicker('setDate', new Date(original_event['end']));
+        $('#end-time').timepicker('setTime', new Date(original_event['end']));
+        if (original_event['calendar rule']) {
+            $('#rrule').val(original_event['calendar rule']);
+            $('#repeating').prop('checked', true);
+            $('a[name=riedit]').trigger('click');
+        }
+        $('#event-name').val(original_event['event name']);
+        $('#description').val(original_event['description']);
+        $('#contact').val(original_event['contact']);
+        $('#website').val(original_event['website']);
+        if (original_event['registration required'] == 'true') {
+            $('#registration-required').prop('checked', true)
+        }
+        $('#owner').val(original_event['owner']);
+        $('#location-name').val(original_event['location name']);
+        $('#address').val(original_event['address']);
+        $('#gmaps-output-postal-code').text(event['postal code']);
+        $('#gmaps-output-latitude').text(event['latitude']);
+        $('#gmaps-output-longitude').text(event['longitude']);
+        // initializing map position cannot be done here... find 'setCenter'
+        $('#location-details').val(original_event['location details']);
+        $('.tag').each(function() {
+            var tag = '#' + $(this).attr('id') + '#';
+            if (original_event['tags'].match(tag)) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
+}
 
 $(document).ready(function() {
+    var duration = 3600000;
+    $("#rrule").recurrenceinput({lang:language, startField: "start-date"});
+    $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
+    $(".date").datepicker();
+    $(".time").timepicker({ 'timeFormat': 'H:i' });
+    var start = new Date();
+    var end = new Date();
+    end.setTime(start.getTime() + duration);
+    $("#start-date").datepicker("setDate", start);
+    $("#end-date").datepicker("setDate", end);
+    $("#start-hour").timepicker("setTime", start);
+    $("#end-hour").timepicker("setTime", end);
+    $("#start-date,#start-hour").change(function() {
+        var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
+        var end = new Date();
+        end.setTime(start.getTime() + duration);
+        $("#end-date").datepicker("setDate", end);
+        $("#end-hour").timepicker("setTime", end);
+    });
+    $("#end-date,#end-hour").change(function() {
+        var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
+        var end = $("#end-hour").timepicker("getTime",$("#end-date").datepicker("getDate"));
+        duration = end - start;
+    });
+    initialize_data();
     if ($('#gmaps-canvas').length) {
         gmaps_init();
         autocomplete_init();
@@ -379,24 +442,52 @@ $(document).ready(function() {
         $('#location-modal').show();
     });
 
-    // Event handling for the editing form in general, not limited to gmaps
+    // functions and event handling for the editing form in general, not limited to gmaps
 
     $('form').submit(function() {
         return false;
     });
     $('#main-save').click(function() {
+        $('.message-text').hide();
+        var now = new Date();
         var event = {};
         event['event slug'] = '';
         var start_date = $("#start-date").datepicker("getDate");
+        if (start_date < now) {
+            $('#start-date-past').show();
+            $('#start-date').addClass('error');
+        }
         var start_date_string = $.datepicker.formatDate("yy-mm-dd", start_date);
         var start_time_string = $('#start-hour').val() + ":00";
-        event['start'] = start_date_string + " " + start_time_string;
+        var start_string = start_date_string + " " + start_time_string;
+        if (isNaN(Date.parse(start_string))) {
+            $('#start-time-wrong').show();
+            $('#start-time').addClass('error');
+        }
+        event['start'] = start_string;
         var end_date = $("#end-date").datepicker("getDate");
+        if (end_date < start_date) {
+            $('#end-date-before-start-date').show();
+            $('#end-date').addClass('error');
+        }
         var end_date_string = $.datepicker.formatDate("yy-mm-dd", end_date);
         var end_time_string = $('#end-hour').val() + ":00";
-        event['end'] = end_date_string + " " + end_time_string;
+        var end_string = end_date_string + " " + end_time_string;
+        if (isNaN(Date.parse(start_string))) {
+            $('#end-time-wrong').show();
+            $('#end-time').addClass('error');
+        }
+        if (end_string < start_string) {
+            $('#end-time-before-start-time').show();
+            $('#end-time').addClass('error');
+        }
+        event['end'] = end_string;
         event['calendar rule'] = $('#rrule').val();
         event['event name'] = $('#event-name').val();
+        if (!event['event name']) {
+            $('#no-event-name').show();
+            $('#event-name').addClass('error');
+        }
         event['description'] = $('#description').val();
         event['contact'] = $('#contact').val();
         event['website'] = $('#website').val();
@@ -406,6 +497,11 @@ $(document).ready(function() {
         event['sequence'] = 1;
         event['location name'] = $('#location-name').val();
         event['address'] = $('#address').val();
+        if (!event['location name'] && !event['address']) {
+            $('#location-name-nor-address').show();
+            $('#address').addClass('error');
+            $('#location-modal').show();
+        }
         event['postal code'] = $('#gmaps-output-postal-code').text();
         event['latitude'] = $('#gmaps-output-latitude').text();
         event['longitude'] = $('#gmaps-output-longitude').text();
@@ -417,19 +513,23 @@ $(document).ready(function() {
             }
         })
         event['tags'] = tags.join();
+        if ($('.error').length) {
+            // there are errors
+            return false;
+        }
         var data = JSON.stringify(event);
         var url = "submit/new";
         if (location.search) {
             url += location.search;
         }
-        $('input,textarea').prop('disable', true);
+        $('input,select,textarea').prop('disabled', true);
         $.post(url, {data: data})
             .done(function(data) {
                 var url = '/';
                 if (location.search) {
                     url += location.search;
                 }
-                url += '#event/';
+                url += '#all/event/';
                 url += data;
                 location.href = url;
             });
@@ -451,5 +551,9 @@ $(document).ready(function() {
         if (event.which == 13) {  // enter key
             event.preventDefault();
         }
+    });
+    // triggered when user selects an input field
+    $("input,textarea,select").bind('focus', function() {
+        $(this).removeClass('error');
     });
 });

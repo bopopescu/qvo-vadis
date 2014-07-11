@@ -165,31 +165,31 @@ var state = {
         if (state.view == 'location') {
             layer.set('styles', [{
                 markerOptions: {
-                    iconName: "large_green"
+                    iconName: "placemark_circle"
                 }
             },
             {
                 where: "'location slug' = '" + state.location + "'",
                 markerOptions: {
-                    iconName: "large_red"
+                    iconName: "placemark_circle_highlight"
                 }
             }]);
         } else if (state.view == 'event') {
             layer.set('styles', [{
                 markerOptions: {
-                    iconName: "large_green"
+                    iconName: "placemark_circle"
                 }
             },
                 {
                     where: "'event slug' = '" + state.event + "'",
                     markerOptions: {
-                        iconName: "large_red"
+                        iconName: "placemark_circle_highlight"
                 }
             }]);
         } else {
             layer.set('styles', [{
                 markerOptions: {
-                    iconName: "large_green"
+                    iconName: "placemark_circle"
                 }
             }]);
         }
@@ -266,6 +266,19 @@ var state = {
             $('#qr').show();
         } else {
             $('#qr').hide();
+        }
+    },
+    displayAddEventIcon: function() {
+        if (this.view == 'event') {
+            var url = window.location.protocol + "//" + window.location.host + '/new';
+            // append the event slug
+            url += '/' + this.event;
+            // append the ?id= parameter if present in the location, just for debugging on localhost
+            url += window.location.search;
+            $('#add a').attr('href', url);
+            $('#add').show();
+        } else {
+            $('#add').hide();
         }
     },
 
@@ -364,6 +377,7 @@ function initialize() {
         state.displayIFrame();
         state.highlightLocationMarker();
         state.displayQrIcon();
+        state.displayAddEventIcon();
     });
 
     return;
@@ -379,6 +393,7 @@ $(document).ready(function() {
     state.highlightTagButtons();
     state.displayIFrame();
     state.displayQrIcon();
+    state.displayAddEventIcon();
 
     // add event handlers to the timeframe buttons
     $('#timeframe').on("click", "span", function() {
@@ -415,6 +430,7 @@ $(document).ready(function() {
             state.displayIFrame();
             state.highlightLocationMarker();
             state.displayQrIcon();
+            state.displayAddEventIcon();
         }
     };
 
@@ -428,6 +444,7 @@ function on_click_static_map_in_iframe() {
     state.displayIFrame();
     state.highlightLocationMarker();
     state.displayQrIcon();
+    state.displayAddEventIcon();
     return;
 }
 
@@ -436,6 +453,7 @@ function on_click_event_in_iframe(event_slug, datetime_slug) {
     state.setViewEvent(event_slug, datetime_slug);
     state.generateNewHashString();
     state.displayIFrame();
+    state.displayAddEventIcon();
     return;
 }
 

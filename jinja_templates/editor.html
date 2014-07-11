@@ -51,13 +51,18 @@
         </div>
     </div>
 </div>
-<div class="message">
-    <div class="section">{{localization['event-cannot-be-saved-fields-not-filled-in']}}</div>
+<div class="section">
+    <h4>{{localization[title]}}</h4>
 </div>
 <div class="section">
+    <div class="message-text hidden" id="no-event-name">{{localization['no-event-name']}}</div>
     <input class="w-input" id="event-name" type="text" placeholder="{{localization['untitled-event']}}" name="event-name"
            required="required" autofocus="autofocus" data-name="event name">
-
+    <div class="message-text hidden" id="start-date-past">{{localization['start-date-past']}}</div>
+    <div class="message-text hidden" id="end-date-before-start-date">{{localization['end-date-before-start-date']}}</div>
+    <div class="message-text hidden" id="start-time-wrong">{{localization['start-time-wrong']}}</div>
+    <div class="message-text hidden" id="end-time-wrong">{{localization['end-time-wrong']}}</div>
+    <div class="message-text hidden" id="end-time-before-start-time">{{localization['end-time-before-start-time']}}</div>
     <div class="w-row">
         <div class="w-col w-col-2b column">
             <input class="w-input date" id="start-date" type="text" placeholder="{{localization['date']}}" name="start-date"
@@ -96,34 +101,6 @@
 
 <!-- recurrenceinput begin -->
 <textarea id="rrule" class="hidden"></textarea>
-<script type="text/javascript">
-    $(function() {
-        var duration = 3600000;
-        $("#rrule").recurrenceinput({lang:language, startField: "start-date"});
-        $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
-        $(".date").datepicker();
-        $(".time").timepicker({ 'timeFormat': 'H:i' });
-        var start = new Date();
-        var end = new Date();
-        end.setTime(start.getTime() + duration);
-        $("#start-date").datepicker("setDate", start);
-        $("#end-date").datepicker("setDate", end);
-        $("#start-hour").timepicker("setTime", start);
-        $("#end-hour").timepicker("setTime", end);
-        $("#start-date,#start-hour").change(function() {
-            var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
-            var end = new Date();
-            end.setTime(start.getTime() + duration);
-            $("#end-date").datepicker("setDate", end);
-            $("#end-hour").timepicker("setTime", end);
-        });
-        $("#end-date,#end-hour").change(function() {
-            var start = $("#start-hour").timepicker("getTime",$("#start-date").datepicker("getDate"));
-            var end = $("#end-hour").timepicker("getTime",$("#end-date").datepicker("getDate"));
-            duration = end - start;
-        });
-    })
-</script>
 <!-- recurrenceinput end -->
 
 
@@ -133,7 +110,7 @@
             <label>{{localization['location']}}</label>
         </div>
         <div class="w-col w-col-9">
-            <div><span id="location"></span> <a href="javascript: void(0)#" id="edit-location" class="hidden">{{localization['edit']}}</a>
+            <div><span id="location"></span> <a href="javascript: void(0)" id="edit-location" class="hidden">{{localization['edit']}}</a>
             </div>
         </div>
     </div>
@@ -144,6 +121,7 @@
 <div class="modal section" id="location-modal">
     <div class="w-row">
         <div class="w-col w-col-6 column">
+            <div class="message-text hidden" id="location-name-nor-address">{{localization['location-name-nor-address']}}</div>
             <input class="w-input input" id="address" type="text"
                    placeholder="{{localization['enter-address-to-search']}}" name="address"
                    autofocus="autofocus" data-name="address">
@@ -206,6 +184,7 @@
     var id = '{{configuration["id"]}}';
     var tags = '{{configuration["tags"]}}';
     var language = '{{configuration["language"]}}';
+    var original_event = eval('({{event_json | safe}})')[0];
 </script>
 </body>
 </html>

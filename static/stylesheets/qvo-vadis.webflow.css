@@ -136,6 +136,12 @@ p {
 #gmaps-canvas {
   height: 200px;
 }
+.error {
+  background-color: pink;
+}
+.message-text {
+  color: #f52222;
+}
 @media (max-width: 991px) {
 }
 @media (max-width: 767px) {

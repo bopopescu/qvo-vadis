@@ -2,8 +2,7 @@ id,en,nl
 save-capitals,SAVE,OPSLAAN
 discard,Discard,Verwijderen
 enter-your-email,Enter your email address to confirm the entry,Geef jouw emailadres hier in om de ingave te bevestigen
-event-cannot-be-saved-fields-not-filled-in,The event cannot be saved. Some fields are not filled in.,De gebeurtenis kan niet worden opgeslagen. Sommige velden zijn niet ingevuld.
-untitled-event,Untitled event,Gebeurtenis zonder titel
+untitled-event,Untitled event,Gebeurtenis zonder naam
 date,date,datum
 time,time,uur
 repeat,repeat...,herhalen...
@@ -21,3 +20,13 @@ description,Description,Beschrijving
 use-hashtags,Use #hashtags in the description to filter later,Gebruik #hashtags in de beschrijving om later als filter te gebruiken
 to,to,tot
 add-event,Add a new event,Voeg een evenement toe
+start-date-past,The start date must not be in the past,De begindatum mag niet in het verleden liggen
+end-date-before-start-date,The end date must not be before the start date,De einddatum mag niet voor de begindatum vallen
+start-time-wrong,Provide a correct start hour,Geef een juist beginuur in
+end-time-wrong,Provide a correct end hour,Geef een juist einduur in
+end-time-before-start-time,The end time must not be before the start time,Het einduur mag niet voor het beginuur vallen
+no-event-name,The event must have a title,Geef de gebeurtenis een naam
+location-name-nor-address,Fill in the address or select a location on the map,Vul het adres in of selecteer een locatie op de kaart
+edit-new-event-based-on-original,Edit the data for a new event,Wijzig de gegevens voor een nieuw evenement
+edit-new-event-from-scratch,Add a new event,Voeg een evenement toe
+update-event,Update the event,Wijzig de gegevens
