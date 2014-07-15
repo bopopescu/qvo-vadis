@@ -151,8 +151,8 @@ var state = {
             query += " AND tags CONTAINS '#" + tags[i] + "#'";
             // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
-        if (start)
-            query += " AND start < '" + start + "'";
+        if (limit)
+            query += " AND start < '" + limit + "'";
         layer.setOptions({
             query: {
                 select: locationColumn,
@@ -269,16 +269,30 @@ var state = {
         }
     },
     displayAddEventIcon: function() {
+        var url = window.location.protocol + "//" + window.location.host + '/new';
         if (this.view == 'event') {
-            var url = window.location.protocol + "//" + window.location.host + '/new';
+            // append the event slug
+            url += '/' + this.event;
+        } else if (this.view == 'location') {
+            // append the location slug
+            url += '/location/' + this.location;
+        }
+        // append the ?id= parameter if present in the location, just for debugging on localhost
+        url += window.location.search;
+        $('#add a').attr('href', url);
+        $('#add').show(); // right now, there are no states where it should be hidden
+    },
+    displayModifyEventIcon: function() {
+        if (this.view == 'event') {
+            var url = window.location.protocol + "//" + window.location.host + '/update';
             // append the event slug
             url += '/' + this.event;
             // append the ?id= parameter if present in the location, just for debugging on localhost
             url += window.location.search;
-            $('#add a').attr('href', url);
-            $('#add').show();
+            $('#modify a').attr('href', url);
+            $('#modify').show();
         } else {
-            $('#add').hide();
+            $('#modify').hide();
         }
     },
 
@@ -378,6 +392,7 @@ function initialize() {
         state.highlightLocationMarker();
         state.displayQrIcon();
         state.displayAddEventIcon();
+        state.displayModifyEventIcon();
     });
 
     return;
@@ -394,6 +409,7 @@ $(document).ready(function() {
     state.displayIFrame();
     state.displayQrIcon();
     state.displayAddEventIcon();
+    state.displayModifyEventIcon();
 
     // add event handlers to the timeframe buttons
     $('#timeframe').on("click", "span", function() {
@@ -431,6 +447,7 @@ $(document).ready(function() {
             state.highlightLocationMarker();
             state.displayQrIcon();
             state.displayAddEventIcon();
+            state.displayModifyEventIcon();
         }
     };
 
@@ -445,6 +462,7 @@ function on_click_static_map_in_iframe() {
     state.highlightLocationMarker();
     state.displayQrIcon();
     state.displayAddEventIcon();
+    state.displayModifyEventIcon();
     return;
 }
 
@@ -454,6 +472,7 @@ function on_click_event_in_iframe(event_slug, datetime_slug) {
     state.generateNewHashString();
     state.displayIFrame();
     state.displayAddEventIcon();
+    state.displayModifyEventIcon();
     return;
 }
 

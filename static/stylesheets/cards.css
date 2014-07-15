@@ -1,5 +1,6 @@
 html, body {
-    font: 12pt Roboto,Arial,sans-serif;
+    font: 12pt Roboto,sans-serif;
+    font-weight: 400;
     margin: 0;
     padding: 0;
 }
@@ -19,19 +20,20 @@ html, body {
     float: left;
     width: 75px;
     color: #619ce5;
-    font-size: 13pt;
-    font-weight: bold;
+    font-size: 12pt;
+    font-weight: 400;
     text-align: center;
 }
 
 .item_title {
     margin-top: 7px;
-    font-size: 13pt;
+    font-size: 14pt;
+    font-weight: 400;
     word-wrap: break-word;
 }
 
 .header .item_title {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 14pt;
 }
 
@@ -42,15 +44,17 @@ img {
     margin-left: 85px;
 }
 .item_plain {
-    font-size: 9pt;
+    font-size: 14pt;
+    font-weight: 400;
 }
 .item_suppressed {
     color: darkgray;
-    font-size: 9pt;
+    font-size: 14pt;
+    font-weight: 400;
 }
 .item_emphasized {
-    font-size: 9pt;
-    font-weight: bold;
+    font-size: 14pt;
+    font-weight: 500;
 }
 .item_date {
     margin-top: 7px;

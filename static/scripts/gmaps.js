@@ -366,23 +366,31 @@ function pad(n) { return ("0" + n).slice(-2); }
 function initialize_data() {
     // called from $(), *after* datepicker is initialized
     if (original_event) {
-        $('#start-date').datepicker('setDate', new Date(original_event['start']));
-        $('#start-time').timepicker('setTime', new Date(original_event['start']));
-        $('#end-date').datepicker('setDate', new Date(original_event['end']));
-        $('#end-time').timepicker('setTime', new Date(original_event['end']));
-        if (original_event['calendar rule']) {
-            $('#rrule').val(original_event['calendar rule']);
-            $('#repeating').prop('checked', true);
-            $('a[name=riedit]').trigger('click');
+        if (location_only == 'false') {
+            $('#start-date').datepicker('setDate', new Date(original_event['start']));
+            $('#start-time').timepicker('setTime', new Date(original_event['start']));
+            $('#end-date').datepicker('setDate', new Date(original_event['end']));
+            $('#end-time').timepicker('setTime', new Date(original_event['end']));
+            if (original_event['calendar rule']) {
+                $('#rrule').val(original_event['calendar rule']);
+                $('#repeating').prop('checked', true);
+                $('a[name=riedit]').trigger('click');
+            }
+            $('#event-name').val(original_event['event name']);
+            $('#description').val(original_event['description']);
+            $('#contact').val(original_event['contact']);
+            $('#website').val(original_event['website']);
+            if (original_event['registration required'] == 'true') {
+                $('#registration-required').prop('checked', true)
+            }
+            $('#owner').val(original_event['owner']);
+            $('.tag').each(function() {
+                var tag = '#' + $(this).attr('id') + '#';
+                if (original_event['tags'].match(tag)) {
+                    $(this).prop('checked', true);
+                }
+            });
         }
-        $('#event-name').val(original_event['event name']);
-        $('#description').val(original_event['description']);
-        $('#contact').val(original_event['contact']);
-        $('#website').val(original_event['website']);
-        if (original_event['registration required'] == 'true') {
-            $('#registration-required').prop('checked', true)
-        }
-        $('#owner').val(original_event['owner']);
         $('#location-name').val(original_event['location name']);
         $('#address').val(original_event['address']);
         $('#gmaps-output-postal-code').text(event['postal code']);
@@ -390,12 +398,6 @@ function initialize_data() {
         $('#gmaps-output-longitude').text(event['longitude']);
         // initializing map position cannot be done here... find 'setCenter'
         $('#location-details').val(original_event['location details']);
-        $('.tag').each(function() {
-            var tag = '#' + $(this).attr('id') + '#';
-            if (original_event['tags'].match(tag)) {
-                $(this).prop('checked', true);
-            }
-        });
     }
 }
 
@@ -493,8 +495,6 @@ $(document).ready(function() {
         event['website'] = $('#website').val();
         event['registration required'] = $('#registration-required').is(':checked') ? 'true' : 'false';
         event['owner'] = $('#owner').val();
-        event['state'] = 'new';
-        event['sequence'] = 1;
         event['location name'] = $('#location-name').val();
         event['address'] = $('#address').val();
         if (!event['location name'] && !event['address']) {
@@ -518,7 +518,11 @@ $(document).ready(function() {
             return false;
         }
         var data = JSON.stringify(event);
-        var url = "submit/new";
+        if (edit_mode == 'new') {
+            var url = "/submit/new";
+        } else {
+            var url = "/submit/update/" + original_event['event slug'];
+        }
         if (location.search) {
             url += location.search;
         }

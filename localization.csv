@@ -27,6 +27,6 @@ end-time-wrong,Provide a correct end hour,Geef een juist einduur in
 end-time-before-start-time,The end time must not be before the start time,Het einduur mag niet voor het beginuur vallen
 no-event-name,The event must have a title,Geef de gebeurtenis een naam
 location-name-nor-address,Fill in the address or select a location on the map,Vul het adres in of selecteer een locatie op de kaart
-edit-new-event-based-on-original,Edit the data for a new event,Wijzig de gegevens voor een nieuw evenement
+edit-new-event-based-on-original,Add a new event,Voeg een evenement toe
 edit-new-event-from-scratch,Add a new event,Voeg een evenement toe
-update-event,Update the event,Wijzig de gegevens
+update-event,Update the event,Pas het evenement aan

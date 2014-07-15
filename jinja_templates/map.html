@@ -4,8 +4,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>{{configuration['title']}}</title>
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/map.css"/>
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin,latin-ext'>
 </head>
 
 <body>
@@ -34,6 +35,11 @@
             <img src="/images/add.png"/>
         </a>
     </div>
+    <div id="modify">
+        <a href="" target="_blank">
+            <img src="/images/modify.png"/>
+        </a>
+    </div>
     <div id="qr">
         <a href="" target="_blank">
             <img src="/images/qr.png"/>
@@ -45,7 +51,7 @@
 <script type="text/javascript">
     var tableId = '{{configuration["slave table"]}}';
     var tags = '{{configuration["tags"]}}';
-    var start
+    var limit = '{{limit}}';
 </script>
 <script type="text/javascript" src="/scripts/map.js"></script>
 </body>

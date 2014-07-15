@@ -1,5 +1,6 @@
 html, body {
-    font: 12pt Roboto,Arial,sans-serif;
+    font: 12pt Roboto,sans-serif;
+    font-weight: 400;
     padding: 0;
     width: 210mm;
     /* to centre page on screen*/
@@ -18,8 +19,8 @@ td {
 
 .item_title {
     color: darkorange;
-    font-size: 18pt;
-    font-weight: bold;
+    font-size: 14pt;
+    font-weight: 500;
 }
 
 .item_date {

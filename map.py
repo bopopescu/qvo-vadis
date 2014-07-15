@@ -14,7 +14,7 @@ class MapHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('map.html')
         content = template.render(
             configuration=configuration,
-            limit=limit if limit else 0
+            limit=limit if limit else 0  # e.g. "2014-07-19 09:00:00"
         )
         # return the web-page content
         self.response.out.write(content)

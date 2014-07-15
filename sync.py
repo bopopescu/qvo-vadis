@@ -31,6 +31,38 @@ def sync_new_events(configuration, condition):
     logging.info("Done syncing new rows in %s" % configuration['master table'])
 
 
+def sync_updated_events(configuration, condition):
+    updated = fusion_tables.select(configuration['master table'], condition=condition)
+    logging.info("Syncing %d updated rows in %s" % (len(updated), configuration['master table']))
+    for row in updated:
+        # delete old slave rows
+        condition = "'event slug' = '%s'" % row['event slug']  # assuming that 'event slug' was not updated !!!
+        slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
+        for slave in slaves:
+            fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
+            # create slave dicts
+        (slaves, final_date) = fusion_tables.master_to_slave(row)
+        # store slave dicts
+        for slave in slaves:
+            fusion_tables.insert_hold(configuration['slave table'], slave)
+            # delete the old master row (the updated row was a copy!)
+        condition = "'event slug' = '%s' and 'state' = 'public'" % row['event slug']
+        old = fusion_tables.select(configuration['master table'], cols=['rowid'], condition=condition)
+        for old_row in old:  # should be only a single row!!
+            fusion_tables.delete_with_implicit_rowid(configuration['master table'], old_row)
+            # set master event state to 'public'
+        update = {
+            'rowid': row['rowid'],
+            'state': 'public',
+            'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT),
+            'final date': final_date
+        }
+        fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
+    fusion_tables.insert_go(configuration['slave table'])
+    logging.info("Done syncing updated rows in %s" % configuration['master table'])
+
+
+
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
         configurations = customer_configuration.get_configurations()
@@ -42,34 +74,7 @@ class SyncHandler(webapp2.RequestHandler):
 
             # in the master table, find all updated events
             condition = "'state' = 'updated'"
-            updated = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing %d updated rows in %s" % (len(updated), configuration['master table']))
-            for row in updated:
-                # delete old slave rows
-                condition = "'event slug' = '%s'" % row['event slug']  # assuming that 'event slug' was not updated !!!
-                slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
-                for slave in slaves:
-                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-                # create slave dicts
-                (slaves, final_date) = fusion_tables.master_to_slave(row)
-                # store slave dicts
-                for slave in slaves:
-                    fusion_tables.insert_hold(configuration['slave table'], slave)
-                # delete the old master row (the updated row was a copy!)
-                condition = "'event slug' = '%s' and 'state' = 'public'" % row['event slug']
-                old = fusion_tables.select(configuration['master table'], cols=['rowid'], condition=condition)
-                for old_row in old:  # should be only a single row!!
-                    fusion_tables.delete_with_implicit_rowid(configuration['master table'], old_row)
-                # set master event state to 'public'
-                update = {
-                    'rowid': row['rowid'],
-                    'state': 'public',
-                    'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT),
-                    'final date': final_date
-                }
-                fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
-            fusion_tables.insert_go(configuration['slave table'])
-            logging.info("Done syncing updated rows in %s" % configuration['master table'])
+            sync_updated_events(configuration, condition)
 
             # in the master table, find all cancelled events
             condition = "'state' = 'cancelled'"
