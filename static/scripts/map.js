@@ -411,6 +411,12 @@ $(document).ready(function() {
     state.displayAddEventIcon();
     state.displayModifyEventIcon();
 
+    // if no tags are defined, hide the tag action button
+
+    // add the timeframe menu items, and hide based on now, midnight, midnight1 and midnight7
+
+
+
     // add event handlers to the timeframe buttons
     $('#timeframe').on("click", "span", function() {
         state.setTimeframe(this.id);
