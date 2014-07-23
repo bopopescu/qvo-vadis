@@ -30,7 +30,7 @@ class EditHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('editor.html')
         content = template.render(
             configuration=configuration,
-            event_json=json.dumps(event),
+            event_json=json.dumps(event) if event else '[0]',  # check map.html and gmaps.js why
             location_only=location_only,
             title=title,
             edit_mode=edit_mode,

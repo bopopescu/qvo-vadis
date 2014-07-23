@@ -451,6 +451,7 @@ $(document).ready(function() {
     });
     $('#main-save').click(function() {
         $('.message-text').hide();
+        // read form data into event object
         var now = new Date();
         var event = {};
         event['event slug'] = '';

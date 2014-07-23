@@ -8,15 +8,19 @@ var state = {
 
     parseHashStringIntoState: function() {
         var hash = window.location.hash;
-        var map, timeframe, tags, view, location, event, datetime;
+        var map, timeframe, tags, hashtags, view, location, event, datetime;
         var strings = hash.replace(/^#/,'').split('/');
         for (var i=0; i<strings.length; i++) {
             var s = strings[i];
             if (!map && s.match(/\d+\.\d+,\d+\.\d+,\d+z,\d+px/))
                 map = s;
-            else if (!view && s.match(/marker|location|list|event/))
+            else if (!view && s.match(/location|list|event/))
                 view = s;
-            else if (view && view.match(/marker|location/))
+            else if (s.match(/hash/)) {
+                if (i++ < strings.length)
+                    hashtags = strings[i];
+            }
+            else if (view && view.match(/location/))
                 location = s;
             else if (view && view.match(/event/)) {
                 event = s;
@@ -50,6 +54,11 @@ var state = {
         } else {
             this.tags = []; // default
         }
+        if (hashtags) {
+            this.hashtags = hashtags.split('.');
+        } else {
+            this.hashtags = []; // default
+        }
         this.view = view;
         this.location = location;
         this.event = event;
@@ -75,6 +84,7 @@ var state = {
         this.tags = [];
         // the following code supports selections of multiple tags,
         // but the GUI doesn't support this, therefor the array is reset!
+        // this should be cleaned up when definitively giving up multiple tag querying
         var i;
         if ((i = $.inArray(tag, this.tags)) > -1 ) {
             // tag active
@@ -85,6 +95,24 @@ var state = {
                 this.tags.push(tag); // add tag
             } else {
                 this.tags = [];
+            }
+        }
+    },
+    toggleHashtagInList: function(hashtag) {
+        this.hashtags = [];
+        // the following code supports selections of multiple tags,
+        // but the GUI doesn't support this, therefor the array is reset!
+        // this should be cleaned up when definitively giving up multiple tag querying
+        var i;
+        if ((i = $.inArray(slugify(hashtag), this.hashtags)) > -1 ) {
+            // tag active
+            this.hashtags.splice(i,1); // remove tag
+        } else {
+            // tag not active
+            if (hashtag != '') {
+                this.hashtags.push(slugify(hashtag)); // add tag
+            } else {
+                this.hashtags = [];
             }
         }
     },
@@ -104,13 +132,14 @@ var state = {
     // methods acting on the hash string
 
     generateNewHashString: function() {
-        var map, timeframe, tags, view, location, event, datetime;
+        var map, timeframe, tags, hashtags, view, location, event, datetime;
         map = this.lat.toFixed(6) + ',' + this.lon.toFixed(6);
         map += ',' + this.zoom + 'z';
         var mapDiv = $('#map-canvas');
         map += ',' + Math.min(mapDiv.height(), mapDiv.width()) + 'px';
         timeframe = this.timeframe;
         tags = this.tags.join(',');
+        hashtags = this.hashtags.join(',');
         view = this.view;
         location = this.location;
         event = this.event;
@@ -120,6 +149,8 @@ var state = {
             hash += '/' + timeframe;
         if (tags)
             hash += '/' + tags;
+        if (hashtags)
+            hash += '/hash/' + hashtags;
         if (view && view !== 'map')
             hash += '/' + view;
         if (view == 'location' && location)
@@ -138,6 +169,7 @@ var state = {
     generateNewQueryString: function() {
         var timeframe = this.timeframe;
         var tags = this.tags;
+        var hashtags = this.hashtags;
         var query;
         if (timeframe == 'now')
         // start < now and end > now
@@ -156,6 +188,8 @@ var state = {
             query = "start > '" + now + "'";
         for (var i = 0; i < tags.length; i++)
             query += " AND tags CONTAINS '#" + tags[i] + "#'";
+        for (var i = 0; i < hashtags.length; i++)
+            query += " AND hashtags CONTAINS '#" + hashtags[i] + "#'";
             // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
         if (limit)
@@ -222,6 +256,19 @@ var state = {
         $('.menu-item.tags#' + tag).addClass("menu-item-label");
         $('#tags-button').attr("class","action-button tags").addClass(tag_colors[tag]);
     },
+    highlightHashtagButton: function() {
+        if (this.hashtags.length > 0) {
+            $('#hash-button').removeClass("action-button-hash-white");
+            $('#hash-button').addClass("action-button-hash-bluegray");
+            if (! $('hash-menu input').val())
+                // avoid overwriting a plain hashtag with the slugified one
+                $('#hash-menu input').val(this.hashtags[0]);
+        } else {
+            $('#hash-button').removeClass("action-button-hash-bluegray");
+            $('#hash-button').addClass("action-button-hash-white");
+            $('#hash-menu input').val('');
+        }
+    },
     displayIFrame: function() {
         $('#iframe iframe').remove(); // removing the iframe to not make it part of browser history
         if (this.view == 'location' || this.view == 'list' || this.view == 'event') {
@@ -241,6 +288,9 @@ var state = {
             var tags = this.tags.join(',');
             if (this.view !== 'event' && tags)
                 url += '/' + tags;
+            var hashtags = this.hashtags.join(',');
+            if (this.view !== 'event' && hashtags)
+                url += '/' + hashtags;
             // append the ?id= parameter if present in the location, just for debugging on localhost
             // and also append the client timestamp
             if (location.search) {
@@ -340,11 +390,6 @@ function initialize() {
         heatmap: {
             enabled: false
         },
-//        query: {
-//            select: locationColumn,
-//            from: tableId,
-//            where: "start > '" + now + "'" // default filter, relies on global timeframe filter variable !!
-//        },
         styles: [{
             markerOptions: {
                iconName: "large_green"
@@ -412,6 +457,7 @@ $(document).ready(function() {
 
     state.highlightTimeframeButton();
     state.highlightTagButtons();
+    state.highlightHashtagButton();
     state.displayIFrame();
     state.displayQrIcon();
     state.displayAddEventIcon();
@@ -458,6 +504,25 @@ $(document).ready(function() {
         state.displayIFrame();
     });
 
+    $('#hash-menu').on("click", "a.search-button", function() {
+        $('#hash-menu').hide();
+        state.toggleHashtagInList($('#hash-menu input').val());
+        state.generateNewQueryString();
+        state.generateNewHashString();
+        state.highlightHashtagButton();
+        state.displayIFrame();
+    });
+
+    $("#hash-menu input").keyup(function(event){
+        if(event.keyCode == 13) {
+            $("#hash-menu a.search-button").click();
+        }
+    });
+
+    $('#hash-menu').on("click", "a.search-reset-button", function() {
+        $('#hash-menu input').val('');
+    });
+
     window.onhashchange = function() {
         if (state.ignoreHashChange) {
             state.ignoreHashChange = false;
@@ -468,6 +533,7 @@ $(document).ready(function() {
             state.setMapZoom();
             state.highlightTimeframeButton();
             state.highlightTagButtons();
+            state.highlightHashtagButton();
             state.displayIFrame();
             state.highlightLocationMarker();
             state.displayQrIcon();
