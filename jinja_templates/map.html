@@ -6,21 +6,64 @@
     <title>{{configuration['title']}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/map.css"/>
-    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500&subset=latin,latin-ext'>
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext'>
 </head>
 
 <body>
 
-<div id="filter-controls" class="content">
-    <h1>{{configuration['title']}}</h1>
-    <div id="timeframe">
-        <span id="now">Nu</span>
-        <span id="today">Later vandaag</span>
-        <span id="tomorrow">Morgen</span>
-        <span id="week">7 dagen</span>
-        <span id="all" class="active">Alles</span>
-    </div>
-    <div id="tags"></div>
+<div class="top-left action-buttons">
+    <a id="timeframe-button" class="action-button timeframe all" href="javascript:void(0);"></a>
+    {% if configuration['tags'] %}
+    <a id="tags-button" class="action-button tags white" href="javascript:void(0);"></a>
+    {% endif %}
+    <a id="hash-button" class="action-button action-button-hash-white" href="javascript:void(0);"></a>
+</div>
+
+<div id="timeframe-menu" class="top-left menu">
+    <a id="all" class="menu-item menu-item-all" href="javascript:void(0);">
+      <div class="menu-icon">&nbsp;</div>
+      <div class="menu-text">{{localization['all']}}</div>
+    </a>
+    <a id="now" class="menu-item menu-item-now" href="javascript:void(0);">
+      <div class="menu-icon">&nbsp;</div>
+      <div class="menu-text">{{localization['now']}}</div>
+    </a>
+    <a id="today" class="menu-item menu-item-today" href="javascript:void(0);">
+      <div class="menu-icon">{{day_of_today}}</div>
+      <div class="menu-text">{{localization['today']}}</div>
+    </a>
+    <a id="tomorrow" class="menu-item menu-item-tomorrow" href="javascript:void(0);">
+      <div class="menu-icon">{{day_of_tomorrow}}</div>
+      <div class="menu-text">{{localization['tomorrow']}}</div>
+    </a>
+    <a id="week" class="menu-item menu-item-week" href="javascript:void(0);">
+      <div class="menu-icon">&nbsp;</div>
+      <div class="menu-text">{{localization['week']}}</div>
+    </a>
+</div>
+
+{% if configuration['tags'] %}
+<div id="tags-menu" class="top-left menu">
+    <a id="all-tags" class="menu-item tags white menu-item-label" href="javascript:void(0);">
+      <div class="menu-icon">&nbsp;</div>
+      <div class="menu-text">{{localization['all']}}</div>
+    </a>
+    {% for tag in configuration['tags'].split(',') %}
+    <a id="{{slugify(tag)}}" class="menu-item tags {{tag_colors[slugify(tag)]}}" href="javascript:void(0);">
+      <div class="menu-icon">&nbsp;</div>
+      <div class="menu-text">{{tag}}</div>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="hash-menu" class="top-left search-field">
+    <input class="search-input" id="search" type="text" placeholder="{{localization['search-a-hashtag']}}" name="search" autofocus="autofocus" data-name="search">
+    <a class="search-reset-button" href="javascript:void(0);"></a>
+    <a class="search-button" href="javascript:void(0);"></a>
+</div>
+<div class="top-left search-field-smart-results">
+    <!--a class="search-field-smart-result" href="javascript:void(0);">smart result</a-->
 </div>
 
 <div id="iframe" class="content"></div>
@@ -50,8 +93,8 @@
 <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
     var tableId = '{{configuration["slave table"]}}';
-    var tags = '{{configuration["tags"]}}';
-    var limit = '{{limit}}';
+    var limit = parseInt('{{limit}}');
+    var tag_colors = eval('({{tag_colors_json | safe}})');
 </script>
 <script type="text/javascript" src="/scripts/map.js"></script>
 </body>

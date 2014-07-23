@@ -72,13 +72,20 @@ var state = {
         this.timeframe = timeframe;
     },
     toggleTagInList: function(tag) {
+        this.tags = [];
+        // the following code supports selections of multiple tags,
+        // but the GUI doesn't support this, therefor the array is reset!
         var i;
         if ((i = $.inArray(tag, this.tags)) > -1 ) {
             // tag active
             this.tags.splice(i,1); // remove tag
         } else {
             // tag not active
-            this.tags.push(tag); // add tag
+            if (tag != 'all-tags') {
+                this.tags.push(tag); // add tag
+            } else {
+                this.tags = [];
+            }
         }
     },
     setViewLocation: function(location_slug) {
@@ -134,16 +141,16 @@ var state = {
         var query;
         if (timeframe == 'now')
         // start < now and end > now
-            query = "start < '" + now + "' and end > '" + now + "'";
+            query = "start < '" + now + "' AND end > '" + now + "'";
         else if (timeframe == 'today')
         // start > now and start < midnight
-            query = "start > '" + now + "' and start < '" + midnight + "'";
+            query = "start > '" + now + "' AND start < '" + midnight + "'";
         else if (timeframe == 'tomorrow')
         // start > midnight and start < midnight + 1 day
-            query = "start > '" + midnight + "' and start < '" + midnight1 + "'";
+            query = "start > '" + midnight + "' AND start < '" + midnight1 + "'";
         else if (timeframe == 'week')
         // start > now and start < midnight + 7 days
-            query = "start > '" + midnight + "' and start < '" + midnight7 + "'";
+            query = "start > '" + midnight + "' AND start < '" + midnight7 + "'";
         else if (timeframe == 'all')
         // start > now
             query = "start > '" + now + "'";
@@ -205,16 +212,15 @@ var state = {
         map.setZoom(this.zoom);
     },
     highlightTimeframeButton: function() {
-        $('#timeframe span').removeClass('active');
-        $('#' + this.timeframe).addClass('active');
+        $('#timeframe-button').attr("class","action-button timeframe").addClass(this.timeframe);
+        // copy the day on the calendar icon (if any)
+        $('#timeframe-button').html($('#timeframe-menu #' + this.timeframe + ' .menu-icon').html());
     },
     highlightTagButtons: function() {
-        // disable all tag buttons
-        $('#tags span').removeClass('active');
-        // enable all selected tag buttons
-        for (var i=0; i<this.tags.length; i++) {
-            $('#' + this.tags[i]).addClass('active');
-        }
+        var tag = this.tags.length > 0 ? this.tags[0] : 'all-tags';
+        $('.menu-item.tags').removeClass("menu-item-label");
+        $('.menu-item.tags#' + tag).addClass("menu-item-label");
+        $('#tags-button').attr("class","action-button tags").addClass(tag_colors[tag]);
     },
     displayIFrame: function() {
         $('#iframe iframe').remove(); // removing the iframe to not make it part of browser history
@@ -411,14 +417,31 @@ $(document).ready(function() {
     state.displayAddEventIcon();
     state.displayModifyEventIcon();
 
-    // if no tags are defined, hide the tag action button
-
     // add the timeframe menu items, and hide based on now, midnight, midnight1 and midnight7
+    if (limit < midnight7) {
+        $("a.menu-item-week").hide();
+        if (limit < midnight1) {
+            $("a.menu-item-tomorrow").hide();
+        }
+    }
 
-
+    // add event handlers to the action buttons
+    $('#timeframe-button').on("click", function() {
+        $('#tags-menu,#hash-menu').hide();
+        $('#timeframe-menu').toggle();
+    })
+    $('#tags-button').on("click", function() {
+        $('#timeframe-menu,#hash-menu').hide();
+        $('#tags-menu').toggle();
+    })
+    $('#hash-button').on("click", function() {
+        $('#timeframe-meu,#tags-menu').hide();
+        $('#hash-menu').toggle();
+    })
 
     // add event handlers to the timeframe buttons
-    $('#timeframe').on("click", "span", function() {
+    $('#timeframe-menu').on("click", "a", function() {
+        $('#timeframe-menu').hide();
         state.setTimeframe(this.id);
         state.generateNewQueryString();
         state.generateNewHashString();
@@ -426,12 +449,8 @@ $(document).ready(function() {
         state.displayIFrame();
     });
 
-    // create the tag buttons
-    $.each(tags.split(','), function(index, tag) {
-        $('<span/>',{id: slugify(tag)}).text(tag).appendTo('#tags');
-    })
-
-    $('#tags').on("click", "span", function() {
+    $('#tags-menu').on("click", "a", function() {
+        $('#tags-menu').hide();
         state.toggleTagInList(this.id);
         state.generateNewQueryString();
         state.generateNewHashString();
