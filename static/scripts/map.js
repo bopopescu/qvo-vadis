@@ -47,7 +47,7 @@ var state = {
         if (timeframe) {
             this.timeframe = timeframe;
         } else {
-            this.timeframe = 'week'; // default
+            this.timeframe = 'all'; // default
         }
         if (tags) {
             this.tags = tags.split(',');
@@ -481,7 +481,7 @@ $(document).ready(function() {
         $('#tags-menu').toggle();
     })
     $('#hash-button').on("click", function() {
-        $('#timeframe-meu,#tags-menu').hide();
+        $('#timeframe-menu,#tags-menu').hide();
         $('#hash-menu').toggle();
     })
 

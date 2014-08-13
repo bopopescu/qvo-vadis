@@ -106,41 +106,44 @@ class SQL:
         if row_id == None: return None
 
         if type(cols) == type({}):
-            updateStatement = ""
+            updateStatement = u""
             count = 1
             for col, value in cols.iteritems():
                 if type(value).__name__ == 'int':
-                    updateStatement = "%s'%s'=%d" % (updateStatement, col, value)
+                    updateStatement = u"%s'%s'=%d" % (updateStatement, col, value)
                 elif type(value).__name__ == 'float':
-                    updateStatement = "%s'%s'=%f" % (updateStatement, col, value)
+                    updateStatement = u"%s'%s'=%f" % (updateStatement, col, value)
                 else:
-                    updateStatement = "%s'%s'='%s'" % (updateStatement, col,
-                                                       value.encode('unicode-escape'))
+                    value = value.replace(u"\\", u"\\\\")  # what a mess!
+                    value = value.replace(u"'", u"\\'")  # https://developers.google.com/fusiontables/docs/v1/sql-reference
+                    updateStatement = u"%s'%s'='%s'" % (updateStatement, col, value)
 
-                if count < len(cols): updateStatement = "%s," % (updateStatement)
+                if count < len(cols): updateStatement = u"%s," % (updateStatement)
                 count += 1
 
-            return "UPDATE %s SET %s WHERE ROWID = '%d'" % (table_id,
+            return u"UPDATE %s SET %s WHERE ROWID = '%d'" % (table_id,
                                                             updateStatement, int(row_id))
 
         else:
             if len(cols) != len(values): return None
-            updateStatement = ""
+            updateStatement = u""
             count = 1
             for i in range(len(cols)):
-                updateStatement = "%s'%s' = " % (updateStatement, cols[i])
+                updateStatement = u"%s'%s' = " % (updateStatement, cols[i])
                 if type(values[i]).__name__ == 'int':
-                    updateStatement = "%s%d" % (updateStatement, values[i])
+                    updateStatement = u"%s%d" % (updateStatement, values[i])
                 elif type(values[i]).__name__ == 'float':
-                    updateStatement = "%s%f" % (updateStatement, values[i])
+                    updateStatement = u"%s%f" % (updateStatement, values[i])
                 else:
-                    updateStatement = "%s'%s'" % (updateStatement,
-                                                  values[i].encode('unicode-escape'))
+                    value = values[i]
+                    value = value.replace(u"\\", u"\\\\")  # what a mess!
+                    value = value.replace(u"'", u"\\'")  # https://developers.google.com/fusiontables/docs/v1/sql-reference
+                    updateStatement = u"%s'%s'" % (updateStatement, values)
 
-                if count < len(cols): updateStatement = "%s," % (updateStatement)
+                if count < len(cols): updateStatement = u"%s," % (updateStatement)
                 count += 1
 
-            return "UPDATE %s SET %s WHERE ROWID = '%d'" % (table_id, updateStatement, int(row_id))
+            return u"UPDATE %s SET %s WHERE ROWID = '%d'" % (table_id, updateStatement, int(row_id))
 
     def delete(self, table_id, row_id):
         """ Build DELETE sql statement.
@@ -181,15 +184,14 @@ class SQL:
             elif type(value).__name__ == 'float':
                 stringValues = u'%s%f' % (stringValues, value)
             else:
-                value = value.replace("\\", "\\\\")  # what a mess!
-                value = value.replace("'", "\\'")  # https://developers.google.com/fusiontables/docs/v1/sql-reference
-                stringValues = u"%s'%s'" % (stringValues,
-                                            value)  # was value.encode('unicode-escape')
+                value = value.replace(u"\\", u"\\\\")  # what a mess!
+                value = value.replace(u"'", u"\\'")  # https://developers.google.com/fusiontables/docs/v1/sql-reference
+                stringValues = u"%s'%s'" % (stringValues, value)  # was value.encode('unicode-escape')
             if count < len(values): stringValues = u"%s," % (stringValues)
             count += 1
 
-        return 'INSERT INTO %s (%s) VALUES (%s)' % \
-               (table_id, ','.join(["'%s'" % col for col in cols]), stringValues)
+        return u"INSERT INTO %s (%s) VALUES (%s)" % \
+               (table_id, ','.join([u"'%s'" % col for col in cols]), stringValues)
 
     def dropTable(self, table_id):
         """ Build DROP TABLE sql statement.

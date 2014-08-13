@@ -20,27 +20,26 @@ html, body {
 }
 
 .top-left {
+    float: left;
+    clear: left;
     position: relative;
     z-index: 1;
+}
+
+.material {
+    -webkit-box-shadow: 0px 3px 6px 0px #777;
+    -moz-box-shadow: 0px 3px 6px 0px #777;
+    box-shadow: 0px 3px 6px 0px #777;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
 }
 .top-left.menu, .top-left.search-field {
     display: none;
 }
 
-.content {
-    margin: 16px;
-    -webkit-box-shadow: 0px 0px 12px 0px #777;
-    -moz-box-shadow: 0px 0px 12px 0px #777;
-    box-shadow: 0px 0px 12px 0px #777;
-     -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    -khtml-border-radius: 2px;
-    border-radius: 2px;
-}
-
 .action-buttons {
-  float: left;
-  clear: left;
   width: 280px;
   margin: 16px;
 }
@@ -55,7 +54,6 @@ a.action-button {
   background-position: 50% 50%;
   background-size: auto;
   background-repeat: no-repeat;
-  box-shadow: black 1px 1px 3px 0px;
   vertical-align: top;
   font-size: 9px;
   line-height: 58px;
@@ -63,6 +61,9 @@ a.action-button {
   text-align: center;
   color: white;
   text-decoration: none;
+  -webkit-box-shadow: 0px 3px 6px 0px #777;
+  -moz-box-shadow: 0px 3px 6px 0px #777;
+  box-shadow: 0px 3px 6px 0px #777;
 }
 
 .action-button.timeframe.all {
@@ -123,11 +124,8 @@ a.action-button {
 }
 
 .menu {
-  float: left;
-  clear: left;
   width: 280px;
   margin: 16px;
-  box-shadow: black 1px 1px 3px 0px;
 }
 
 a.menu-item {
@@ -221,15 +219,12 @@ a.menu-item {
 }
 
 .search-field {
-  float: left;
-  clear: left;
   width: 264px;
   padding-left: 16px;
   margin-top: 16px;
   margin-left: 16px;
   margin-bottom: 3px;
   background-color: white;
-  box-shadow: black 1px 1px 3px 0px;
   line-height: 20px;
   overflow: auto;
 }
@@ -269,11 +264,8 @@ a.menu-item {
   background-repeat: no-repeat;
 }
 .search-field-smart-results {
-  float: left;
-  clear: left;
   width: 224px;
   margin-left: 16px;
-  box-shadow: black 1px 1px 3px 0px;
 }
 .search-field-smart-result {
   display: block;
@@ -315,10 +307,10 @@ a.menu-item {
 }
 @media (min-width: 640px) {
     #iframe {
-        width: 300px;
+        width: 280px;
         height: 500px; /* default */
         margin: 15px;
-        border: 3px solid white;
+/*        border: 3px solid white; */
         background-color: white;
         display: none; /* default */
     }

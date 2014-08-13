@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class LocationHandler(webapp2.RequestHandler):
-    def get(self, location_slug=None, timeframe=None, tags=None):
+    def get(self, location_slug=None, timeframe=None, tags=None, hashtags=None):
         now = self.request.get("now")
         if not now:
             now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
@@ -55,6 +55,12 @@ class LocationHandler(webapp2.RequestHandler):
                 # tags in the fusion table are surrounded by hash characters to avoid
                 # confusion if one tag would be a substring of another tag
 
+        # query on hashtags
+        if hashtags:
+            hashtags_p = hashtags.split(',')
+            for hashtag in hashtags_p:
+                condition += " AND hashtags CONTAINS '#" + hashtag + "#'"
+
         # query on location
         condition += " AND 'location slug' = '" + location_slug + "'"
 
@@ -72,6 +78,7 @@ class LocationHandler(webapp2.RequestHandler):
 
         template = jinja_environment.get_template('location.html')
         content = template.render(
+            configuration=configuration,
             data=data,
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message
@@ -98,6 +105,7 @@ class EventHandler(webapp2.RequestHandler):
 
         template = jinja_environment.get_template('event.html')
         content = template.render(
+            configuration=configuration,
             data=data[0],
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message
@@ -112,5 +120,3 @@ def date_time_reformat(date, format='full', lang='en'):
     from babel.dates import format_date, format_datetime, format_time
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
     return format_datetime(date_p, format=format, locale=lang)
-
-

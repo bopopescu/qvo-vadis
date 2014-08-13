@@ -45,7 +45,6 @@ class NewHandler(webapp2.RequestHandler):
 class UpdateHandler(webapp2.RequestHandler):
     def post(self, event_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
-        localization = get_localization()
         original_master = fusion_tables.select_first(configuration['master table'], condition="'event slug' = '%s'" % event_slug)[0]
         data = self.request.POST['data']
         master = json.loads(data)

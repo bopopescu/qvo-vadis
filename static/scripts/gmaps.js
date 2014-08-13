@@ -28,21 +28,12 @@ function gmaps_init() {
     // create our map object
     map = new google.maps.Map(document.getElementById("gmaps-canvas"), options);
 
-    // re-center the map if a geo position is available and no coordinates were in the URL
-    if (original_event) {
-        map.setCenter(new google.maps.LatLng(original_event['latitude'], original_event['longitude']))
-    } else if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            map.setCenter(position)
-        });
-    }
-
     // create the fusion table layer containing predefined locations
     layer = new google.maps.FusionTablesLayer({
         map: map,
         query: {
             select: 'latitude',
-            from: '1fBsPig_-ZvkrxAz1pGArRQhqOLEQGCafJbY_z5w2'  // table must be shared !!
+            from: predefined_locations_table  // table must be shared !!
         },
         styles: [{
             markerOptions: {
@@ -50,8 +41,8 @@ function gmaps_init() {
             }
         }],
         options: {
-            styleId: 2,
-            templateId: 2,
+/*            styleId: 2,
+            templateId: 2,*/
             suppressInfoWindows: true
         }
     });
@@ -61,11 +52,11 @@ function gmaps_init() {
         map: map,
         query: {
             select: 'latitude',
-            from: '1hpPoQWl-G6e6FjagnqOZ2pAicWOAC9x7txR1mXk'  // table must be shared !!
+            from: slave_table  // table must be shared !!
         }, // when adding a second layer, keep in mind that only one layer can be styled!!!
         options: {
-            styleId: 2,
-            templateId: 2,
+/*            styleId: 2,
+            templateId: 2,*/
             suppressInfoWindows: true
         }
     });
@@ -79,6 +70,18 @@ function gmaps_init() {
         draggable: true
     });
 
+    // re-center the map if a geo position is available and no coordinates were in the URL
+    if (original_event) {
+        var latLng = new google.maps.LatLng(original_event['latitude'], original_event['longitude']);
+        map.setCenter(latLng);
+        marker.setPosition(latLng);
+    } else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(latLng);
+        });
+    }
+
     // event triggered when marker is dragged and dropped
     google.maps.event.addListener(marker, 'dragend', function() {
         geocode_lookup('latLng', marker.getPosition());
@@ -86,7 +89,7 @@ function gmaps_init() {
 
     // event triggered when map is clicked
     google.maps.event.addListener(map, 'click', function(event) {
-        marker.setPosition(event.latLng)
+        marker.setPosition(event.latLng);
         geocode_lookup('latLng', event.latLng);
     });
 
@@ -226,7 +229,9 @@ function update_ui(data) {
     }
     $('#address').autocomplete("close");
     $('#address').val(address);
+    $('#address').removeClass('error');
     $('#location-name').val(name);
+    $('#location-name').removeClass('error');
     $('#gmaps-output-latitude').html(latLng.lat());
     $('#gmaps-output-longitude').html(latLng.lng());
     $('#gmaps-output-postal-code').html(postal_code);
@@ -367,10 +372,22 @@ function initialize_data() {
     // called from $(), *after* datepicker is initialized
     if (original_event) {
         if (location_only == 'false') {
-            $('#start-date').datepicker('setDate', new Date(original_event['start']));
-            $('#start-time').timepicker('setTime', new Date(original_event['start']));
-            $('#end-date').datepicker('setDate', new Date(original_event['end']));
-            $('#end-time').timepicker('setTime', new Date(original_event['end']));
+            var start_date = new Date(original_event['start']);
+            var end_date = new Date(original_event['end']);
+            var today = new Date();
+            if (start_date < today) {
+                var new_start_date = today;
+                new_start_date.setHours(start_date.getHours());
+                new_start_date.setMinutes(start_date.getMinutes());
+                new_start_date.setTime(new_start_date.getTime() + 86400000); /* plus one day */
+                var duration = end_date - start_date;
+                start_date = new_start_date;
+                end_date.setTime(new_start_date.getTime() + duration);
+            }
+            $('#start-date').datepicker('setDate', start_date);
+            $('#start-hour').timepicker('setTime', start_date);
+            $('#end-date').datepicker('setDate', end_date);
+            $('#end-hour').timepicker('setTime', end_date);
             if (original_event['calendar rule']) {
                 $('#rrule').val(original_event['calendar rule']);
                 $('#repeating').prop('checked', true);
@@ -393,16 +410,16 @@ function initialize_data() {
         }
         $('#location-name').val(original_event['location name']);
         $('#address').val(original_event['address']);
-        $('#gmaps-output-postal-code').text(event['postal code']);
-        $('#gmaps-output-latitude').text(event['latitude']);
-        $('#gmaps-output-longitude').text(event['longitude']);
+        $('#gmaps-output-postal-code').text(original_event['postal code']);
+        $('#gmaps-output-latitude').text(original_event['latitude']);
+        $('#gmaps-output-longitude').text(original_event['longitude']);
         // initializing map position cannot be done here... find 'setCenter'
         $('#location-details').val(original_event['location details']);
     }
 }
 
 $(document).ready(function() {
-    var duration = 3600000;
+    var duration = 3600000; /* one hour */
     $("#rrule").recurrenceinput({lang:language, startField: "start-date"});
     $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
     $(".date").datepicker();
@@ -453,6 +470,10 @@ $(document).ready(function() {
         $('.message-text').hide();
         // read form data into event object
         var now = new Date();
+        now.setHours(0);
+        now.setMinutes(0);
+        now.setSeconds(0);
+        now.setMilliseconds(0);
         var event = {};
         event['event slug'] = '';
         var start_date = $("#start-date").datepicker("getDate");
@@ -464,8 +485,8 @@ $(document).ready(function() {
         var start_time_string = $('#start-hour').val() + ":00";
         var start_string = start_date_string + " " + start_time_string;
         if (isNaN(Date.parse(start_string))) {
-            $('#start-time-wrong').show();
-            $('#start-time').addClass('error');
+            $('#start-hour-wrong').show();
+            $('#start-hour').addClass('error');
         }
         event['start'] = start_string;
         var end_date = $("#end-date").datepicker("getDate");
@@ -477,12 +498,12 @@ $(document).ready(function() {
         var end_time_string = $('#end-hour').val() + ":00";
         var end_string = end_date_string + " " + end_time_string;
         if (isNaN(Date.parse(start_string))) {
-            $('#end-time-wrong').show();
-            $('#end-time').addClass('error');
+            $('#end-hour-wrong').show();
+            $('#end-hour').addClass('error');
         }
         if (end_string < start_string) {
-            $('#end-time-before-start-time').show();
-            $('#end-time').addClass('error');
+            $('#end-hour-before-start-hour').show();
+            $('#end-hour').addClass('error');
         }
         event['end'] = end_string;
         event['calendar rule'] = $('#rrule').val();

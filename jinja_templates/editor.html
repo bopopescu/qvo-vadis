@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<!-- This site was created in Webflow. http://www.webflow.com-->
-<!-- Last Published: Wed Jun 18 2014 17:41:33 GMT+0000 (UTC) -->
-<html data-wf-site="539c5297a7990e780bfd820c">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>{{localization['add-event']}}</title>
+    <title>{{localization[title]}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Webflow">
     <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
@@ -61,9 +59,9 @@
            required="required" autofocus="autofocus" data-name="event name">
     <div class="message-text hidden" id="start-date-past">{{localization['start-date-past']}}</div>
     <div class="message-text hidden" id="end-date-before-start-date">{{localization['end-date-before-start-date']}}</div>
-    <div class="message-text hidden" id="start-time-wrong">{{localization['start-time-wrong']}}</div>
-    <div class="message-text hidden" id="end-time-wrong">{{localization['end-time-wrong']}}</div>
-    <div class="message-text hidden" id="end-time-before-start-time">{{localization['end-time-before-start-time']}}</div>
+    <div class="message-text hidden" id="start-hour-wrong">{{localization['start-time-wrong']}}</div>
+    <div class="message-text hidden" id="end-hour-wrong">{{localization['end-time-wrong']}}</div>
+    <div class="message-text hidden" id="end-hour-before-start-hour">{{localization['end-time-before-start-time']}}</div>
     <div class="w-row">
         <div class="w-col w-col-2b column">
             <input class="w-input date" id="start-date" type="text" placeholder="{{localization['date']}}" name="start-date"
@@ -158,12 +156,14 @@
 <div class="section">
     <label for="description">{{localization['description']}}</label>
 
+    {% if configuration["tags"] %}
     {% for tag in configuration["tags"].split(',') %}
     <div class="w-checkbox inline margin-right">
         <input class="w-checkbox-input tag" id="{{slugify(tag)}}" type="checkbox" name="{{slugify(tag)}}">
         <label class="w-form-label" for="{{slugify(tag)}}">{{tag}}</label>
     </div>
     {% endfor %}
+    {% endif %}
 
     <textarea class="w-input" id="description"
               placeholder="{{localization['use-hashtags']}}" name="description"
@@ -185,7 +185,9 @@
     var id = '{{configuration["id"]}}';
     var tags = '{{configuration["tags"]}}';
     var language = '{{configuration["language"]}}';
-    var original_event = eval('({{event_json | safe}})')[0];
+    var predefined_locations_table = '{{configuration["predefined locations table"]}}';
+    var slave_table = '{{configuration["slave table"]}}';
+    var original_event = {{event_json | safe}}[0];
     var location_only = '{{location_only}}';
     var edit_mode = '{{edit_mode}}';
 </script>

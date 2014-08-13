@@ -6,48 +6,59 @@
     <title>{{data['location name']}} - {{data['event name']}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/cards.css"/>
-    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin,latin-ext'>
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext'/>
 </head>
 
 <body onload="parent.on_body_resize_in_iframe()">
     {% if no_results_message %}
     <div class="item">
-        <div class="item_suppressed">{{no_results_message}}</div>
+        <div class="item-suppressed">{{no_results_message}}</div>
     </div>
     {% else %}
-    <div class="header item">
-        <div class="item_block static_map">
-            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{data['latitude']}},{{data['longitude']}}&markers=icon:http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png%7C{{data['latitude']}},{{data['longitude']}}&zoom=15&size=75x75&key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&sensor=false"
-                 onclick="parent.on_click_static_map_in_iframe()"/>
-            <div class="item_date">
-                {% if data['start'] and data['end'] and not data['multi day'] %}
-                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
-                <div>{{date_time_reformat(data['start'], format='H:mm', lang='nl')}}</div>
-                <div>&mdash;</div>
-                <div>{{date_time_reformat(data['end'], format='H:mm', lang='nl')}}</div>
-                {% elif data['start'] and data['end'] and data['multi day'] %}
-                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
-                <div>&mdash;</div>
-                <div>{{date_time_reformat(data['end'], format='EE d/M', lang='nl')}}</div>
-                {% else %}
-                <div>{{date_time_reformat(data['start'], format='EE d/M', lang='nl')}}</div>
-                <div>{{date_time_reformat(data['start'], format='H:mm', lang='nl')}}</div>
-                {% endif %}
-            </div>
+    <div class="header">
+        <div class="header-close" onclick="parent.on_click_static_map_in_iframe()"></div>
+        <div class="header-menu"></div>
+        <div class="header-details">
+            <div class="header-title">{{data['location name']}}</div>
+            <div class="header-suppressed">{{data['address']}}{% if data['location details']%} ({{data['location details']}}){% endif %}</div>
         </div>
-        <div class="item_details">
-            <div class="item_title">{{data['event name']}}</div>
-            <div class="item_suppressed">{{data['organization']}}</div>
-            <div class="item_emphasized">{{data['location name']}}</div>
-            <div class="item_emphasized">{{data['location details']}}</div>
-            <div class="item_suppressed">{{data['address']}}</div>
-            <div class="item_plain">{{data['description']}}</div>
-            {% if data['website'] %}
-            <div class="item_plain"><a href="{{data['website']}}" target="_blank">Ga naar de website</a></div>
+    </div>
+
+    <div class="item">
+        <div class="item-start">
+            {% set start_date = date_time_reformat(data['start'], format='d/M', lang='en') %}
+            {% set end_date = date_time_reformat(data['end'], format='d/M', lang='en') %}
+            {% set start_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
+            {% set end_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
+            {% if start_date == end_date and start_time != end_time %}
+            <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
+            <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
+            <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-dash">&mdash;</div>
+            <div class="item-start-end-time-end">{{date_time_reformat(data['end'], format='H:mm', lang=configuration['language'])}}</div>
+            {% elif start_date != end_date %}
+            <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
+            <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
+            <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-dash">&mdash;</div>
+            <div class="item-start-month">{{date_time_reformat(data['end'], format='MMM', lang=configuration['language'])}}</div>
+            <div class="item-start-day">{{date_time_reformat(data['end'], format='d', lang=configuration['language'])}}</div>
+            <div class="item-start-weekday">{{date_time_reformat(data['end'], format='EE', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-start">{{date_time_reformat(data['end'], format='H:mm', lang=configuration['language'])}}</div>
+            {% else %}{# start_date == end_date and start_time == end_time #}
+            <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
+            <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
+            <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
+            <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
             {% endif %}
-            {% if data['contact'] %}
-            <div class="item_plain"><a href="mailto:{{data['contact']}}">Contacteer de organisator</a></div>
-            <!-- TODO implement mailing form -->
+        </div>
+        <div class="item-details-card">
+            <div class="item-title-card">{{data['event name']}}</div>
+            <div class="item-description">{{data['description']}}</div>
+            {% if data['registration required'] == 'true' %}
+            <div class="item-registration-required">Registration required</div>
             {% endif %}
         </div>
     </div>

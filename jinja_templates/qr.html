@@ -24,9 +24,9 @@
                     <div class="item_title">{{row['event name']}}</div>
                     <div class="item_suppressed">{{row['organization']}}</div>
                     <div class="item_date">
-                        <span>{{date_time_reformat(row['start'], format='EE d/M', lang='nl')}}</span>
+                        <span>{{date_time_reformat(row['start'], format='EE d/M', lang=configuration['language'])}}</span>
                         <span> </span>
-                        <span>{{date_time_reformat(row['start'], format='H:mm', lang='nl')}}</span>
+                        <span>{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</span>
                     </div>
                 </div>
                 {% endfor %}

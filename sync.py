@@ -4,6 +4,8 @@ from datetime import datetime
 from datetime import timedelta
 import customer_configuration
 import fusion_tables
+import time
+from apiclient.errors import HttpError
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,8 +41,16 @@ def sync_updated_events(configuration, condition):
         condition = "'event slug' = '%s'" % row['event slug']  # assuming that 'event slug' was not updated !!!
         slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
         for slave in slaves:
-            fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-            # create slave dicts
+            for attempt in range(3):
+                try:
+                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
+                except HttpError:
+                    time.sleep(5)  # arbitrary pause to avoid "Rate Limit Exceeded" error
+                else:
+                    break
+            else:
+                raise
+        # create slave dicts
         (slaves, final_date) = fusion_tables.master_to_slave(row)
         # store slave dicts
         for slave in slaves:

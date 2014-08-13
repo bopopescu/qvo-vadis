@@ -19,7 +19,7 @@
     <a id="hash-button" class="action-button action-button-hash-white" href="javascript:void(0);"></a>
 </div>
 
-<div id="timeframe-menu" class="top-left menu">
+<div id="timeframe-menu" class="top-left material menu">
     <a id="all" class="menu-item menu-item-all" href="javascript:void(0);">
       <div class="menu-icon">&nbsp;</div>
       <div class="menu-text">{{localization['all']}}</div>
@@ -43,7 +43,7 @@
 </div>
 
 {% if configuration['tags'] %}
-<div id="tags-menu" class="top-left menu">
+<div id="tags-menu" class="top-left material menu">
     <a id="all-tags" class="menu-item tags white menu-item-label" href="javascript:void(0);">
       <div class="menu-icon">&nbsp;</div>
       <div class="menu-text">{{localization['all']}}</div>
@@ -57,16 +57,16 @@
 </div>
 {% endif %}
 
-<div id="hash-menu" class="top-left search-field">
+<div id="hash-menu" class="top-left material search-field">
     <input class="search-input" id="search" type="text" placeholder="{{localization['search-a-hashtag']}}" name="search" autofocus="autofocus" data-name="search">
     <a class="search-reset-button" href="javascript:void(0);"></a>
     <a class="search-button" href="javascript:void(0);"></a>
 </div>
-<div class="top-left search-field-smart-results">
+<div class="top-left material search-field-smart-results">
     <!--a class="search-field-smart-result" href="javascript:void(0);">smart result</a-->
 </div>
 
-<div id="iframe" class="content"></div>
+<div id="iframe" class="top-left material"></div>
 
 <div id="background">
     <div id="map-canvas"></div>
@@ -89,7 +89,7 @@
         </a>
     </div>
 </div>
-<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&language=nl"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyCVWDsEisWMiWrfjIv_9UEqovwpwLQ0P50&language={{configuration['language']}}"></script>
 <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
     var tableId = '{{configuration["slave table"]}}';
