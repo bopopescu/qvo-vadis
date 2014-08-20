@@ -4,17 +4,22 @@ from datetime import datetime
 from datetime import timedelta
 import customer_configuration
 import fusion_tables
-import time
-from apiclient.errors import HttpError
 
 logging.basicConfig(level=logging.INFO)
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
+_start_time = False
 
-def sync_new_events(configuration, condition):
+
+class RunningTooLongError(Exception):
+    pass
+
+
+def sync_new_events(configuration, condition, don_t_run_too_long=False):
     new = fusion_tables.select(configuration['master table'], condition=condition)
-    logging.info("Syncing %d new rows in %s" % (len(new), configuration['master table']))
+    logging.info("Start syncing")
+    logging.info("Syncing %d new rows in %s master %s" % (len(new), configuration['id'], configuration['master table']))
     for row in new:
         # create slave dicts
         (slaves, final_date) = fusion_tables.master_to_slave(row)
@@ -29,38 +34,27 @@ def sync_new_events(configuration, condition):
             'final date': final_date
         }
         fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
+        running_too_long(don_t_run_too_long)
     fusion_tables.insert_go(configuration['slave table'])
-    logging.info("Done syncing new rows in %s" % configuration['master table'])
+    logging.info("Done syncing new rows in %s master %s" % (configuration['id'], configuration['master table']))
 
 
-def sync_updated_events(configuration, condition):
+def sync_updated_events(configuration, condition, don_t_run_too_long=False):
     updated = fusion_tables.select(configuration['master table'], condition=condition)
-    logging.info("Syncing %d updated rows in %s" % (len(updated), configuration['master table']))
+    logging.info("Syncing %d updated rows in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
     for row in updated:
-        # delete old slave rows
-        condition = "'event slug' = '%s'" % row['event slug']  # assuming that 'event slug' was not updated !!!
-        slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
-        for slave in slaves:
-            for attempt in range(3):
-                try:
-                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-                except HttpError:
-                    time.sleep(5)  # arbitrary pause to avoid "Rate Limit Exceeded" error
-                else:
-                    break
-            else:
-                raise
+        # old rows are note deleted! New slave rows are just added with incremented sequence number
         # create slave dicts
         (slaves, final_date) = fusion_tables.master_to_slave(row)
         # store slave dicts
         for slave in slaves:
             fusion_tables.insert_hold(configuration['slave table'], slave)
-            # delete the old master row (the updated row was a copy!)
+        # delete the old master row (the updated row was a copy!)
         condition = "'event slug' = '%s' and 'state' = 'public'" % row['event slug']
         old = fusion_tables.select(configuration['master table'], cols=['rowid'], condition=condition)
         for old_row in old:  # should be only a single row!!
             fusion_tables.delete_with_implicit_rowid(configuration['master table'], old_row)
-            # set master event state to 'public'
+        # set master event state to 'public'
         update = {
             'rowid': row['rowid'],
             'state': 'public',
@@ -68,107 +62,164 @@ def sync_updated_events(configuration, condition):
             'final date': final_date
         }
         fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
+        running_too_long(don_t_run_too_long)
     fusion_tables.insert_go(configuration['slave table'])
-    logging.info("Done syncing updated rows in %s" % configuration['master table'])
+    logging.info("Done syncing updated rows in %s master %s" % (configuration['id'], configuration['master table']))
 
+
+def delete_slaves(tableId, slaves):
+    for slave in slaves:
+        fusion_tables.delete_with_implicit_rowid(tableId, slave)
+
+
+def running_too_long(initialize=False, don_t_run_too_long=False):
+    global _start_time
+    if initialize or not _start_time:
+        _start_time = datetime.now()
+    elif don_t_run_too_long:
+        minutes_running = (datetime.now() - _start_time).total_seconds() / 60
+        if minutes_running > 40:  # running 12 times a day, this will give at max 9 instance hours
+            logging.warning("Sync running for %d minutes now... going to quit!" % minutes_running)
+            raise RunningTooLongError()
+        else:
+            logging.debug("Sync running for %d minutes now..." % minutes_running)
 
 
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
         configurations = customer_configuration.get_configurations()
-        for configuration in configurations:
+        running_too_long(initialize=True)  # initialize
 
-            # in the master table, find all new events
-            condition = "'state' = 'new'"
-            sync_new_events(configuration, condition)
+        try:
 
-            # in the master table, find all updated events
-            condition = "'state' = 'updated'"
-            sync_updated_events(configuration, condition)
+            for configuration in configurations:
 
-            # in the master table, find all cancelled events
-            condition = "'state' = 'cancelled'"
-            cancelled = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing %d cancelled rows in %s" % (len(cancelled), configuration['master table']))
-            for row in cancelled:
-                # delete cancelled slave rows
-                condition = "'event slug' = '%s'" % row['event slug']
-                slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
-                for slave in slaves:
-                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-                # set master event state to 'cancellation'
-                update = {
-                    'rowid': row['rowid'],
-                    'state': 'cancellation',
-                    'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                }
-                fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
-            logging.info("Done syncing cancelled rows in %s" % configuration['master table'])
+                # in the master table, find all new events
+                condition = "'state' = 'new'"
+                sync_new_events(configuration, condition, don_t_run_too_long=True)
 
-            # in the master table, find all cancellations older than one month
-            today_minus_one_month = (datetime.today() - timedelta(days=30)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-            condition = "'state' = 'cancellation' and 'update date' < '%s'" % today_minus_one_month
-            cancellation = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing %d cancellation rows in %s" % (len(cancellation), configuration['master table']))
-            for row in cancellation:
-                # delete cancellation master rows
-                fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
-            logging.info("Done syncing cancellation rows in %s" % configuration['master table'])
+                # in the master table, find all updated events
+                condition = "'state' = 'updated'"
+                sync_updated_events(configuration, condition, don_t_run_too_long=True)
 
-            # in the master table, find all events with outdated sync
-            today_minus_one_month = (datetime.today() - timedelta(days=30)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-            condition = "'state' = 'public' and 'sync date' < '%s'" % today_minus_one_month
-            updated = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Syncing outdated public rows in %s" % configuration['master table'])
-            for row in updated:
-                # delete old slave rows
-                condition = "'event slug' = '%s'" % row['event slug']
-                slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
-                for slave in slaves:
-                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-                # create slave dicts
-                (slaves, final_date) = fusion_tables.master_to_slave(row)
-                # store slave dicts
-                for slave in slaves:
-                    fusion_tables.insert_hold(configuration['slave table'], slave)
+                # in the master table, find all cancelled events
+                condition = "'state' = 'cancelled'"
+                cancelled = fusion_tables.select(configuration['master table'], condition=condition)
+                logging.info("Syncing %d cancelled rows in %s master %s" % (len(cancelled), configuration['id'], configuration['master table']))
+                for row in cancelled:
+                    # delete cancelled slave rows
+                    condition = "'event slug' = '%s'" % row['event slug']
+                    slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition, filter_obsolete_rows=False)
+                    logging.info("Deleting %d cancelled rows in %s slave %s" % (len(slaves), configuration['id'], configuration['slave table']))
+                    delete_slaves(configuration['slave table'], slaves)
+                    # set master event state to 'cancellation'
+                    update = {
+                        'rowid': row['rowid'],
+                        'state': 'cancellation',
+                        'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    }
+                    fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
+                    running_too_long()
+                logging.info("Done syncing cancelled rows in %s master %s" % (configuration['id'], configuration['master table']))
+
+                # in the master table, find all cancellations older than one month
+                today_minus_one_month = (datetime.today() - timedelta(days=30)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'state' = 'cancellation' and 'update date' < '%s'" % today_minus_one_month
+                cancellation = fusion_tables.select(configuration['master table'], condition=condition)
+                logging.info("Syncing %d cancellation rows in %s master %s" % (len(cancellation), configuration['id'], configuration['master table']))
+                for row in cancellation:
+                    # delete cancellation master rows
+                    fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
+                logging.info("Done syncing cancellation rows in %s master %s" % (configuration['id'], configuration['master table']))
+                running_too_long()
+
+                # in the master table, find all events with outdated sync
+                today_minus_one_month = (datetime.today() - timedelta(days=30)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'state' = 'public' and 'sync date' < '%s'" % today_minus_one_month
+                updated = fusion_tables.select(configuration['master table'], condition=condition)
+                logging.info("Syncing %d outdated public rows in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
+                for row in updated:
+                    # delete old slave rows
+                    condition = "'event slug' = '%s'" % row['event slug']
+                    slaves = fusion_tables.select(configuration['slave table'], cols=['datetime slug'], condition=condition, filter_obsolete_rows=False)
+                    # create slave dicts
+                    datetime_slugs = [slave['datetime slug'] for slave in slaves]
+                    (new_slaves, final_date) = fusion_tables.master_to_slave(row)
+                    # store slave dicts
+                    logging.info("Inserting approx. %d future rows in %s slave %s" % (len(new_slaves) - len(slaves), configuration['id'], configuration['slave table']))
+                    for new_slave in new_slaves:
+                        if new_slave['datetime slug'] not in datetime_slugs:
+                            fusion_tables.insert_hold(configuration['slave table'], new_slave)
                     # set master event state to 'public'
-                update = {
-                    'rowid': row['rowid'],
-                    'state': 'public',
-                    'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT),
-                    'final_date': final_date
-                }
-                fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
-            fusion_tables.insert_go(configuration['slave table'])
-            logging.info("Done syncing outdated public rows in %s" % configuration['master table'])
+                    update = {
+                        'rowid': row['rowid'],
+                        'state': 'public',
+                        'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT),
+                        'final date': final_date
+                    }
+                    logging.info("Updated sync timestamp and final date in regenerated row in %s master %s" % (configuration['id'], configuration['master table']))
+                    fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
+                    running_too_long()
+                fusion_tables.insert_go(configuration['slave table'])
+                logging.info("Done syncing outdated public rows in %s master %s" % (configuration['id'], configuration['master table']))
 
-            # in the master table, find all events with final date in the past
-            today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-            condition = "'final date' < '%s'" % today
-            outdated = fusion_tables.select(configuration['master table'], condition=condition)
-            logging.info("Deleting %d past events in master (and slave) %s" % (len(outdated), configuration['master table']))
-            for row in outdated:
-                # delete old slave rows
-                condition = "'event slug' = '%s'" % row['event slug']
-                slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition)
-                for slave in slaves:
-                    fusion_tables.delete_with_implicit_rowid(configuration['slave table'], slave)
-                # delete cancellation master rows
-                fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
-            logging.info("Done deleting past events in master (and slave) %s" % configuration['master table'])
+                # in the master table, find all events with final date in the past
+                today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'final date' < '%s'" % today
+                outdated = fusion_tables.select(configuration['master table'], condition=condition)
+                logging.info("Deleting %d past events in %s master (and slave) %s" % (len(outdated), configuration['id'], configuration['master table']))
+                for row in outdated:
+                    # delete old slave rows
+                    condition = "'event slug' = '%s'" % row['event slug']
+                    slaves = fusion_tables.select(configuration['slave table'], cols=['rowid'], condition=condition, filter_obsolete_rows=False)
+                    logging.info("Deleting %d past events in %s slave %s" % (len(slaves), configuration['id'], configuration['slave table']))
+                    delete_slaves(configuration['slave table'], slaves)
+                    # delete cancellation master rows
+                    fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
+                    running_too_long()
+                logging.info("Done deleting past events in %s master (and slave) %s" % (configuration['id'], configuration['master table']))
 
-            # in the slave table, find all events with end date in the past
-            today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-            condition = "'end' < '%s'" % today
-            outdated = fusion_tables.select(configuration['slave table'], condition=condition)
-            logging.info("Deleting %d past events in slave %s" % (len(outdated), configuration['slave table']))
-            for row in outdated:
-                # delete slave row
-                fusion_tables.delete_with_implicit_rowid(configuration['slave table'], row)
-            logging.info("Done deleting past events in slave %s" % configuration['master table'])
+                # in the slave table, find all events with end date in the past
+                today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'end' < '%s'" % today
+                outdated = fusion_tables.select(configuration['slave table'], condition=condition, filter_obsolete_rows=False)
+                logging.info("Deleting %d past events in %s slave %s" % (len(outdated), configuration['id'], configuration['slave table']))
+                delete_slaves(configuration['slave table'], outdated)
+                logging.info("Done deleting past events in %s slave %s" % (configuration['id'], configuration['master table']))
+                running_too_long()
+
+                # in the master table, find all events flagged as updated
+                condition = "'update after sync' = 'true'"
+                updated_master = fusion_tables.select(configuration['master table'], condition=condition)
+                logging.info("Deleting old slave rows for %d updated events in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
+                for updated_master_row in updated_master:
+                    # find the old slave row(s)
+                    condition = "'event slug' = '%s' AND 'sequence' < %s" % (updated_master_row['event slug'], updated_master_row['sequence'])
+                    old_slave = fusion_tables.select(configuration['slave table'], condition=condition, filter_obsolete_rows=False)
+                    # delete the old row(s)
+                    logging.info("Deleting %d old event rows in %s slave %s" % (len(old_slave), configuration['id'], configuration['slave table']))
+                    delete_slaves(configuration['slave table'], old_slave)
+                    logging.info("Deleted %d old rows in %s slave %s" % (len(old_slave), configuration['id'], configuration['slave table']))
+                    # unflag the updated master row
+                    unflagged_row = {}
+                    unflagged_row['rowid'] = updated_master_row['rowid']
+                    unflagged_row['update after sync'] = 'false'
+                    fusion_tables.update_with_implicit_rowid(configuration['master table'], unflagged_row)
+                    logging.info("Unflagged updated row %s in %s master %s" % (updated_master_row['rowid'], configuration['id'], configuration['master table']))
+                    running_too_long()
+                logging.info("Done deleting old slave rows in %s slave %s" % (configuration['id'], configuration['slave table']))
+
+            logging.info("Done syncing")
 
             # return the web-page content
             self.response.out.write("SyncHandler finished")
+            return
+
+        except RunningTooLongError:
+            # first release pending inserts!
+            fusion_tables.insert_go(configuration['slave table'])
+            # then quit
+            self.response.out.write("SyncHandler finished with leftovers")
             return
 
 

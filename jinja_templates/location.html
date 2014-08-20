@@ -10,6 +10,7 @@
 </head>
 
 <body onload="parent.on_body_resize_in_iframe()">
+    <script type="text/javascript">parent.on_location_known_in_iframe({{data[0]['latitude']}},{{data[0]['longitude']}});</script>
     <div class="header">
         <div class="header-close" onclick="parent.on_click_static_map_in_iframe()"></div>
         <div class="header-menu"></div>

@@ -62,6 +62,10 @@ def get_id(request):
             # try fetching this id from the configuration table
             index = domain.index('.qvo-vadis.appspot.com')
             id = domain[:index]
+        elif '.maptiming.com' in domain:
+            # try fetching this id from the configuration table
+            index = domain.index('.maptiming.com')
+            id = domain[:index]
         else:
         # TODO what to do for custom domains?
             pass

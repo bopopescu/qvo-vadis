@@ -12,6 +12,11 @@ from apiclient.http import MediaIoBaseUpload
 from csv import DictWriter
 from random import randint
 import re
+import time
+from google.appengine.runtime import apiproxy_errors
+from apiclient import errors
+import httplib
+
 
 OAUTH_SCOPE = 'https://www.googleapis.com/auth/fusiontables'
 API_CLIENT = 'fusiontables'
@@ -31,7 +36,19 @@ _deletes = {}  # idem
 def table_cols(table_id):
     # returns a list of column names, stored in global variable
     query = _SQL.select(table_id) + ' LIMIT 1'
-    query_result = _service.query().sqlGet(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            query_result = _service.query().sqlGet(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            sleep = sleep * 2
+            logging.warning("Sleeping %d seconds because of HttpError trying to read column names in %s" % (sleep, table_id))
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times reading column names in %s" % table_id)
+        raise  # attempts exhausted
     _table_cols[table_id] = query_result['columns']
     return _table_cols[table_id]
 
@@ -58,15 +75,44 @@ def list_of_dicts_to_csv(table_id, list_of_dicts):
     return csv
 
 
-def select(table_id, cols=None, condition=None):
+def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
+    """
+     filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
+    """
     if not cols:
         cols = table_cols(table_id)
     # make sure you return the rowid, that's useful for later 'updates'
     if not 'rowid' in cols:
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition)
-    query_result = _service.query().sqlGet(sql=query).execute()
-    return fusion_table_query_result_as_list_of_dict(query_result)
+    sleep = 1
+    for attempt in range(10):
+        try:
+            query_result = _service.query().sqlGet(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            sleep = sleep * 2
+            logging.warning("Sleeping %d seconds because of HttpError trying to select rows in %s" % (sleep, table_id))
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times selecting rows in %s" % table_id)
+        raise  # attempts exhausted
+    rows = fusion_table_query_result_as_list_of_dict(query_result)
+    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+        if 'sequence' in row and row['sequence'] == 'NaN':
+            row['sequence'] = 1
+    if filter_obsolete_rows and rows and 'datetime slug' in rows[0]:
+        # for each event slug, find the maximum sequence
+        maximum_sequence = {}
+        for row in rows:
+            event_slug = row['event slug']
+            sequence = row['sequence']
+            if event_slug not in maximum_sequence or maximum_sequence[event_slug] < sequence:
+                maximum_sequence[event_slug] = sequence
+        # filter the rows with sequence lower than the maximum sequence for that event slug
+        rows[:] = [row for row in rows if row['sequence'] == maximum_sequence[row['event slug']]]
+    return rows
 
 
 def select_first(table_id, cols=None, condition=None):
@@ -81,7 +127,11 @@ def select_first(table_id, cols=None, condition=None):
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition) + ' LIMIT 1'
     query_result = _service.query().sqlGet(sql=query).execute()
-    return fusion_table_query_result_as_list_of_dict(query_result)
+    rows = fusion_table_query_result_as_list_of_dict(query_result)
+    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+        if 'sequence' in row and row['sequence'] == 'NaN':
+            row['sequence'] = 1
+    return rows
 
 
 def select_nth(table_id, cols=None, condition=None, n=1):
@@ -92,7 +142,11 @@ def select_nth(table_id, cols=None, condition=None, n=1):
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition) + ' OFFSET %d LIMIT 1' % n
     query_result = _service.query().sqlGet(sql=query).execute()
-    return fusion_table_query_result_as_list_of_dict(query_result)
+    rows = fusion_table_query_result_as_list_of_dict(query_result)
+    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+        if 'sequence' in row and row['sequence'] == 'NaN':
+            row['sequence'] = 1
+    return rows
 
 
 def insert(table_id, values):
@@ -119,7 +173,19 @@ def insert_go(table_id):
     if table_id in _inserts and _inserts[table_id]:
         csv = list_of_dicts_to_csv(table_id, _inserts[table_id])
         media_body = MediaIoBaseUpload(fd=csv, mimetype='application/octet-stream')
-        result = _service.table().importRows(tableId=table_id, media_body=media_body).execute()
+        sleep = 1
+        for attempt in range(10):
+            try:
+                result = _service.table().importRows(tableId=table_id, media_body=media_body).execute()
+            except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+                time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+                sleep = sleep * 2
+                logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in slave %s" % (sleep, len(_inserts[table_id]), table_id))
+            else:
+                break  # no error caught
+        else:
+            logging.critical("Retried 10 times inserting %d rows in slave %s" % (len(_inserts[table_id]), table_id))
+            raise  # attempts exhausted
         if not 'error' in result:
             logging.info("Inserted %d rows in %s" % (len(_inserts[table_id]), table_id))
             _inserts[table_id] = []
@@ -135,7 +201,19 @@ def update_with_implicit_rowid(table_id, values):
     del values['rowid']
     # update row
     query = _SQL.update(table_id, values, row_id=row_id)
-    query_result = _service.query().sql(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            query_result = _service.query().sql(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            sleep = sleep * 2
+            logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s" % (sleep, table_id))
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times updating a row in %s" % (table_id))
+        raise  # attempts exhausted
     if not 'error' in query_result:
         logging.info("Updated in %s %s" % (table_id, json.dumps(values)))
     else:
@@ -148,7 +226,19 @@ def delete_with_implicit_rowid(table_id, values):
     row_id = values['rowid']
     # delete row
     query = _SQL.delete(table_id, row_id=row_id)
-    query_result = _service.query().sql(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            query_result = _service.query().sql(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            sleep = sleep * 2
+            logging.warning("Sleeping %d seconds because of HttpError trying to delete row from slave %s" % (sleep, table_id))
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times deleting row from slave %s" % table_id)
+        raise  # attempts exhausted
     if not 'error' in query_result:
         logging.info("Deleted in %s %s" % (table_id, json.dumps(values)))
     else:
@@ -168,7 +258,7 @@ def master_to_slave(master):
         'contact',
         'website',
         'registration required',
-        'organization',
+        'sequence',
         'location name',
         'address',
         'postal code',
@@ -183,8 +273,10 @@ def master_to_slave(master):
 
     # then calculate the date occurrences
     if master['calendar rule']:
-        # start (and end) fields hold the start date for the recurrence rule
+        # start field holds the start date for the recurrence rule
         start_date = datetime.strptime(master['start'], FUSION_TABLE_DATE_TIME_FORMAT).date()
+        end_date = datetime.strptime(master['end'], FUSION_TABLE_DATE_TIME_FORMAT).date()
+        days = end_date - start_date
         today_date = datetime.today().date()
         if start_date <= today_date:
             start_date = today_date
@@ -206,12 +298,12 @@ def master_to_slave(master):
         while True:
             occurrences = calculate_occurrences(data)['occurrences']
             for occurrence in occurrences:
-                date = datetime.strptime(occurrence['date'], ISO_DATE_TIME_FORMAT).date()
-                if today_date <= date < today_plus_13_months_date:
+                start_date = datetime.strptime(occurrence['date'], ISO_DATE_TIME_FORMAT).date()
+                if today_date <= start_date < today_plus_13_months_date:
                     # only add events within one year timeframe from now
                     new_slave = copy.deepcopy(slave)
-                    new_slave['start'] = datetime.combine(date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                    new_slave['end'] = datetime.combine(date, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    new_slave['start'] = datetime.combine(start_date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    new_slave['end'] = datetime.combine(start_date + days, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
                     new_slave['datetime slug'] = slugify(new_slave['start'])
                     if final_date < new_slave['end']:
                         final_date = new_slave['end']
@@ -247,7 +339,6 @@ def random_master(configuration=None):
     master['contact'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
     master['website'] = "http://www.%s.com" % random_text(words=1)
     master['registration required'] = 'true' if randint(0, 1) == 1 else 'false'
-    master['organization'] = random_text(words=randint(0, 4))
     master['owner'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
     master['moderator'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
     master['state'] = "new"

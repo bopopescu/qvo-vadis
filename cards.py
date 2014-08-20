@@ -64,6 +64,9 @@ class LocationHandler(webapp2.RequestHandler):
         # query on location
         condition += " AND 'location slug' = '" + location_slug + "'"
 
+        # sort by datetime slug
+        condition += " ORDER BY 'datetime slug'"
+
         no_results_message = ''
         data = fusion_tables.select(configuration['slave table'], condition=condition)
         if not data:
@@ -98,7 +101,7 @@ class EventHandler(webapp2.RequestHandler):
         if datetime_slug:
             condition += " AND "
             condition += "'datetime slug' = '%s'" % datetime_slug
-        data = fusion_tables.select_first(configuration['slave table'], condition=condition)
+        data = fusion_tables.select(configuration['slave table'], condition=condition)
         no_results_message = ''
         if not data:
             no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
@@ -106,7 +109,7 @@ class EventHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('event.html')
         content = template.render(
             configuration=configuration,
-            data=data[0],
+            data=data[0] if data else {},
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message
         )

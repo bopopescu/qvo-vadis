@@ -53,6 +53,7 @@ class UpdateHandler(webapp2.RequestHandler):
         master['sequence'] = int(original_master['sequence']) + 1
         master['entry date'] = original_master['entry date']
         master['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+        master['update after sync'] = 'true'
         master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         master['event slug'] = original_master['event slug']
         master['hashtags'] = ','.join(["#%s#" % slugify(tag) for tag in extract_hash_tags(master['description'])])

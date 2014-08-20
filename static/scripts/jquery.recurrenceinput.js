@@ -481,7 +481,7 @@
                                 '</div>',
                                 '<div>',
                                     '<div class="w-radio">',
-                                        '<input class="w-radio-input" id="${name}yearlytype:WEEKDAYOFMONTH" type="radio" name="riyearlytype" value="WEEKDAYOFMONTH">',
+                                        '<input class="w-radio-input" id="${name}yearlytype:WEEKDAYOFMONTH" type="radio" name="riyearlyType" value="WEEKDAYOFMONTH">',
                                         '<label class="w-form-label label inline" for="${name}yearlytype:WEEKDAYOFMONTH">',
                                             '${i18n.yearlyWeekdayOfMonth1}',
                                         '</label>',

@@ -33,6 +33,7 @@ var state = {
                 tags = s;
         }
         if (map) {
+            this.locationInUrl = true;
             var coords = map.split(',');
             this.lat = parseFloat(coords[0]);
             this.lon = parseFloat(coords[1]);
@@ -40,6 +41,7 @@ var state = {
             this.port = parseInt(coords[3].replace(/px/,'')); // having this value is also used as an indicator
                                                               // that the coordinates were provided in the URL
         } else {
+            this.locationInUrl = false;
             this.lat = 51.213282784793925; // default
             this.lon = 4.427805411499094; // default
             this.zoom = 13; // default
@@ -161,6 +163,7 @@ var state = {
                 hash += '/' + datetime;
         }
         this.ignoreHashChange = true;
+        this.locationInUrl = true;
         window.location.hash = hash;
     },
 
@@ -290,7 +293,7 @@ var state = {
                 url += '/' + tags;
             var hashtags = this.hashtags.join(',');
             if (this.view !== 'event' && hashtags)
-                url += '/' + hashtags;
+                url += '/hash/' + hashtags;
             // append the ?id= parameter if present in the location, just for debugging on localhost
             // and also append the client timestamp
             if (location.search) {
@@ -366,7 +369,7 @@ state.parseHashStringIntoState();
 // start syncing the reference times
 updateNowAndMidnight();
 
-// google maps initialization function
+// google maps initialization function (called before jQuery ready!)
 function initialize() {
     google.maps.visualRefresh = true; // enable new look for Google Maps
     var mapDiv = document.getElementById('map-canvas');
@@ -406,7 +409,8 @@ function initialize() {
     state.highlightLocationMarker();
 
     // re-center the map if a geo position is available and no coordinates were in the URL
-    if (!state.port && navigator.geolocation) {
+    // and the view is not location or event
+    if (!(state.view == 'location' || state.view == 'event') && !state.locationInUrl && navigator.geolocation) {
         browserSupportFlag = true;
         navigator.geolocation.getCurrentPosition(function (position) {
             state.setCenterpoint(position.coords.latitude, position.coords.longitude);
@@ -544,6 +548,19 @@ $(document).ready(function() {
 
     return;
 });
+
+function on_location_known_in_iframe(latitude, longitude) {
+    // called from within iframe once, right after loading
+    // the idea is that the map is centered on this location
+    // only if the view is location or event and no location
+    // was provided in the URL
+    if ((state.view == 'location' || state.view == 'event') && !state.locationInUrl) {
+        state.setCenterpoint(latitude, longitude);
+        state.setMapCenterpoint();
+        state.generateNewHashString();
+    }
+    return;
+}
 
 function on_click_static_map_in_iframe() {
     // callable from within iframe

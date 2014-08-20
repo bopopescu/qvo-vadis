@@ -131,3 +131,7 @@ html, body {
 .item-description {
     margin-top: 32px;
 }
+
+.hidden {
+    display: none;
+}

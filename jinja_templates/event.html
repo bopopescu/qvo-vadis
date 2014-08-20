@@ -10,6 +10,7 @@
 </head>
 
 <body onload="parent.on_body_resize_in_iframe()">
+    <script type="text/javascript">parent.on_location_known_in_iframe({{data['latitude']}},{{data['longitude']}});</script>
     {% if no_results_message %}
     <div class="item">
         <div class="item-suppressed">{{no_results_message}}</div>
@@ -29,7 +30,7 @@
             {% set start_date = date_time_reformat(data['start'], format='d/M', lang='en') %}
             {% set end_date = date_time_reformat(data['end'], format='d/M', lang='en') %}
             {% set start_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
-            {% set end_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
+            {% set end_time = date_time_reformat(data['end'], format='H:mm', lang='en') %}
             {% if start_date == end_date and start_time != end_time %}
             <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
             <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
