@@ -37,6 +37,7 @@ class NewHandler(webapp2.RequestHandler):
         master['hashtags'] = ','.join(["#%s#" % slugify(tag) for tag in extract_hash_tags(master['description'])])
         fusion_tables.insert(configuration['master table'], master)
         sync.sync_new_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
+        logging.info("LIST_OF_ADDED_ROWS [%s] [%s] %s" % (configuration['id'], master['update date'], data))
         # return the web-page content
         self.response.out.write(master['event slug'])
         return
@@ -60,6 +61,7 @@ class UpdateHandler(webapp2.RequestHandler):
         master['rowid'] = original_master['rowid']
         fusion_tables.update_with_implicit_rowid(configuration['master table'], master)
         sync.sync_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
+        logging.info("LIST_OF_UPDATED_ROWS [%s] [%s] %s" % (configuration['id'], master['update date'], data))
         # return the web-page content
         self.response.out.write(master['event slug'])
         return

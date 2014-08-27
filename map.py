@@ -12,9 +12,18 @@ logging.basicConfig(level=logging.INFO)
 class MapHandler(webapp2.RequestHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
+        localization = get_localization()
+        if configuration['id'] == 'www':
+            # this is a request for the landing page!
+            template = jinja_environment.get_template('www.html')
+            content = template.render(
+                localization=localization['en']  # TODO add localization to template and get user's langauage
+            )
+            # return the web-page content
+            self.response.out.write(content)
+            return
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)
-        localization = get_localization()
         template = jinja_environment.get_template('map.html')
         # map colors to tags
         colors = ['purple', 'blue', 'teal', 'lightgreen', 'amber', 'red']

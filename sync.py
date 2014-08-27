@@ -92,7 +92,8 @@ class SyncHandler(webapp2.RequestHandler):
 
         try:
 
-            for configuration in configurations:
+            for configuration in [c for c in configurations if c['id'] != 'www']:
+                # www is a fake configuration!
 
                 # in the master table, find all new events
                 condition = "'state' = 'new'"

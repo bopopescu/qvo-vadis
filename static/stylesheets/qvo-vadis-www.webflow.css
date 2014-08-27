@@ -1,0 +1,244 @@
+body {
+  border-bottom: 1px solid #5c5c5c;
+  font-family:'Droid Sans', sans-serif;
+  color: #333;
+  font-size: 16px;
+  line-height: 20px;
+}
+h1 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 700;
+}
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 700;
+}
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+}
+h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+h5 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+}
+h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+}
+p {
+  margin-bottom: 5px;
+}
+.action-button {
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  min-width: 0px;
+  margin: 28px;
+  border-radius: 28px;
+  background-color: white;
+  background-image: url('../images/icon-month.png');
+  background-position: 50% 50%;
+  background-size: auto;
+  background-repeat: no-repeat;
+  box-shadow: black 1px 1px 3px 0px;
+  font-family: Exo, sans-serif;
+  font-size: 9px;
+  line-height: 58px;
+  font-weight: 700;
+  text-align: center;
+}
+.top-button {
+  margin-right: 9px;
+  border-radius: 3px;
+  background-color: #dbdbdb;
+  color: black;
+  font-weight: 700;
+}
+.top-button.main-button {
+  background-color: #f52222;
+  color: white;
+}
+.section {
+  padding: 12px 24px;
+  border-bottom: 1px solid #ccc;
+}
+.tot-en-met {
+  line-height: 39px;
+  text-align: center;
+}
+.modal {
+  background-color: #e8e8e8;
+}
+.map {
+  height: 200px;
+}
+.input-number {
+  display: inline-block;
+  width: 50px;
+  height: 21px;
+  margin-bottom: 0px;
+  padding: 0px 6px;
+  font-size: 14px;
+}
+.inline {
+  display: inline-block;
+}
+.inline.margin-right {
+  margin-right: 18px;
+}
+.input-date {
+  display: inline-block;
+  width: 100px;
+  height: 21px;
+  padding: 0px 6px;
+}
+.input-text {
+  display: inline-block;
+  width: 100px;
+  height: 21px;
+  margin-bottom: 0px;
+  padding: 0px 6px;
+}
+.message {
+  background-color: #707070;
+  color: #fffcfc;
+}
+.error {
+  background-color: #edb9b9;
+}
+.logo {
+  display: inline-block;
+  margin-top: -12px;
+  margin-left: 24px;
+}
+.title {
+  display: inline-block;
+  padding-right: 24px;
+  padding-left: 24px;
+  font-family:'Varela Round', sans-serif;
+  color: white;
+  font-size: 32px;
+  line-height: 80px;
+}
+.title-bar {
+  background-color: #595757;
+}
+.button {
+  display: inline-block;
+  height: 36px;
+  margin-right: 16px;
+  margin-left: 24px;
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 3px;
+  background-color: #d61c1c;
+  color: white;
+  text-decoration: none;
+}
+.definition-term {
+  display: inline;
+  color: #cc1010;
+  font-weight: 700;
+}
+.definition {
+  display: inline;
+}
+.definition.url {
+  font-family: Inconsolata, monospace;
+}
+.paragraph {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding-right: 24px;
+  padding-left: 24px;
+}
+.paragraph.illustration-indent {
+  margin-left: 84px;
+}
+.blank-button {
+  display: inline-block;
+  height: 36px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  margin-left: 24px;
+  padding-top: 9px;
+  color: #db2727;
+  text-decoration: none;
+}
+.button-paragraph {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.block {
+  background-color: #ccc;
+}
+.illustration {
+  float: left;
+}
+.small-illustration {
+  display: block;
+  margin: 24px 16px 24px 40px;
+  float: left;
+}
+.block-hash {
+  background-color: #c9c9c9;
+}
+.block-open {
+  background-color: #dbdbdb;
+}
+.block-bkmg {
+  background-color: #e8e6e6;
+}
+.removed {
+  color: #cc1010;
+  font-weight: 700;
+  text-decoration: line-through;
+}
+.link {
+  display: block;
+  font-family: Inconsolata, monospace;
+  color: #d6d6d6;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+.no-padding {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.center {
+  font-weight: 400;
+  text-align: center;
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .column {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+@media (max-width: 479px) {
+}

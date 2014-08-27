@@ -10,6 +10,15 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5F6KKN"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5F6KKN');</script>
+    <!-- End Google Tag Manager -->
     <table>
         <tr>
             <td>
@@ -19,17 +28,33 @@
             </td>
             <td>
                 {% if not no_results_message %}
-                {% for row in data %}
+                {% for row in data[:8] %}
                 <div class="item">
-                    <div class="item_title">{{row['event name']}}</div>
-                    <div class="item_suppressed">{{row['organization']}}</div>
                     <div class="item_date">
                         <span>{{date_time_reformat(row['start'], format='EE d/M', lang=configuration['language'])}}</span>
                         <span> </span>
                         <span>{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</span>
                     </div>
+                    <div class="item_title">{{row['event name']}}</div>
                 </div>
                 {% endfor %}
+                <div id="more-items" class="hidden">
+                    {% for row in data[8:] %}
+                    <div class="item">
+                        <div class="item_date">
+                            <span>{{date_time_reformat(row['start'], format='EE d/M', lang=configuration['language'])}}</span>
+                            <span> </span>
+                            <span>{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</span>
+                        </div>
+                        <div class="item_title">{{row['event name']}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if data[8:] %}
+                <div id="more-items-button" class="item item-details" onclick="document.getElementById('more-items').className = ''; document.getElementById('more-items-button').className = 'hidden';">
+                    {{localization['more-results']}}
+                </div>
+                {% endif %}
                 {% endif %}
             </td>
         </tr>

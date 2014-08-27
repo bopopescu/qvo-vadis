@@ -4,6 +4,8 @@ import customer_configuration
 import logging
 import datetime
 import fusion_tables
+from lib import get_localization
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,6 +17,7 @@ class LocationHandler(webapp2.RequestHandler):
         if not now:
             now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
         configuration = customer_configuration.get_configuration(self.request)
+        localization = get_localization()
 
         # calculate midnight, midnight1 and midnight 7 based on now
         now_p = datetime.datetime.strptime(now, DATE_TIME_FORMAT)
@@ -70,7 +73,7 @@ class LocationHandler(webapp2.RequestHandler):
         no_results_message = ''
         data = fusion_tables.select(configuration['slave table'], condition=condition)
         if not data:
-            no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
+            no_results_message = localization[configuration['language']]['no-results']
             condition = "'location slug' = '" + location_slug + "'"  # search without timeframe or tags filter
             data = fusion_tables.select_first(configuration['slave table'], condition=condition)
             if not data:
@@ -84,7 +87,8 @@ class LocationHandler(webapp2.RequestHandler):
             configuration=configuration,
             data=data,
             date_time_reformat=date_time_reformat,
-            no_results_message=no_results_message
+            no_results_message=no_results_message,
+            localization=localization[configuration['language']]
         )
 
         # return the web-page content
@@ -95,6 +99,7 @@ class LocationHandler(webapp2.RequestHandler):
 class EventHandler(webapp2.RequestHandler):
     def get(self, event_slug=None, datetime_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
+        localization = get_localization()
 
         # query on event
         condition = "'event slug' = '%s'" % event_slug
@@ -104,14 +109,15 @@ class EventHandler(webapp2.RequestHandler):
         data = fusion_tables.select(configuration['slave table'], condition=condition)
         no_results_message = ''
         if not data:
-            no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
+            no_results_message = localization[configuration['language']]['no-results']
 
         template = jinja_environment.get_template('event.html')
         content = template.render(
             configuration=configuration,
             data=data[0] if data else {},
             date_time_reformat=date_time_reformat,
-            no_results_message=no_results_message
+            no_results_message=no_results_message,
+            localization=localization[configuration['language']]
         )
 
         # return the web-page content

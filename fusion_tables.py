@@ -16,7 +16,14 @@ import time
 from google.appengine.runtime import apiproxy_errors
 from apiclient import errors
 import httplib
+from google.appengine.api import logservice
 
+logging.basicConfig(level=logging.INFO)
+
+#logservice.AUTOFLUSH_EVERY_SECONDS = None
+#logservice.AUTOFLUSH_EVERY_BYTES = None
+#logservice.AUTOFLUSH_EVERY_LINES = 1
+#logservice.AUTOFLUSH_ENABLED = True
 
 OAUTH_SCOPE = 'https://www.googleapis.com/auth/fusiontables'
 API_CLIENT = 'fusiontables'
@@ -35,22 +42,26 @@ _deletes = {}  # idem
 
 def table_cols(table_id):
     # returns a list of column names, stored in global variable
-    query = _SQL.select(table_id) + ' LIMIT 1'
-    sleep = 1
-    for attempt in range(10):
-        try:
-            query_result = _service.query().sqlGet(sql=query).execute()
-        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
-            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
-            sleep = sleep * 2
-            logging.warning("Sleeping %d seconds because of HttpError trying to read column names in %s" % (sleep, table_id))
+    global _table_cols
+    if table_id not in _table_cols:
+        query = _SQL.select(table_id) + ' LIMIT 1'
+        sleep = 1
+        for attempt in range(10):
+            try:
+                logging.debug("Trying to read column names in %s" % table_id)
+                query_result = _service.query().sqlGet(sql=query).execute()
+            except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+                time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+                logging.warning("Sleeping %d seconds because of HttpError trying to read column names in %s (%s)" % (sleep, table_id, e))
+                sleep = sleep * 2
+            else:
+                break  # no error caught
         else:
-            break  # no error caught
-    else:
-        logging.critical("Retried 10 times reading column names in %s" % table_id)
-        raise  # attempts exhausted
-    _table_cols[table_id] = query_result['columns']
-    return _table_cols[table_id]
+            logging.critical("Retried 10 times reading column names in %s" % table_id)
+            raise  # attempts exhausted
+        _table_cols[table_id] = query_result['columns']
+        logging.info("Read column names in %s: %s" % (table_id, ','.join(_table_cols[table_id])))
+    return list(_table_cols[table_id])  # clone it! if they're gonna modify it, the global var is safe
 
 
 def clean_dict(table_id, dict):
@@ -66,12 +77,14 @@ def clean_dict(table_id, dict):
 def list_of_dicts_to_csv(table_id, list_of_dicts):
     csv = StringIO.StringIO()
     cols = table_cols(table_id)
+    logging.debug("Creating CSV using cols %s" % ','.join(cols))
     w = DictWriter(csv, cols)
     for dict in list_of_dicts:
         for key, value in dict.iteritems():
             if isinstance(value, unicode):
                 dict[key] = value.encode('utf8')
     w.writerows(list_of_dicts)
+    logging.debug("Created CSV %s" % csv.getvalue())
     return csv
 
 
@@ -88,11 +101,12 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     sleep = 1
     for attempt in range(10):
         try:
+            logging.debug("Trying to select rows in %s" % table_id)
             query_result = _service.query().sqlGet(sql=query).execute()
-        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to select rows in %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
-            logging.warning("Sleeping %d seconds because of HttpError trying to select rows in %s" % (sleep, table_id))
         else:
             break  # no error caught
     else:
@@ -164,7 +178,7 @@ def insert_hold(table_id, values):
         _inserts[table_id] = []
     _inserts[table_id].append(values)
     logging.info("Insert ON HOLD in %s %s" % (table_id, json.dumps(values)))
-    if len(_inserts[table_id]) >= 250:  # the limit is 500 or 1MB
+    if len(_inserts[table_id]) >= 100:  # the limit is 500 or 1MB, so ~250 is maximum here!
         insert_go(table_id)
     return
 
@@ -176,11 +190,14 @@ def insert_go(table_id):
         sleep = 1
         for attempt in range(10):
             try:
+                logging.debug("Trying to insert %d rows in slave %s" % (len(_inserts[table_id]), table_id))
+                csv.seek(0)  # rewind the StringIO object
+                logging.debug("First row: %s" % csv.readline())
                 result = _service.table().importRows(tableId=table_id, media_body=media_body).execute()
-            except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+            except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
                 time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+                logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in slave %s (%s)" % (sleep, len(_inserts[table_id]), table_id, e))
                 sleep = sleep * 2
-                logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in slave %s" % (sleep, len(_inserts[table_id]), table_id))
             else:
                 break  # no error caught
         else:
@@ -204,11 +221,12 @@ def update_with_implicit_rowid(table_id, values):
     sleep = 1
     for attempt in range(10):
         try:
+            logging.debug("Trying to insert a row in slave %s" % table_id)
             query_result = _service.query().sql(sql=query).execute()
-        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
-            logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s" % (sleep, table_id))
         else:
             break  # no error caught
     else:
@@ -229,11 +247,12 @@ def delete_with_implicit_rowid(table_id, values):
     sleep = 1
     for attempt in range(10):
         try:
+            logging.debug("Trying to delete row from slave %s" % table_id)
             query_result = _service.query().sql(sql=query).execute()
-        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException):
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to delete row from slave %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
-            logging.warning("Sleeping %d seconds because of HttpError trying to delete row from slave %s" % (sleep, table_id))
         else:
             break  # no error caught
     else:

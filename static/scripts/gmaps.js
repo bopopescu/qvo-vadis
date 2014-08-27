@@ -549,6 +549,7 @@ $(document).ready(function() {
             url += location.search;
         }
         $('input,select,textarea').prop('disabled', true);
+        $('#spinner').show();
         $.post(url, {data: data})
             .done(function(data) {
                 var url = '/';

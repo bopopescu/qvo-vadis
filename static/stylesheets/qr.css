@@ -17,13 +17,16 @@ td {
     vertical-align: top;
 }
 
+.item {
+    margin-bottom: 12pt;
+}
+
 .item_title {
-    color: darkorange;
     font-size: 14pt;
-    font-weight: 500;
 }
 
 .item_date {
+    color: darkorange;
     font-size: 14pt;
 }
 
@@ -52,4 +55,18 @@ img {
     font-family: "Arial Black", Gadget, sans-serif;
     text-align: center;
     color: darkorange;
+}
+
+.hidden {
+    display: none;
+}
+
+#more-items-button {
+    cursor: pointer;
+}
+
+@media print {
+    #more-items-button {
+        display: none !important;
+    }
 }

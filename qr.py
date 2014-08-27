@@ -4,6 +4,8 @@ import customer_configuration
 import logging
 import datetime
 import fusion_tables
+from lib import get_localization
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,6 +14,7 @@ DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 class LocationHandler(webapp2.RequestHandler):
     def get(self, now=datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT), location_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
+        localization = get_localization()
 
         condition = "start > '%s'" % now
 
@@ -22,6 +25,9 @@ class LocationHandler(webapp2.RequestHandler):
 
         # query on location
         condition += " AND 'location slug' = '%s'" % location_slug
+
+        # sort by datetime slug
+        condition += " ORDER BY 'datetime slug'"
 
         no_results_message = ''
         data = fusion_tables.select(configuration['slave table'], condition=condition)
@@ -43,7 +49,8 @@ class LocationHandler(webapp2.RequestHandler):
             data=data,
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message,
-            url=url
+            url=url,
+            localization=localization[configuration['language']]
         )
 
         # return the web-page content

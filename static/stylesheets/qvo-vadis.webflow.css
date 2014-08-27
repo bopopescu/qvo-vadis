@@ -140,6 +140,22 @@ p {
 #gmaps-canvas {
   height: 200px;
 }
+
+/* following two may not be needed all, but it helped preventing display errors in maps */
+#gmaps-canvas img {
+    max-width: none !important;
+    height: auto !important;
+    background: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#gmaps-canvas label {
+    width: auto;
+    display: inline;
+}
+
 .error {
   background-color: pink;
 }

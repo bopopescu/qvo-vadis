@@ -597,6 +597,11 @@ function on_body_resize_in_iframe() {
     return;
 }
 
+function on_navigation_request_in_iframe(url) {
+    // callable from within iframe
+    window.location.href = url;
+}
+
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MapTiming</title>
+    <meta name="description" content="MapTiming is a web app where you store information about upcoming events or schedules. You store location information as well as calendar date and time. The events are displayed on a map, and can be filtered based on a selected timeframe. MapTiming shows in a glance what's going on, where and when. ">
+    <meta name="keywords" content="event calendar map schedule organization visitors ">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/webflow.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/qvo-vadis-www.webflow.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                families: ["Droid Sans:400,700","Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Varela Round:400","Inconsolata:400,400italic,700,700italic"]
+            }
+        });
+    </script>
+    <script type="text/javascript" src="js/modernizr.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/placeholder/favicon.ico">
+</head>
+<body>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5F6KKN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5F6KKN');</script>
+<!-- End Google Tag Manager -->
+<div>
+    <div class="w-container">
+        <div class="title-bar">
+            <img class="logo" src="/images/maptiming.png" width="48" alt="MapTiming"">
+            <div class="title">MAPTIMING</div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="w-container center">
+        <img src="/images/map-plus-calendar-is-maptiming.png" alt="maps + calendar = maptiming">
+        <div class="paragraph">
+            <div class="definition">"a blend of maps and calendar"</div>
+        </div>
+    </div>
+    <div class="w-container">
+        <div class="title-bar">
+            <div class="title">Getting started</div>
+        </div>
+        <a href="http://hash.maptiming.com">
+            <img src="/images/banner.png" alt="maptiming looks like this">
+        </a>
+    </div>
+    <div class="w-container block">
+        <div class="paragraph">
+            <div class="definition-term">Viewing events on the map</div>
+        </div>
+        <div class="w-row">
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="illustration" src="/images/timeframe-on-gray.png" alt="timeframe-on-gray.png">
+                <div class="paragraph illustration-indent">Events going on now, later today, tomorrow or this week.</div>
+            </div>
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="illustration" src="/images/tag-on-gray.png" alt="tag-on-gray.png">
+                <div class="paragraph illustration-indent">Events filtered by a tag.&nbsp;</div>
+            </div>
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="illustration" src="/images/hash-on-gray.png" alt="hash-on-gray.png">
+                <div class="paragraph illustration-indent">Search for events with a description containing a hashtag.</div>
+            </div>
+        </div>
+    </div>
+    <div class="w-container block-open">
+        <div class="paragraph">
+            <div class="definition-term">Managing events</div>
+            <div class="definition">&nbsp;These buttons are on the bottom right corner of the map and not visible on smartphones.</div>
+        </div>
+        <div class="w-row">
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="small-illustration" src="/images/qr.png" width="42" alt="53f652f3fe55eb3d247b5cc0_qr.png">
+                <div class="paragraph illustration-indent">Print a page to announce the events using a QR-code.</div>
+            </div>
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="small-illustration" src="/images/add.png" width="42" alt="53f65306ca6d29b33fdfd24e_add.png">
+                <div class="paragraph illustration-indent">Add a new event.</div>
+            </div>
+            <div class="w-col w-col-4 w-clearfix">
+                <img class="small-illustration" src="/images/modify.png" width="42" alt="53f6530ffe4702b53fc3de94_modify.png">
+                <div class="paragraph illustration-indent">Modify the selected event.</div>
+            </div>
+        </div>
+    </div>
+    <div class="w-container block-bkmg">
+        <div class="paragraph">
+            <div class="definition-term">Sharing and embedding</div>
+            <div class="definition">&nbsp;Use the URL to share your information in three simple steps:</div>
+        </div>
+        <ol>
+            <li>
+                <div class="definition">Go to maptiming.com and navigate the map, filter the events or select a location</div>
+            </li>
+            <li>
+                <div class="definition">Copy the URL from your browser and share it with your friends</div>
+            </li>
+            <li>
+                <div class="definition">Embed the map on your website as HTML iframe, using the same URL. Check this <a target="_blank" href="http://jsfiddle.net/vicmortelmans/y12ufgcL/1/">jsfiddle</a> for an example</div>
+            </li>
+        </ol>
+        <div class="paragraph">
+            <div class="definition">To share a map that shows the user's current location, remove the coordinates from the URL:</div>
+        </div>
+        <div class="paragraph">
+            <div class="definition url">http://hash.maptiming.com/#<span class="removed">51.176542,4.458353,13z,671px/</span>now/label/hash/tag</div>
+        </div>
+        <div class="paragraph">
+            <div class="definition url">http://hash.maptiming.com/#now/label/hash/tag</div>
+        </div>
+    </div>
+    <div class="w-container">
+        <div class="title-bar">
+            <div class="title">Map types</div>
+        </div>
+    </div>
+    <div class="w-container block-hash">
+        <div class="paragraph">
+            <div class="definition-term">MapTiming HASH&nbsp;</div>
+            <div class="definition">is a free map to share events. Add a&nbsp;<a target="_blank" href="http://en.wikipedia.org/wiki/Hashtag">hashtag</a> to tag your events. Create a custom view to share or embed on your website. Make your tags popular!</div>
+        </div>
+        <div class="button-paragraph"><a class="button" href="http://hash.maptiming.com">TAKE ME TO THE MAP</a><a class="blank-button" href="http://hash.maptiming.com/new">ADD AN EVENT</a>
+        </div>
+    </div>
+    <div class="w-container block-open">
+        <div class="paragraph">
+            <div class="definition-term">MapTiming OPEN&nbsp;</div>
+            <div class="definition">is a free platform to create maps for a specific types of events. Define custom tags to categorize events.&nbsp;Share your map and embed it on your website. Let other users add events and make your map popular!&nbsp;</div>
+        </div>
+        <div class="button-paragraph"><a class="blank-button" href="http://doorstroming.us7.list-manage.com/subscribe?u=6e6114eaac9dabe295554fb37&id=f555dced14">SUBSCRIBE FOR RELEASE INFORMATION</a>
+        </div>
+    </div>
+    <div class="w-container block-bkmg">
+        <div class="paragraph">
+            <div class="definition-term">MapTiming B, K, M and G&nbsp;</div>
+            <div class="definition">are commercial platforms. Create a dedicated map for a specific type of events and keep control. Get a custom domain. Define custom tags to categorize events.&nbsp;Share your map and embed it on your website. Let users synchronize the events with
+                their calendar. Engage moderators to review new events. Store as many events as you like, you only pay for the number of events that is visible.</div>
+        </div>
+        <div class="button-paragraph"><a class="blank-button" href="http://doorstroming.us7.list-manage.com/subscribe?u=6e6114eaac9dabe295554fb37&id=f555dced14">SUBSCRIBE FOR RELEASE INFORMATION</a>
+        </div>
+    </div>
+    <div class="w-container">
+        <div class="paragraph">
+            <div class="definition-term">MapTiming TEST&nbsp;</div>
+            <div class="definition">The MapTiming playground. Use this map if you want to test MapTiming with no real event data.</div>
+        </div>
+        <div class="button-paragraph"><a class="button" href="http://test.maptiming.com">TAKE ME TO THE MAP</a><a class="blank-button" href="http://test.maptiming.com/new">ADD AN EVENT</a>
+        </div>
+    </div>
+    <div class="w-container">
+        <div class="w-embed w-video" style="padding-top: 56.20608899297424%;">
+            <iframe class="embedly-embed" src="https://cdn.embedly.com/widgets/media.html?src=http%3A%2F%2Fwww.youtube.com%2Fembed%2FUHrW_UMkexo%3Ffeature%3Doembed&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DUHrW_UMkexo&amp;image=http%3A%2F%2Fi.ytimg.com%2Fvi%2FUHrW_UMkexo%2Fhqdefault.jpg&amp;key=c4e54deccf4d4ec997a64902e9a30300&amp;type=text%2Fhtml&amp;schema=youtube"
+            scrolling="no" frameborder="0" allowfullscreen=""></iframe>
+        </div>
+   </div>
+    <div class="w-container">
+        <div class="title-bar">
+            <div class="w-row">
+                <div class="w-col w-col-6">
+                    <div class="paragraph"><a class="link" href="http://blog.maptiming.com">BLOG</a><a class="link" href="http://twitter.com/maptiming">TWITTER</a><a class="link" href="mailto:info@maptiming.com">MAIL</a>
+                    </div>
+                </div>
+                <div class="w-col w-col-6">
+                    <div class="paragraph"><a class="link" href="https://www.facebook.com/sharer/sharer.php?u=http://www.maptiming.com">share on FACEBOOK</a><a class="link" href="https://twitter.com/home?status=%22a%20blend%20of%20maps%20and%20calendar%22%20http://www.maptiming.com">share on TWITTER</a><a class="link" href="https://plus.google.com/share?url=http://www.maptiming.com">share on GOOGLE+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/webflow.js"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+</body>
+</html>

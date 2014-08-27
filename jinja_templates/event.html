@@ -10,15 +10,32 @@
 </head>
 
 <body onload="parent.on_body_resize_in_iframe()">
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5F6KKN"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5F6KKN');</script>
+    <!-- End Google Tag Manager -->
     <script type="text/javascript">parent.on_location_known_in_iframe({{data['latitude']}},{{data['longitude']}});</script>
     {% if no_results_message %}
     <div class="item">
-        <div class="item-suppressed">{{no_results_message}}</div>
+        <div class="item-details">{{no_results_message}}</div>
     </div>
     {% else %}
     <div class="header">
-        <div class="header-close" onclick="parent.on_click_static_map_in_iframe()"></div>
-        <div class="header-menu"></div>
+        <div class="header-close"></div>
+        <div class="header-menu">
+            {% if data['website'] %}
+            <div id="header-menu-items" class="material hidden">
+                <div id="menu-item-website" class="header-menu-item" data-website="{{data['website']}}">
+                    {{localization['visit-website']}}
+                </div>
+            </div>
+            {% endif %}
+        </div>
         <div class="header-details">
             <div class="header-title">{{data['location name']}}</div>
             <div class="header-suppressed">{{data['address']}}{% if data['location details']%} ({{data['location details']}}){% endif %}</div>
@@ -59,10 +76,15 @@
             <div class="item-title-card">{{data['event name']}}</div>
             <div class="item-description">{{data['description']}}</div>
             {% if data['registration required'] == 'true' %}
-            <div class="item-registration-required">Registration required</div>
+            <div class="item-registration-required">{{localization['registration-required']}}</div>
+            {% endif %}
+            {% if data['contact'] %}
+            <div class="item-contact">({{data['contact']}})</div>
             {% endif %}
         </div>
     </div>
     {% endif %}
+    <script type="text/javascript" src="/scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/scripts/cards.js"></script>
 </body>
 </html>

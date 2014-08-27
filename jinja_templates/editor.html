@@ -33,25 +33,36 @@
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5F6KKN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5F6KKN');</script>
+<!-- End Google Tag Manager -->
 <div class="w-container">
 <div class="w-form">
 <form id="email-form" name="email-form" data-name="Email Form">
 <div class="section">
     <div class="w-row">
         <div class="w-col w-col-6">
-            <input class="w-button top-button" id="main-cancel" type="submit" value="↰" data-wait="Please wait...">
-            <input class="w-button top-button main-button" id="main-save" type="submit" value="{{localization['save-capitals']}}" data-wait="Please wait...">
-            <input class="w-button top-button" id="main-discard" type="submit" value="{{localization['discard']}}" data-wait="Please wait...">
+            <input class="w-button top-button main-button" id="main-save" type="submit" value="{{localization['save-capitals']}}">
+            <input class="w-button top-button" id="main-discard" type="submit" value="{{localization['discard']}}">
+            <img id="spinner" src="/images/spinner.gif" class="hidden"/>
         </div>
+        {% if configuration['plan'] not in ['hash', 'open'] %}
         <div class="w-col w-col-6">
             <input class="w-input" id="owner" type="text"
                    placeholder="{{localization['enter-your-email']}}" name="owner"
                    required="required" autofocus="autofocus" data-name="owner">
         </div>
+        {% endif %}
     </div>
 </div>
 <div class="section">
-    <h4>{{localization[title]}}</h4>
+    <h4>{{configuration['title']}}: {{localization[title]}}</h4>
 </div>
 <div class="section">
     <div class="message-text hidden" id="no-event-name">{{localization['no-event-name']}}</div>
