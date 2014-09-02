@@ -1,15 +1,11 @@
-import webapp2
 from jinja_templates import jinja_environment
 import customer_configuration
-from lib import get_localization, slugify
+from lib import get_localization, slugify, BaseHandler
 import json
 from datetime import date, timedelta
-import logging
-
-logging.basicConfig(level=logging.INFO)
 
 
-class MapHandler(webapp2.RequestHandler):
+class MapHandler(BaseHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
         localization = get_localization()

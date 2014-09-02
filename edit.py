@@ -1,15 +1,12 @@
-import webapp2
 from jinja_templates import jinja_environment
 import customer_configuration
 import logging
-from lib import slugify, get_localization
+from lib import slugify, get_localization, BaseHandler
 import fusion_tables
 import json
 
-logging.basicConfig(level=logging.INFO)
 
-
-class EditHandler(webapp2.RequestHandler):
+class EditHandler(BaseHandler):
     def get(self, edit_mode='new', event_slug=None, location_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
         event = None

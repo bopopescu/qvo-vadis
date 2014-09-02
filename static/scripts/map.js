@@ -12,7 +12,7 @@ var state = {
         var strings = hash.replace(/^#/,'').split('/');
         for (var i=0; i<strings.length; i++) {
             var s = strings[i];
-            if (!map && s.match(/\d+\.\d+,\d+\.\d+,\d+z,\d+px/))
+            if (!map && s.match(/-?\d+\.\d+,-?\d+\.\d+,\d+z,\d+px/))
                 map = s;
             else if (!view && s.match(/location|list|event/))
                 view = s;
@@ -124,11 +124,20 @@ var state = {
     },
     setViewMap: function() {
         this.view = 'map';
+        this.location = null;  // otherwise an old value may interfere with marker highlighting
     },
     setViewEvent: function(event_slug, datetime_slug) {
         this.view = 'event';
         this.event = event_slug;
         this.datetime = datetime_slug;
+        this.location = null;  // otherwise an old value may interfere with marker highlighting
+    },
+    setLocation: function(location_slug) {
+        // this is the location that comes from the iframe and is used for highlighting
+        // all markers on that location in case of event view
+        if (this.view == 'event') {
+            this.location = location_slug;
+        }
     },
 
     // methods acting on the hash string
@@ -206,7 +215,7 @@ var state = {
         });
     },
     highlightLocationMarker: function() {
-        if (state.view == 'location') {
+        if (state.location) {
             layer.set('styles', [{
                 markerOptions: {
                     iconName: "placemark_circle"
@@ -218,6 +227,7 @@ var state = {
                     iconName: "placemark_circle_highlight"
                 }
             }]);
+/*
         } else if (state.view == 'event') {
             layer.set('styles', [{
                 markerOptions: {
@@ -230,6 +240,7 @@ var state = {
                         iconName: "placemark_circle_highlight"
                 }
             }]);
+*/
         } else {
             layer.set('styles', [{
                 markerOptions: {
@@ -360,7 +371,8 @@ var state = {
 
     panDirty: false, // dirty flag when map is being panned
     zoomDirty: false, // dirty flag when map is zoomed
-    ignoreHashChange: false // used to ignore hash changes triggered by myself
+    ignoreHashChange: false, // used to ignore hash changes triggered by myself
+    ignoreMapEvents: false // temporarily ignore map panning and zooming, while processing
 };
 
 // parse the hash; the coordinates are used by the google map initialization
@@ -428,15 +440,20 @@ function initialize() {
     });
 
     google.maps.event.addListener(map, 'idle', function() {
-        if (state.panDirty) {
-            state.getMapCenterpointAndSet();
-            state.generateNewHashString();
-            state.panDirty = false;
-        }
-        if (state.zoomDirty) {
-            state.getMapZoomAndSet();
-            state.generateNewHashString();
-            state.zoomDirty = false;
+        if (!state.ignoreMapEvents) {
+            if (state.panDirty || state.zoomDirty) {
+                state.ignoreMapEvents = true;
+                if (state.panDirty) {
+                    state.getMapCenterpointAndSet();
+                    state.panDirty = false;
+                }
+                if (state.zoomDirty) {
+                    state.getMapZoomAndSet();
+                    state.zoomDirty = false;
+                }
+                state.generateNewHashString();
+                state.ignoreMapEvents = false;
+            }
         }
     });
 
@@ -559,6 +576,16 @@ function on_location_known_in_iframe(latitude, longitude) {
         state.setMapCenterpoint();
         state.generateNewHashString();
     }
+    return;
+}
+
+function on_location_slug_known_in_iframe(location) {
+    // called from within iframe for event view, right after loading
+    // the idea is that the location slug is used for highlighting the markers
+    // because if the event slug is used, other event markers may overlap the
+    // highlighted marker
+    state.setLocation(location);
+    state.highlightLocationMarker();
     return;
 }
 

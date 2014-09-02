@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="/status.appcache">
+<html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -19,7 +19,10 @@
     '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5F6KKN');</script>
     <!-- End Google Tag Manager -->
-    <script type="text/javascript">parent.on_location_known_in_iframe({{data['latitude']}},{{data['longitude']}});</script>
+    <script type="text/javascript">
+        parent.on_location_known_in_iframe({{data['latitude']}},{{data['longitude']}});
+        parent.on_location_slug_known_in_iframe("{{data['location slug']}}");
+    </script>
     {% if no_results_message %}
     <div class="item">
         <div class="item-details">{{no_results_message}}</div>

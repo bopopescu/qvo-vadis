@@ -49,20 +49,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="w-row">
         <div class="w-col w-col-6">
             <input class="w-button top-button main-button" id="main-save" type="submit" value="{{localization['save-capitals']}}">
-            <input class="w-button top-button" id="main-discard" type="submit" value="{{localization['discard']}}">
+            <!--input class="w-button top-button" id="main-discard" type="submit" value="{{localization['discard']}}"-->
             <img id="spinner" src="/images/spinner.gif" class="hidden"/>
         </div>
-        {% if configuration['plan'] not in ['hash', 'open'] %}
         <div class="w-col w-col-6">
+            {% if configuration['plan'] not in ['hash', 'open'] %}
             <input class="w-input" id="owner" type="text"
                    placeholder="{{localization['enter-your-email']}}" name="owner"
                    required="required" autofocus="autofocus" data-name="owner">
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 <div class="section">
     <h4>{{configuration['title']}}: {{localization[title]}}</h4>
+    <div class="message-text hidden" id="information-missing">{{localization['information-missing']}}</div>
 </div>
 <div class="section">
     <div class="message-text hidden" id="no-event-name">{{localization['no-event-name']}}</div>
@@ -132,6 +133,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="w-row">
         <div class="w-col w-col-6 column">
             <div class="message-text hidden" id="location-name-nor-address">{{localization['location-name-nor-address']}}</div>
+            <div class="message-text hidden" id="no-marker">{{localization['no-marker']}}</div>
+            <div id="gmaps-error"></div>
             <input class="w-input input" id="address" type="text"
                    placeholder="{{localization['enter-address-to-search']}}" name="address"
                    autofocus="autofocus" data-name="address">
@@ -143,7 +146,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <a class="button top-button" id="location-ok" href="#">{{localization['save']}}</a>
         </div>
         <div class="w-col w-col-6 column">
-            <div id="gmaps-error"></div>
             <div id="gmaps-canvas"></div>
             <!--div class="w-widget w-widget-map map" data-widget-latlng="51.511214,-0.119824" data-widget-style="roadmap"
                  data-widget-zoom="8" data-widget-tooltip="Locatie"></div-->
@@ -179,6 +181,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <textarea class="w-input" id="description"
               placeholder="{{localization['use-hashtags']}}" name="description"
               data-name="description" autofocus="autofocus"></textarea>
+</div>
+<div class="section">
+    <a href="mailto:info@maptiming.com">info@maptiming.com</a>
 </div>
 </form>
 <div class="w-form-done">

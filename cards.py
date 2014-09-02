@@ -4,14 +4,12 @@ import customer_configuration
 import logging
 import datetime
 import fusion_tables
-from lib import get_localization
+from lib import get_localization, BaseHandler
 
-
-logging.basicConfig(level=logging.INFO)
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-class LocationHandler(webapp2.RequestHandler):
+class LocationHandler(BaseHandler):
     def get(self, location_slug=None, timeframe=None, tags=None, hashtags=None):
         now = self.request.get("now")
         if not now:
@@ -96,7 +94,7 @@ class LocationHandler(webapp2.RequestHandler):
         return
 
 
-class EventHandler(webapp2.RequestHandler):
+class EventHandler(BaseHandler):
     def get(self, event_slug=None, datetime_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
         localization = get_localization()

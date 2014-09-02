@@ -6,9 +6,6 @@ import json
 import re
 
 
-logging.basicConfig(level=logging.INFO)
-
-
 class RecurrenceInputHandler(webapp2.RequestHandler):
     def get(self):
         data = self.request.params
@@ -56,7 +53,6 @@ def dateformat_xlate(dateformat):
 
 def calculate_occurrences(data):
     # TODO: Return error on failure
-    occurrences = []
 
     date_format = dateformat_xlate(data['format'])
     start_date = datetime.datetime(int(data['year']),
@@ -104,11 +100,11 @@ def calculate_occurrences(data):
                 exdate = exdates.pop(0)
                 occurrences.append({'date': exdate.strftime('%Y%m%dT%H%M%S'),
                                     'formattedDate': exdate.strftime(date_format),
-                                    'type': 'exdate',})
+                                    'type': 'exdate'})
                 i += 1
 
         if i >= batch_size + start:
-            break # We are done!
+            break  # We are done!
 
         i += 1
         if i <= start:
@@ -124,7 +120,7 @@ def calculate_occurrences(data):
             occurrence_type = 'rrule'
         occurrences.append({'date': date.strftime('%Y%m%dT%H%M%S'),
                             'formattedDate': date.strftime(date_format),
-                            'type': occurrence_type,})
+                            'type': occurrence_type})
 
     while exdates:
         # There are exdates that are after the end of the recurrence.
@@ -133,7 +129,7 @@ def calculate_occurrences(data):
         exdate = exdates.pop(0)
         occurrences.append({'date': exdate.strftime('%Y%m%dT%H%M%S'),
                             'formattedDate': exdate.strftime(date_format),
-                            'type': 'exdate',})
+                            'type': 'exdate'})
 
     # Calculate no of occurrences, but only to a max of three times
     # the batch size. This will support infinite recurrence in a
@@ -165,7 +161,7 @@ def calculate_occurrences(data):
                   'end': num_occurrences,
                   'batch_size': batch_size,
                   'batches': batches,
-                  'currentBatch': cur_batch - first_batch,
+                  'currentBatch': cur_batch - first_batch
                   }
 
     return {'occurrences': occurrences, 'batch': batch_data}

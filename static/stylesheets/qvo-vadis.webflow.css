@@ -159,7 +159,7 @@ p {
 .error {
   background-color: pink;
 }
-.message-text {
+.message-text, #gmaps-error {
   color: #f52222;
 }
 @media (max-width: 991px) {

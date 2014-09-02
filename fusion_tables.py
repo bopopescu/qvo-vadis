@@ -140,7 +140,20 @@ def select_first(table_id, cols=None, condition=None):
     if not 'rowid' in cols:
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition) + ' LIMIT 1'
-    query_result = _service.query().sqlGet(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            logging.debug("Trying to select first row in %s" % table_id)
+            query_result = _service.query().sqlGet(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to select first row in %s (%s)" % (sleep, table_id, e))
+            sleep = sleep * 2
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times selecting first row in %s" % table_id)
+        raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
     for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
         if 'sequence' in row and row['sequence'] == 'NaN':
@@ -155,7 +168,20 @@ def select_nth(table_id, cols=None, condition=None, n=1):
     if not 'rowid' in cols:
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition) + ' OFFSET %d LIMIT 1' % n
-    query_result = _service.query().sqlGet(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            logging.debug("Trying to select nth row in %s" % table_id)
+            query_result = _service.query().sqlGet(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to select nth row in %s (%s)" % (sleep, table_id, e))
+            sleep = sleep * 2
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times selecting nth row in %s" % table_id)
+        raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
     for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
         if 'sequence' in row and row['sequence'] == 'NaN':
@@ -165,7 +191,20 @@ def select_nth(table_id, cols=None, condition=None, n=1):
 
 def insert(table_id, values):
     query = _SQL.insert(table_id, values)
-    query_result = _service.query().sql(sql=query).execute()
+    sleep = 1
+    for attempt in range(10):
+        try:
+            logging.debug("Trying to insert row in %s" % table_id)
+            query_result = _service.query().sql(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to insert row in %s (%s)" % (sleep, table_id, e))
+            sleep = sleep * 2
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times inserting row in %s" % table_id)
+        raise  # attempts exhausted
     if not 'error' in query_result:
         logging.info("Inserted in %s %s" % (table_id, json.dumps(values)))
     else:
@@ -266,7 +305,8 @@ def delete_with_implicit_rowid(table_id, values):
 
 
 def master_to_slave(master):
-    # returns a tuple of slave dicts, 'list' because a recurring date will produce multiple rows
+    # returns a tuple of a list of slave dicts
+    # ('list' because a recurring date will produce multiple rows)
     # and the final date as second tuple element
     # first create a dict with the copied attributes
     slave = {}
@@ -315,7 +355,7 @@ def master_to_slave(master):
         done = False
         final_date = ''
         while True:
-            occurrences = calculate_occurrences(data)['occurrences']
+            occurrences = [o for o in calculate_occurrences(data)['occurrences'] if o['type'] != 'exdate']
             for occurrence in occurrences:
                 start_date = datetime.strptime(occurrence['date'], ISO_DATE_TIME_FORMAT).date()
                 if today_date <= start_date < today_plus_13_months_date:

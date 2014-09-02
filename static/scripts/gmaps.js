@@ -172,21 +172,24 @@ function gmaps_init() {
                 name: name, 
                 location: position
             });
+            marker.setPosition(position);
             return;
         });
     });
 
     google.maps.event.addListener(layer2, 'click', function(e) {
         var address = e.row['address'].value;
+        var name = e.row['location name'].value;
+        // address and name are read from the map, people should not change this!
         var postal_code = e.row['postal code'].value;
         var position = new google.maps.LatLng(e.row.latitude.value, e.row.longitude.value);
-        var name = e.row['location name'].value;
         update_ui({
             address: address,
             postal_code: postal_code,
             name: name, 
             location: position
         });
+        marker.setPosition(position);
     });
 
 }
@@ -423,7 +426,10 @@ $(document).ready(function() {
     $("#rrule").recurrenceinput({lang:language, startField: "start-date"});
     $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
     $(".date").datepicker();
-    $(".time").timepicker({ 'timeFormat': 'H:i' });
+    $(".time").timepicker({
+        'timeFormat': 'H:i',
+        'disableTimeRanges': [ ['24:00', '24:01'] ]
+    });
     var start = new Date();
     var end = new Date();
     end.setTime(start.getTime() + duration);
@@ -478,30 +484,37 @@ $(document).ready(function() {
         event['event slug'] = '';
         var start_date = $("#start-date").datepicker("getDate");
         if (start_date < now) {
+            $('#information-missing').show();
             $('#start-date-past').show();
             $('#start-date').addClass('error');
         }
         var start_date_string = $.datepicker.formatDate("yy-mm-dd", start_date);
         var start_time_string = $('#start-hour').val() + ":00";
         var start_string = start_date_string + " " + start_time_string;
-        if (isNaN(Date.parse(start_string))) {
+        var start_string_for_parsing = start_date_string + "T" + start_time_string;
+        if (isNaN(Date.parse(start_string_for_parsing))) {
+            $('#information-missing').show();
             $('#start-hour-wrong').show();
             $('#start-hour').addClass('error');
         }
         event['start'] = start_string;
         var end_date = $("#end-date").datepicker("getDate");
         if (end_date < start_date) {
+            $('#information-missing').show();
             $('#end-date-before-start-date').show();
             $('#end-date').addClass('error');
         }
         var end_date_string = $.datepicker.formatDate("yy-mm-dd", end_date);
         var end_time_string = $('#end-hour').val() + ":00";
         var end_string = end_date_string + " " + end_time_string;
-        if (isNaN(Date.parse(start_string))) {
+        var end_string_for_parsing = end_date_string + "T" + end_time_string;
+        if (isNaN(Date.parse(end_string_for_parsing))) {
+            $('#information-missing').show();
             $('#end-hour-wrong').show();
             $('#end-hour').addClass('error');
         }
         if (end_string < start_string) {
+            $('#information-missing').show();
             $('#end-hour-before-start-hour').show();
             $('#end-hour').addClass('error');
         }
@@ -509,6 +522,7 @@ $(document).ready(function() {
         event['calendar rule'] = $('#rrule').val();
         event['event name'] = $('#event-name').val();
         if (!event['event name']) {
+            $('#information-missing').show();
             $('#no-event-name').show();
             $('#event-name').addClass('error');
         }
@@ -517,16 +531,23 @@ $(document).ready(function() {
         event['website'] = $('#website').val();
         event['registration required'] = $('#registration-required').is(':checked') ? 'true' : 'false';
         event['owner'] = $('#owner').val();
-        event['location name'] = $('#location-name').val();
         event['address'] = $('#address').val();
+        event['location name'] = $('#location-name').val();
         if (!event['location name'] && !event['address']) {
+            $('#information-missing').show();
             $('#location-name-nor-address').show();
             $('#address').addClass('error');
             $('#location-modal').show();
         }
         event['postal code'] = $('#gmaps-output-postal-code').text();
-        event['latitude'] = $('#gmaps-output-latitude').text();
-        event['longitude'] = $('#gmaps-output-longitude').text();
+        event['latitude'] = $('#gmaps-output-latitude').text().replace(',','.');
+        event['longitude'] = $('#gmaps-output-longitude').text().replace(',','.');  // I've seen comma in the table, no idea how it got there
+        if (!event['latitude']) {
+            $('#information-missing').show();
+            $('#no-marker').show();
+            $('#address').addClass('error');
+            $('#location-modal').show();
+        }
         event['location details'] = $('#location-details').val();
         var tags = [];
         $('.tag').each(function() {
@@ -566,6 +587,9 @@ $(document).ready(function() {
         return false;
     });
     $('#main-discard').click(function() {
+        return false;
+    });
+    $('#main-help').click(function() {
         return false;
     });
     $("div.section:not('.modal') input").keypress(function(event) {

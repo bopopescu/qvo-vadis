@@ -1,12 +1,8 @@
-import webapp2
 from jinja_templates import jinja_environment
-from oauth2_three_legged import Oauth2_service
-import logging
-
-logging.basicConfig(level=logging.INFO)
+from lib import BaseHandler
 
 
-class ICalHandler(webapp2.RequestHandler):
+class ICalHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template('calendar.ics')
         content = template.render( )

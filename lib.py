@@ -1,3 +1,7 @@
+import webapp2
+import logging
+
+
 def slugify(value):
     """
     Normalizes string, converts to lowercase, removes non-alpha characters
@@ -54,3 +58,21 @@ def get_localization():
         for field in header_with_row[1:]:
             localization[field[0]][row[0]] = field[1]
     return localization
+
+
+class BaseHandler(webapp2.RequestHandler):
+    def handle_exception(self, exception, debug):
+        # Log the error.
+        logging.exception(exception)
+
+        # Set a custom message.
+        response.write('An error occurred.')
+
+        # If the exception is a HTTPException, use its error code.
+        # Otherwise use a generic 500 error code.
+        if isinstance(exception, webapp2.HTTPException):
+            response.set_status(exception.code)
+        else:
+            response.set_status(500)
+
+

@@ -1,4 +1,10 @@
 import webapp2
+import logging
+import email_logger
+
+logging.basicConfig(level=logging.INFO)
+email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
+
 
 routes = [
     webapp2.Route(r'/', handler='map.MapHandler'),
@@ -20,8 +26,7 @@ routes = [
     webapp2.Route(r'/sync', handler='sync.SyncHandler'),
     webapp2.Route(r'/load', handler='sync.LoadHandler'),
     webapp2.Route(r'/ical', handler='ical.ICalHandler'),
-    webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler'),
-    webapp2.Route(r'/status.appcache', handler='appcache.AppCacheHandler')
+    webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler')
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
