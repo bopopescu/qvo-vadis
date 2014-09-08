@@ -364,6 +364,12 @@ a.menu-item {
     margin: 3px;
 }
 
+#iframe iframe {
+    border: 0px;
+    height: 100%;
+    width: 100%;
+}
+
 @media (max-width: 640px) {
     body {
         overflow-x: hidden;
@@ -371,19 +377,12 @@ a.menu-item {
 
     #iframe {
         width: 100%;
-        height: 100%;
         position: absolute;
         top: 0px;
         left: 0px;
         background-color: white;
         display: none; /* default */
         z-index: 2;
-    }
-
-    #iframe iframe {
-        border: 0px;
-        height: 100%;
-        width: 100%;
     }
 
     #tools {
@@ -399,12 +398,6 @@ a.menu-item {
         /*        border: 3px solid white; */
         background-color: white;
         display: none; /* default */
-    }
-
-    #iframe iframe {
-        border: 0px;
-        height: 100%;
-        width: 100%;
     }
 
     #tools {

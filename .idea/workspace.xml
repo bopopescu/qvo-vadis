@@ -6,40 +6,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/email_logger.py" />
-      <change type="DELETED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\appcache.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\jinja_templates\status.appcache" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.yaml" afterPath="$PROJECT_DIR$/app.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cards.py" afterPath="$PROJECT_DIR$/cards.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/cards.css" afterPath="$PROJECT_DIR$/static/stylesheets/cards.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/editor.html" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/event.html" afterPath="$PROJECT_DIR$/jinja_templates/event.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fusion_tables.py" afterPath="$PROJECT_DIR$/fusion_tables.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/gmaps.js" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ical.py" afterPath="$PROJECT_DIR$/ical.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.py" afterPath="$PROJECT_DIR$/lib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/localization.csv" afterPath="$PROJECT_DIR$/localization.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/location.html" afterPath="$PROJECT_DIR$/jinja_templates/location.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/map.css" afterPath="$PROJECT_DIR$/static/stylesheets/map.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/qr.html" afterPath="$PROJECT_DIR$/jinja_templates/qr.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qr.py" afterPath="$PROJECT_DIR$/qr.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" afterPath="$PROJECT_DIR$/static/stylesheets/qvo-vadis.webflow.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recurrenceinput.py" afterPath="$PROJECT_DIR$/recurrenceinput.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/submit.py" afterPath="$PROJECT_DIR$/submit.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/www.html" afterPath="$PROJECT_DIR$/jinja_templates/www.html" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409387408751" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409652133236" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409258911021" ignored="false" />
-    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408739642010" ignored="false" />
+    <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410104768511" ignored="false" />
     <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409650224738" ignored="false" />
     <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408995695179" ignored="false" />
-    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409212013095" ignored="false" />
+    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410104645530" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
     <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409348329508" ignored="false" />
     <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260108137" ignored="false" />
@@ -50,10 +36,10 @@
     <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408996113038" ignored="false" />
     <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408641012997" ignored="false" />
     <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408648848645" ignored="false" />
-    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409651745354" ignored="false" />
+    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410121781899" ignored="false" />
     <file path="/appcache.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444988337" ignored="false" />
     <file path="/status.appcache" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444999609" ignored="false" />
-    <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408646162720" ignored="false" />
+    <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410123606773" ignored="false" />
     <file path="/event.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409165794271" ignored="false" />
     <file path="/qr.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408647182995" ignored="false" />
     <file path="/qr.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399753677816" ignored="false" />
@@ -63,19 +49,19 @@
     <file path="/jquery.recurrenceinput.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403808784340" ignored="false" />
     <file path="/app-sync.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399840915110" ignored="false" />
     <file path="/sync.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409259670998" ignored="false" />
-    <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409651594873" ignored="false" />
+    <file path="/lib.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409669292025" ignored="false" />
     <file path="/sqlbuilder.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1407879495034" ignored="false" />
     <file path="/fusion_tables.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409343138043" ignored="false" />
-    <file path="/a.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408301159408" ignored="false" />
+    <file path="/a.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409763136659" ignored="false" />
     <file path="/a.coffee" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233105231" ignored="false" />
     <file path="/a.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402233120939" ignored="false" />
     <file path="/a.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408301066591" ignored="false" />
     <file path="/cron.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260975297" ignored="false" />
-    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409608615373" ignored="false" />
-    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1406125387684" ignored="false" />
+    <file path="/editor.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409771998200" ignored="false" />
+    <file path="/edit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410104883658" ignored="false" />
     <file path="/webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1403631162213" ignored="false" />
     <file path="/qvo-vadis.webflow.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409399014583" ignored="false" />
-    <file path="/gmaps.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409606335798" ignored="false" />
+    <file path="/gmaps.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410119057941" ignored="false" />
     <file path="/submit.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409651437040" ignored="false" />
     <file path="/localization.csv" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408645646371" ignored="false" />
     <file path="/www.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409481152647" ignored="false" />
@@ -101,82 +87,65 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
+      <file leaf-file-name="map.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lib.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="12" selection-start="274" selection-end="274" vertical-scroll-proportion="0.43896714">
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="map.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/map.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="53" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
+            <state line="636" column="24" selection-start="22839" selection-end="22839" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qr.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/qr.py">
+      <file leaf-file-name="map.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/stylesheets/map.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="7" selection-start="7" selection-end="7" vertical-scroll-proportion="0.0">
+            <state line="396" column="18" selection-start="7512" selection-end="7512" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="submit.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/submit.py">
+      <file leaf-file-name="cards.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/stylesheets/cards.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+            <state line="169" column="0" selection-start="3177" selection-end="3177" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ical.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ical.py">
+      <file leaf-file-name="map.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0">
+            <state line="99" column="28" selection-start="4153" selection-end="4153" vertical-scroll-proportion="-18.846153">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edit.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/edit.py">
+      <file leaf-file-name="event.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/event.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="77" column="20" selection-start="5297" selection-end="5297" vertical-scroll-proportion="-7.8461537">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="location.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jinja_templates/location.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="66" selection-start="2757" selection-end="2757" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cards.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/scripts/cards.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cards.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cards.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="21" selection-start="288" selection-end="288" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -199,22 +168,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/jinja_templates/location.html" />
-        <option value="$PROJECT_DIR$/jinja_templates/event.html" />
-        <option value="$PROJECT_DIR$/jinja_templates/qr.html" />
-        <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
-        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
-        <option value="$PROJECT_DIR$/recurrenceinput.py" />
         <option value="$PROJECT_DIR$/email_logger.py" />
         <option value="$PROJECT_DIR$/sync.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/map.py" />
         <option value="$PROJECT_DIR$/qr.py" />
         <option value="$PROJECT_DIR$/ical.py" />
         <option value="$PROJECT_DIR$/cards.py" />
-        <option value="$PROJECT_DIR$/edit.py" />
-        <option value="$PROJECT_DIR$/lib.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/map.html" />
         <option value="$PROJECT_DIR$/submit.py" />
+        <option value="$PROJECT_DIR$/lib.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/edit.py" />
+        <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
+        <option value="$PROJECT_DIR$/static/scripts/map.js" />
+        <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
+        <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
       </list>
     </option>
   </component>
@@ -393,13 +362,29 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="118" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="118" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="118" />
+    <property name="options.lastSelected" value="Errors" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="preferences.sourceCode.Python" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="118" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="793" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="793" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="119" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="117" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -731,28 +716,32 @@
       <created>1409154267210</created>
       <updated>1409154267210</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="First release &quot;HASH&quot; with already some bugfixes, and logging to email">
+      <created>1409652141467</created>
+      <updated>1409652141467</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1252" height="784" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2882353" sideWeight="0.724359" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41666666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36057693" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35416666" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27564102" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32371795" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -800,7 +789,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lots of changes... website, card menu, bugfixes,..." />
+    <option name="LAST_COMMIT_MESSAGE" value="First release &quot;HASH&quot; with already some bugfixes, and logging to email" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -833,6 +822,7 @@
     <MESSAGE value="iframe layout is now material design; hash table working" />
     <MESSAGE value="several improvements, especially making fusion table api more robust by adding exponential back-off and retry mechanism" />
     <MESSAGE value="Lots of changes... website, card menu, bugfixes,..." />
+    <MESSAGE value="First release &quot;HASH&quot; with already some bugfixes, and logging to email" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -843,69 +833,18 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jinja_templates/location.html">
+    <entry file="file://$PROJECT_DIR$/cards.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="5" selection-start="21" selection-end="21" vertical-scroll-proportion="0.043927647">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/www.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="103" selection-start="5552" selection-end="5552" vertical-scroll-proportion="4.4806204">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="185" column="58" selection-start="10138" selection-end="10138" vertical-scroll-proportion="0.5055249">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="508" column="12" selection-start="19585" selection-end="19585" vertical-scroll-proportion="-1.621134">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sqlbuilder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/recurrenceinput.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0">
+        <state line="12" column="21" selection-start="288" selection-end="288" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/email_logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="940" selection-end="940" vertical-scroll-proportion="0.8232446">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="181" selection-end="181" vertical-scroll-proportion="-0.4116223">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/map.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="53" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
+        <state line="2" column="53" selection-start="129" selection-end="129" vertical-scroll-proportion="0.08232445">
           <folding />
         </state>
       </provider>
@@ -917,53 +856,100 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ical.py">
+    <entry file="file://$PROJECT_DIR$/lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="11" column="11" selection-start="273" selection-end="273" vertical-scroll-proportion="0.31924883">
           <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cards.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="21" selection-start="288" selection-end="288" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/submit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="267" selection-end="267" vertical-scroll-proportion="0.0">
+        <state line="23" column="32" selection-start="683" selection-end="683" vertical-scroll-proportion="0.0991453">
+          <folding>
+            <element signature="e#0#14#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="92" selection-start="1751" selection-end="1751" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib.py">
+    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="12" selection-start="274" selection-end="274" vertical-scroll-proportion="0.43896714">
+        <state line="78" column="9" selection-start="2501" selection-end="2501" vertical-scroll-proportion="0.48055556">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="206" column="31" selection-start="10958" selection-end="10958" vertical-scroll-proportion="1.1646707">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/edit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="77" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#45#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="28" selection-start="4153" selection-end="4153" vertical-scroll-proportion="-18.846153">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/event.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="20" selection-start="5297" selection-end="5297" vertical-scroll-proportion="-7.8461537">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/stylesheets/cards.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="169" column="0" selection-start="3177" selection-end="3177" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/stylesheets/map.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="396" column="18" selection-start="7512" selection-end="7512" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/cards.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="636" column="24" selection-start="22839" selection-end="22839" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/location.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="66" selection-start="2757" selection-end="2757" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>

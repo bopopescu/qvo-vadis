@@ -11,11 +11,9 @@ from google.appengine.api import mail
 import os
 
 
-
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
 app_id = os.environ.get('APPLICATION_ID')
-
 
 
 class NewHandler(BaseHandler):

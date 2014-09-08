@@ -204,7 +204,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     var predefined_locations_table = '{{configuration["predefined locations table"]}}';
     var slave_table = '{{configuration["slave table"]}}';
     var original_event = {{event_json | safe}}[0];
-    var location_only = '{{location_only}}';
+    var event_default = '{{event_default}}';
+    var location_default = '{{location_default}}';
+    var coordinates_default = '{{coordinates_default}}';
+    var tags_default = '{{tags_default}}';
+    var hashtags_default = '{{hashtags_default}}';
     var edit_mode = '{{edit_mode}}';
 </script>
 </body>

@@ -66,13 +66,13 @@ class BaseHandler(webapp2.RequestHandler):
         logging.exception(exception)
 
         # Set a custom message.
-        response.write('An error occurred.')
+        self.response.out.write('An error occurred.')
 
         # If the exception is a HTTPException, use its error code.
         # Otherwise use a generic 500 error code.
         if isinstance(exception, webapp2.HTTPException):
-            response.set_status(exception.code)
+            self.response.set_status(exception.code)
         else:
-            response.set_status(500)
+            self.response.set_status(500)
 
 

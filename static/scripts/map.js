@@ -346,6 +346,20 @@ var state = {
         } else if (this.view == 'location') {
             // append the location slug
             url += '/location/' + this.location;
+            if (this.tags.length > 0) {
+                url += '/' + this.tags.join(',');
+            }
+            if (this.hashtags.length > 0) {
+                url += '/hash/' + this.hashtags.join(',');
+            }
+        } else if (this.view = 'map') {
+            url += '/' + this.lat + ',' + this.lon + ',' + this.zoom + 'z';
+            if (this.tags.length > 0) {
+                url += '/' + this.tags.join(',');
+            }
+            if (this.hashtags.length > 0) {
+                url += '/hash/' + this.hashtags.join(',');
+            }
         }
         // append the ?id= parameter if present in the location, just for debugging on localhost
         url += window.location.search;
@@ -453,6 +467,7 @@ function initialize() {
                 }
                 state.generateNewHashString();
                 state.ignoreMapEvents = false;
+                state.displayAddEventIcon();
             }
         }
     });
@@ -500,10 +515,12 @@ $(document).ready(function() {
     $('#tags-button').on("click", function() {
         $('#timeframe-menu,#hash-menu').hide();
         $('#tags-menu').toggle();
+        state.displayAddEventIcon();
     })
     $('#hash-button').on("click", function() {
         $('#timeframe-menu,#tags-menu').hide();
         $('#hash-menu').toggle();
+        state.displayAddEventIcon();
     })
 
     // add event handlers to the timeframe buttons
@@ -615,12 +632,9 @@ function on_body_resize_in_iframe() {
     // callable from within iframe
     // this is not affecting the state object
     // it resizes the iframe and it's containing div
-    // but only in desktop views OR when the class 'variable_height' is set
     var height = $('#iframe iframe').contents().find('body').height();
-    if ($('#iframe').css('position') !== 'fixed' || $('#iframe').hasClass('variable_height')) {
-        $('#iframe').css('height', height);
-        $('#iframe iframe').css('height', height);  // strange behaviour otherwise
-    }
+    $('#iframe').css('height', height);
+    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
     return;
 }
 

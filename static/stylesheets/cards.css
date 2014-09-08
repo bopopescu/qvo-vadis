@@ -163,6 +163,11 @@ html, body {
 
 .item-description {
     margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.item-contact {
+    margin-bottom: 32px;
 }
 
 .hidden {

@@ -71,10 +71,15 @@ function gmaps_init() {
     });
 
     // re-center the map if a geo position is available and no coordinates were in the URL
-    if (original_event) {
+    if (event_default == 'true' || location_default == 'true' || coordinates_default == 'true') {
         var latLng = new google.maps.LatLng(original_event['latitude'], original_event['longitude']);
         map.setCenter(latLng);
-        marker.setPosition(latLng);
+        if (coordinates_default == 'true') {
+            map.setZoom(parseInt(original_event['zoom']));
+        }
+        if (event_default == 'true' || location_default == 'true') {
+            marker.setPosition(latLng);
+        }
     } else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -373,44 +378,38 @@ function pad(n) { return ("0" + n).slice(-2); }
 
 function initialize_data() {
     // called from $(), *after* datepicker is initialized
-    if (original_event) {
-        if (location_only == 'false') {
-            var start_date = new Date(original_event['start']);
-            var end_date = new Date(original_event['end']);
-            var today = new Date();
-            if (start_date < today) {
-                var new_start_date = today;
-                new_start_date.setHours(start_date.getHours());
-                new_start_date.setMinutes(start_date.getMinutes());
-                new_start_date.setTime(new_start_date.getTime() + 86400000); /* plus one day */
-                var duration = end_date - start_date;
-                start_date = new_start_date;
-                end_date.setTime(new_start_date.getTime() + duration);
-            }
-            $('#start-date').datepicker('setDate', start_date);
-            $('#start-hour').timepicker('setTime', start_date);
-            $('#end-date').datepicker('setDate', end_date);
-            $('#end-hour').timepicker('setTime', end_date);
-            if (original_event['calendar rule']) {
-                $('#rrule').val(original_event['calendar rule']);
-                $('#repeating').prop('checked', true);
-                $('a[name=riedit]').trigger('click');
-            }
-            $('#event-name').val(original_event['event name']);
-            $('#description').val(original_event['description']);
-            $('#contact').val(original_event['contact']);
-            $('#website').val(original_event['website']);
-            if (original_event['registration required'] == 'true') {
-                $('#registration-required').prop('checked', true)
-            }
-            $('#owner').val(original_event['owner']);
-            $('.tag').each(function() {
-                var tag = '#' + $(this).attr('id') + '#';
-                if (original_event['tags'].match(tag)) {
-                    $(this).prop('checked', true);
-                }
-            });
+    if (event_default == 'true') {
+        var start_date = new Date(original_event['start']);
+        var end_date = new Date(original_event['end']);
+        var today = new Date();
+        if (start_date < today) {
+            var new_start_date = today;
+            new_start_date.setHours(start_date.getHours());
+            new_start_date.setMinutes(start_date.getMinutes());
+            new_start_date.setTime(new_start_date.getTime() + 86400000); /* plus one day */
+            var duration = end_date - start_date;
+            start_date = new_start_date;
+            end_date.setTime(new_start_date.getTime() + duration);
         }
+        $('#start-date').datepicker('setDate', start_date);
+        $('#start-hour').timepicker('setTime', start_date);
+        $('#end-date').datepicker('setDate', end_date);
+        $('#end-hour').timepicker('setTime', end_date);
+        if (original_event['calendar rule']) {
+            $('#rrule').val(original_event['calendar rule']);
+            $('#repeating').prop('checked', true);
+            $('a[name=riedit]').trigger('click');
+        }
+        $('#event-name').val(original_event['event name']);
+        $('#description').val(original_event['description']);
+        $('#contact').val(original_event['contact']);
+        $('#website').val(original_event['website']);
+        if (original_event['registration required'] == 'true') {
+            $('#registration-required').prop('checked', true);
+        }
+        $('#owner').val(original_event['owner']);
+    }
+    if (event_default == 'true' || location_default == 'true') {
         $('#location-name').val(original_event['location name']);
         $('#address').val(original_event['address']);
         $('#gmaps-output-postal-code').text(original_event['postal code']);
@@ -418,6 +417,24 @@ function initialize_data() {
         $('#gmaps-output-longitude').text(original_event['longitude']);
         // initializing map position cannot be done here... find 'setCenter'
         $('#location-details').val(original_event['location details']);
+    }
+//    if (coordinates_default = 'true') {
+        // initializing map position cannot be done here... find 'setCenter'
+//    }
+    if (event_default == 'true' || tags_default == 'true') {
+        $('.tag').each(function() {
+            var tag = '#' + $(this).attr('id') + '#';
+            if (original_event['tags'].match(tag)) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
+    if (hashtags_default == 'true') {
+        var description = [];
+        $.each(original_event['hashtags'].split(','),function(index,value) {
+            description.push('#' + value);
+        });
+        $('#description').val(description.join(' '));
     }
 }
 
@@ -554,7 +571,7 @@ $(document).ready(function() {
             if ( $(this).is(':checked') ) {
                 tags.push('#' + $(this).attr('id') + '#');
             }
-        })
+        });
         event['tags'] = tags.join();
         if ($('.error').length) {
             // there are errors
