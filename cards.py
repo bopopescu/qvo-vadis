@@ -29,19 +29,19 @@ class LocationHandler(BaseHandler):
         # query on timeframe
         if timeframe == 'now':
             # start < now and end > now
-            condition = "start < '" + now + "' and end > '" + now + "'"
+            condition = "start <= '" + now + "' and end >= '" + now + "'"
         elif timeframe == 'today':
-            # start > now and start < midnight
-            condition = "start > '" + now + "' and start < '" + midnight + "'"
+            # end > now and start < midnight
+            condition = "end >= '" + now + "' and start <= '" + midnight + "'"
         elif timeframe == 'tomorrow':
-            # start > midnight and start < midnight + 1 day
-            condition = "start > '" + midnight + "' and start < '" + midnight1 + "'"
+            # end > midnight and start < midnight + 1 day
+            condition = "end >= '" + midnight + "' and start <= '" + midnight1 + "'"
         elif timeframe == 'week':
-            # start > now and start < midnight + 7 days
-            condition = "start > '" + midnight + "' and start < '" + midnight7 + "'"
+            # end > now and start < midnight + 7 days
+            condition = "end >= '" + now + "' and start <= '" + midnight7 + "'"
         else:  # 'all' and other timeframes are interpreted as 'all'
-            # start > now
-            condition = "start > '" + now + "'"
+            # end > now
+            condition = "end >= '" + now + "'"
 
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)

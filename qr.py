@@ -14,7 +14,7 @@ class LocationHandler(BaseHandler):
         configuration = customer_configuration.get_configuration(self.request)
         localization = get_localization()
 
-        condition = "start > '%s'" % now
+        condition = "start >= '%s'" % now
 
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)

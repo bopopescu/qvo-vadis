@@ -2,6 +2,20 @@ var locationColumn = 'latitude';
 var map, layer;
 var now, midnight, midnight1, midnight7;
 
+// hidden feature:
+var styles = {
+    'default': [{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]}],
+    'sobr': [{"featureType":"all","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"simplified"},{"lightness":98}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"on"},{"weight":1},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"on"},{"lightness":55}]}],
+    'night0': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -0 },{"gamma": 1 },{"lightness": -0 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night1': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -10 },{"gamma": 0.90 },{"lightness": -10 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night2': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -20 },{"gamma": 0.80 },{"lightness": -20 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night3': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -30 },{"gamma": 0.70 },{"lightness": -30 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night4': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -40 },{"gamma": 0.60 },{"lightness": -40 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night5': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -50 },{"gamma": 0.50 },{"lightness": -50 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night6': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -60 },{"gamma": 0.40 },{"lightness": -60 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}],
+    'night7': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -70 },{"gamma": 0.30 },{"lightness": -70 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}]
+};
+
 var state = {
 
     // methods acting on the state object
@@ -185,19 +199,19 @@ var state = {
         var query;
         if (timeframe == 'now')
         // start < now and end > now
-            query = "start < '" + now + "' AND end > '" + now + "'";
+            query = "start <= '" + now + "' AND end >= '" + now + "'";
         else if (timeframe == 'today')
-        // start > now and start < midnight
-            query = "start > '" + now + "' AND start < '" + midnight + "'";
+        // end > now and start < midnight
+            query = "end >= '" + now + "' AND start <= '" + midnight + "'";
         else if (timeframe == 'tomorrow')
-        // start > midnight and start < midnight + 1 day
-            query = "start > '" + midnight + "' AND start < '" + midnight1 + "'";
+        // end > midnight and start < midnight + 1 day
+            query = "end >= '" + midnight + "' AND start <= '" + midnight1 + "'";
         else if (timeframe == 'week')
-        // start > now and start < midnight + 7 days
-            query = "start > '" + midnight + "' AND start < '" + midnight7 + "'";
+        // end > now and start < midnight + 7 days
+            query = "end >= '" + now + "' AND start <= '" + midnight7 + "'";
         else if (timeframe == 'all')
-        // start > now
-            query = "start > '" + now + "'";
+        // end > now
+            query = "end >= '" + now + "'";
         for (var i = 0; i < tags.length; i++)
             query += " AND tags CONTAINS '#" + tags[i] + "#'";
         for (var i = 0; i < hashtags.length; i++)
@@ -413,6 +427,14 @@ function initialize() {
         scaleControl: false,
         streetViewControl: false
     });
+
+    if (overrule_style && styles[overrule_style]) {
+        // hidden feature:
+        map.setOptions({styles:styles[overrule_style]});
+        $('#background').css('z-index',10);  // hide controls
+    } else {
+        map.setOptions({styles:styles['default']});
+    }
 
     layer = new google.maps.FusionTablesLayer({
         map: map,
@@ -675,8 +697,14 @@ function updateNowAndMidnight() {
         var s = yyyy + '-' + mm + '-' + dd + ' ' + hours + ':' + minutes + ':00';
         return s;
     }
-    var d = new Date();
-    now = format(d);
+    var d;
+    if (overrule_now) {
+        now = overrule_now;
+        d = new Date(overrule_now);  // will not work on any browser!
+    } else {
+        d = new Date();
+        now = format(d);
+    }
     d.setDate(d.getDate() + 1);
     d.setHours(0);
     d.setMinutes(0);

@@ -376,11 +376,20 @@ function get_postal_code(res) {
 
 function pad(n) { return ("0" + n).slice(-2); }
 
+function newDate(dateTimeString) {
+    // custom function that parses a date formatted like %Y-%m-%d %H:%M:%S
+    var dateTimeArray = dateTimeString.split(" ");
+    var dateArray = dateTimeArray[0].split('-');
+    var timeArray = dateTimeArray[1].split(':');
+    var date = new Date(dateArray[0],dateArray[1]-1,dateArray[2],timeArray[0],timeArray[1],timeArray[2]);
+    return date;
+}
+
 function initialize_data() {
     // called from $(), *after* datepicker is initialized
     if (event_default == 'true') {
-        var start_date = new Date(original_event['start']);
-        var end_date = new Date(original_event['end']);
+        var start_date = newDate(original_event['start']);
+        var end_date = newDate(original_event['end']);
         var today = new Date();
         if (start_date < today) {
             var new_start_date = today;
@@ -444,8 +453,8 @@ $(document).ready(function() {
     $.datepicker.setDefaults( $.datepicker.regional[language] );  // download more locales from http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/
     $(".date").datepicker();
     $(".time").timepicker({
-        'timeFormat': 'H:i',
-        'disableTimeRanges': [ ['24:00', '24:01'] ]
+        'timeFormat': 'H:i'
+        // 'disableTimeRanges': [ ['24:00', '24:01'] ]
     });
     var start = new Date();
     var end = new Date();
@@ -505,8 +514,12 @@ $(document).ready(function() {
             $('#start-date-past').show();
             $('#start-date').addClass('error');
         }
-        var start_date_string = $.datepicker.formatDate("yy-mm-dd", start_date);
         var start_time_string = $('#start-hour').val() + ":00";
+        if (start_time_string == "24:00:00") {
+            start_date.setDate(start_date.getDate() + 1);
+            start_time_string = "00:00:00";
+        }
+        var start_date_string = $.datepicker.formatDate("yy-mm-dd", start_date);
         var start_string = start_date_string + " " + start_time_string;
         var start_string_for_parsing = start_date_string + "T" + start_time_string;
         if (isNaN(Date.parse(start_string_for_parsing))) {
@@ -521,8 +534,12 @@ $(document).ready(function() {
             $('#end-date-before-start-date').show();
             $('#end-date').addClass('error');
         }
-        var end_date_string = $.datepicker.formatDate("yy-mm-dd", end_date);
         var end_time_string = $('#end-hour').val() + ":00";
+        if (end_time_string == "24:00:00") {
+            end_date.setDate(end_date.getDate() + 1);
+            end_time_string = "00:00:00";
+        }
+        var end_date_string = $.datepicker.formatDate("yy-mm-dd", end_date);
         var end_string = end_date_string + " " + end_time_string;
         var end_string_for_parsing = end_date_string + "T" + end_time_string;
         if (isNaN(Date.parse(end_string_for_parsing))) {

@@ -7,6 +7,10 @@ from datetime import date, timedelta
 
 class MapHandler(BaseHandler):
     def get(self):
+        style = self.request.get("style")  # hidden feature
+        now = self.request.get("now")  # hidden feature
+        if not now:
+            now = ''  # no fallback needed here!
         configuration = customer_configuration.get_configuration(self.request)
         localization = get_localization()
         if configuration['id'] == 'www':
@@ -36,7 +40,9 @@ class MapHandler(BaseHandler):
             day_of_today=date.today().day,
             day_of_tomorrow=(date.today() + timedelta(days=1)).day,
             slugify=slugify,
-            localization=localization[configuration['language']]
+            localization=localization[configuration['language']],
+            now=now,
+            style=style
         )
         # return the web-page content
         self.response.out.write(content)
