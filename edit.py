@@ -28,10 +28,10 @@ class EditHandler(BaseHandler):
             event[0]['zoom'] = zoom  # zoom is not in a normal event object !
             coordinates_default = 'true'
         if tags and not event_slug:
-            event[0]['tags'] = tags
+            event[0]['tags'] = ','.join(["#%s#" % t for t in tags.split(',')])
             tags_default = 'true'
         if hashtags and not event_slug:
-            event[0]['hashtags'] = hashtags  # here without the # before and after the string, contrary to a normal event object!
+            event[0]['hashtags'] = ','.join(["#%s#" % h for h in hashtags.split(',')])
             hashtags_default = 'true'
         if edit_mode == 'new':
             if event_slug:

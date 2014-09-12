@@ -537,12 +537,10 @@ $(document).ready(function() {
     $('#tags-button').on("click", function() {
         $('#timeframe-menu,#hash-menu').hide();
         $('#tags-menu').toggle();
-        state.displayAddEventIcon();
     })
     $('#hash-button').on("click", function() {
         $('#timeframe-menu,#tags-menu').hide();
         $('#hash-menu').toggle();
-        state.displayAddEventIcon();
     })
 
     // add event handlers to the timeframe buttons
@@ -562,6 +560,7 @@ $(document).ready(function() {
         state.generateNewHashString();
         state.highlightTagButtons();
         state.displayIFrame();
+        state.displayAddEventIcon();
     });
 
     $('#hash-menu').on("click", "a.search-button", function() {
@@ -571,6 +570,7 @@ $(document).ready(function() {
         state.generateNewHashString();
         state.highlightHashtagButton();
         state.displayIFrame();
+        state.displayAddEventIcon();
     });
 
     $("#hash-menu input").keyup(function(event){

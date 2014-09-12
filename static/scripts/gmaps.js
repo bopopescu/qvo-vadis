@@ -441,7 +441,7 @@ function initialize_data() {
     if (hashtags_default == 'true') {
         var description = [];
         $.each(original_event['hashtags'].split(','),function(index,value) {
-            description.push('#' + value);
+            description.push('#' + value.slice(1,-1)); // remove the #-es
         });
         $('#description').val(description.join(' '));
     }
