@@ -21,7 +21,7 @@ var state = {
     // methods acting on the state object
 
     parseHashStringIntoState: function() {
-        var hash = window.location.hash;
+        var hash = decodeURIComponent(window.location.hash);
         var map, timeframe, tags, hashtags, view, location, event, datetime;
         var strings = hash.replace(/^#/,'').split('/');
         for (var i=0; i<strings.length; i++) {
