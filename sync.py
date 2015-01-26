@@ -220,19 +220,22 @@ class SyncHandler(webapp2.RequestHandler):
                 condition = "'state' = 'public' and 'sync date' < '%s'" % today_minus_one_month
                 sync_outdated_events(configuration, condition)
 
-                # in the master table, find all events with final date in the past
-                today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                condition = "'final date' < '%s'" % today
+                # in the master table, find all events with final date in the past (*)
+                yesterday = (datetime.today() - timedelta(days=1)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'final date' < '%s'" % yesterday
                 sync_events_with_final_date_passed(configuration, condition)
 
-                # in the slave table, find all events with end date in the past
-                today = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                condition = "'end' < '%s'" % today
+                # in the slave table, find all events with end date in the past (*)
+                yesterday = (datetime.today() - timedelta(days=1)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                condition = "'end' < '%s'" % yesterday
                 sync_passed_events(configuration, condition)
 
                 # in the master table, find all events flagged as updated
                 condition = "'update after sync' = 'true'"
                 sync_old_version_of_updated_events(configuration, condition)
+
+                # (*) yesterday, because this is running server time, and other timezones in the world
+                # still need the event, while for the server it's already 'past'
 
             logging.info("Done syncing")
 
