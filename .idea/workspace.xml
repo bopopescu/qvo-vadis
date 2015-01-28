@@ -6,32 +6,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/cards.css" afterPath="$PROJECT_DIR$/static/stylesheets/cards.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/map.css" afterPath="$PROJECT_DIR$/static/stylesheets/map.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422301698843" ignored="false" />
+    <file path="/Dummy.txt" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422448660798" ignored="false" />
     <file path="/app.yaml" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409258911021" ignored="false" />
     <file path="/main.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422301637043" ignored="false" />
     <file path="/map.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410286945911" ignored="false" />
     <file path="/map.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410286960099" ignored="false" />
-    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422302559190" ignored="false" />
+    <file path="/map.js" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422477277616" ignored="false" />
     <file path="/google_credentials.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398617766224" ignored="false" />
     <file path="/fragment.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410466679671" ignored="false" />
     <file path="/oauth2_three_legged.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1402260108137" ignored="false" />
     <file path="/ical.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409650418384" ignored="false" />
     <file path="/client.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1401993780509" ignored="false" />
-    <file path="/map.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408997408312" ignored="false" />
+    <file path="/map.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422469455124" ignored="false" />
     <file path="/configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1398934394273" ignored="false" />
     <file path="/customer_configuration.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408996113038" ignored="false" />
     <file path="/cards.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410467663341" ignored="false" />
     <file path="/location.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408648848645" ignored="false" />
-    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410553079274" ignored="false" />
+    <file path="/Python Console" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422476908921" ignored="false" />
     <file path="/appcache.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444988337" ignored="false" />
     <file path="/status.appcache" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399444999609" ignored="false" />
-    <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1410123606773" ignored="false" />
+    <file path="/cards.css" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1422469526934" ignored="false" />
     <file path="/event.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1409165794271" ignored="false" />
     <file path="/qr.py" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1408647182995" ignored="false" />
     <file path="/qr.html" changelist="aaeb438d-012c-4c83-95d5-22744bb8cd4b" time="1399753677816" ignored="false" />
@@ -99,8 +101,6 @@
         <option value="$PROJECT_DIR$/ical.py" />
         <option value="$PROJECT_DIR$/submit.py" />
         <option value="$PROJECT_DIR$/lib.py" />
-        <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
-        <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
         <option value="$PROJECT_DIR$/map.py" />
         <option value="$PROJECT_DIR$/qr.py" />
         <option value="$PROJECT_DIR$/cards.py" />
@@ -111,6 +111,8 @@
         <option value="$PROJECT_DIR$/jinja_templates/www.html" />
         <option value="$PROJECT_DIR$/sync.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
+        <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
         <option value="$PROJECT_DIR$/static/scripts/map.js" />
       </list>
     </option>
@@ -166,7 +168,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -287,6 +288,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -303,16 +305,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="118" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="793" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="793" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="793" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="119" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="117" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -517,11 +519,11 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.cards" />
-      <item index="1" class="java.lang.String" itemvalue="Python.submit" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
-      <item index="3" class="java.lang.String" itemvalue="Python.main" />
-      <item index="4" class="java.lang.String" itemvalue="App Engine server.qvo-vadis" />
+      <item index="0" class="java.lang.String" itemvalue="App Engine server.qvo-vadis" />
+      <item index="1" class="java.lang.String" itemvalue="Python.cards" />
+      <item index="2" class="java.lang.String" itemvalue="Python.submit" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Doctests in C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
+      <item index="4" class="java.lang.String" itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list size="4">
@@ -664,28 +666,32 @@
       <created>1422301723383</created>
       <updated>1422301723383</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="fixing issue with urls that get encoded (so map.js has to decode the hash string first!)">
+      <created>1422304097045</created>
+      <updated>1422304097045</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1252" height="784" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18907563" sideWeight="0.724359" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36057693" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19243698" sideWeight="0.72523963" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35942492" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35416666" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27564102" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2747604" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32371795" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -733,7 +739,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="filter settings are now correctly taken over in add new event form as default values" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing issue with urls that get encoded (so map.js has to decode the hash string first!)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -770,6 +776,7 @@
     <MESSAGE value="forwarding current map view settings into new event form" />
     <MESSAGE value="changed timeframe filter behaviour" />
     <MESSAGE value="filter settings are now correctly taken over in add new event form as default values" />
+    <MESSAGE value="fixing issue with urls that get encoded (so map.js has to decode the hash string first!)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -780,46 +787,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1637" column="25" selection-start="70744" selection-end="70744" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/submit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="2230" selection-end="2230" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fusion_tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="49" selection-start="889" selection-end="889" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/qrcode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/cards.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="29" selection-start="532" selection-end="532" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cards.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="3036" selection-end="3036" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="443" column="73" selection-start="16903" selection-end="16903" vertical-scroll-proportion="0.60714287" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/edit.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="46" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.50605327" />
@@ -835,11 +802,6 @@
         <state line="3" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="-8.689922" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="50" selection-start="11692" selection-end="11692" vertical-scroll-proportion="8.423729" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/map.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="22" selection-start="1917" selection-end="1917" vertical-scroll-proportion="1.6464891" />
@@ -850,18 +812,83 @@
         <state line="159" column="0" selection-start="9323" selection-end="9323" vertical-scroll-proportion="6.984496" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/static/scripts/qrcode.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.6174334">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="30" selection-start="5495" selection-end="5495" vertical-scroll-proportion="0.4527845">
+        <state line="661" column="58" selection-start="28618" selection-end="28618" vertical-scroll-proportion="0.6903553">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/stylesheets/cards.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="26" selection-start="196" selection-end="196" vertical-scroll-proportion="0.27803737">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/qr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="15" selection-start="1112" selection-end="1112" vertical-scroll-proportion="0.087403595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="29" selection-start="532" selection-end="532" vertical-scroll-proportion="-0.43691587">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fusion_tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="363" column="40" selection-start="15650" selection-end="15650" vertical-scroll-proportion="1.4337349">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.8746988">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="0" selection-start="1422" selection-end="1422" vertical-scroll-proportion="0.99759036">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/submit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="20" selection-start="2067" selection-end="2067" vertical-scroll-proportion="0.83614457">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/stylesheets/map.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="9" selection-start="7241" selection-end="7241" vertical-scroll-proportion="0.39719626">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/recurrenceinput.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="4" selection-start="1432" selection-end="1432" vertical-scroll-proportion="1.9065421">
           <folding />
         </state>
       </provider>

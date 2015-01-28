@@ -653,10 +653,14 @@ function on_click_event_in_iframe(event_slug, datetime_slug) {
 function on_body_resize_in_iframe() {
     // callable from within iframe
     // this is not affecting the state object
-    // it resizes the iframe and it's containing div
+    // it resizes the iframe's containing div
+    // only when in desktop mode
     var height = $('#iframe iframe').contents().find('body').height();
-    $('#iframe').css('height', height);
-    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
+    if ($('#iframe').css('position') == 'relative')
+        $('#iframe').css('height', height);  // desktop mode
+    else
+        $('#iframe').css('height', '100%');  // mobile mode
+//    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
     return;
 }
 
