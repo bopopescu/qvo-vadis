@@ -5,52 +5,8 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="fixing scrolling issue on mobile (although it s, app_identity, app_identityeems not to work on iOS v6)">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/calendar.ics" afterPath="$PROJECT_DIR$/jinja_templates/calendar.ics" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/cards.css" afterPath="$PROJECT_DIR$/static/stylesheets/cards.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/cards.js" afterPath="$PROJECT_DIR$/static/scripts/cards.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cards.py" afterPath="$PROJECT_DIR$/cards.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cron.yaml" afterPath="$PROJECT_DIR$/cron.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/customer_configuration.py" afterPath="$PROJECT_DIR$/customer_configuration.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/event.html" afterPath="$PROJECT_DIR$/jinja_templates/event.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fusion_tables.py" afterPath="$PROJECT_DIR$/fusion_tables.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/gmaps.js" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ical.py" afterPath="$PROJECT_DIR$/ical.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates.py" afterPath="$PROJECT_DIR$/jinja_templates.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.tmpl-beta1.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.tmpl-beta1.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-en.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-en.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-nl.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-nl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.py" afterPath="$PROJECT_DIR$/lib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/localization.csv" afterPath="$PROJECT_DIR$/localization.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/location.html" afterPath="$PROJECT_DIR$/jinja_templates/location.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/map.css" afterPath="$PROJECT_DIR$/static/stylesheets/map.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oauth2_three_legged.py" afterPath="$PROJECT_DIR$/oauth2_three_legged.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/other.xml" afterPath="$PROJECT_DIR$/.idea/other.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/stylesheets/qr.css" afterPath="$PROJECT_DIR$/static/stylesheets/qr.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/qr.html" afterPath="$PROJECT_DIR$/jinja_templates/qr.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qr.py" afterPath="$PROJECT_DIR$/qr.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/qrcode.js" afterPath="$PROJECT_DIR$/static/scripts/qrcode.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/qvo-vadis.iml" afterPath="$PROJECT_DIR$/.idea/qvo-vadis.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" afterPath="$PROJECT_DIR$/static/html/recurrenceinput-demo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recurrenceinput.py" afterPath="$PROJECT_DIR$/recurrenceinput.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlbuilder.py" afterPath="$PROJECT_DIR$/sqlbuilder.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/submit.py" afterPath="$PROJECT_DIR$/submit.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.yaml" afterPath="$PROJECT_DIR$/sync.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/testrunner.xml" afterPath="$PROJECT_DIR$/.idea/testrunner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/www.html" afterPath="$PROJECT_DIR$/jinja_templates/www.html" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -652,29 +608,33 @@
       <created>1422477916571</created>
       <updated>1422477916571</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fixing bug with sending mail, but also uploading from linux now, so lots of line ending updates">
+      <created>1453063910996</created>
+      <updated>1453063910996</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-1" width="1368" height="746" extended-state="0" />
     <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26573938" sideWeight="0.67628205" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26573938" sideWeight="0.67628205" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35901386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35416666" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27272728" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27272728" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27272728" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32371795" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -692,7 +652,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="first commit" />
     <MESSAGE value="coordinates in URL synced" />
     <MESSAGE value="iteration 2 working on location view" />
     <MESSAGE value="iteration 2 just succeeded with dynamic iframe height" />
@@ -717,7 +676,8 @@
     <MESSAGE value="filter settings are now correctly taken over in add new event form as default values" />
     <MESSAGE value="fixing issue with urls that get encoded (so map.js has to decode the hash string first!)" />
     <MESSAGE value="fixing scrolling issue on mobile (although it seems not to work on iOS v6)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing scrolling issue on mobile (although it seems not to work on iOS v6)" />
+    <MESSAGE value="fixing bug with sending mail, but also uploading from linux now, so lots of line ending updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing bug with sending mail, but also uploading from linux now, so lots of line ending updates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
