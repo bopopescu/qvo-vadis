@@ -7,13 +7,13 @@ import sync
 import fusion_tables
 from datetime import datetime
 from datetime import timedelta
-from google.appengine.api import mail
+from google.appengine.api import mail, app_identity
 import os
 
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
-app_id = os.environ.get('APPLICATION_ID')
+app_id = app_identity.get_application_id()
 
 
 class NewHandler(BaseHandler):
@@ -49,6 +49,7 @@ class NewHandler(BaseHandler):
         message = mail.EmailMessage(sender=sender, to="vicmortelmans+maptiming@gmail.com")
         message.subject = "New event added to MapTiming %s" % configuration['title']
         message.body = "http://%s.maptiming.com#event/%s" % (configuration['id'], master['event slug'])
+        logging.info("Sending mail from %s: %s - %s" % (sender, message.subject, message.body))
         message.send()
         # return the web-page content
         self.response.out.write(master['event slug'])
@@ -75,9 +76,10 @@ class UpdateHandler(BaseHandler):
         sync.sync_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
         logging.info("LIST_OF_UPDATED_ROWS [%s] [%s] %s" % (configuration['id'], master['update date'], data))
         sender = 'info@%s.appspotmail.com' % (app_id)
-        message = mail.EmailMessage(sender=sender, to="vicmortelmans+maptiming@gmail.com")
+        message = mail.EmailMessage(sender=sender, to="vicmortelmans@gmail.com")
         message.subject = "Event updated in MapTiming %s" % configuration['title']
         message.body = "http://%s.maptiming.com#event/%s" % (configuration['id'], master['event slug'])
+        logging.info("Sending mail from %s: %s - %s" % (sender, message.subject, message.body))
         message.send()
         # return the web-page content
         self.response.out.write(master['event slug'])
