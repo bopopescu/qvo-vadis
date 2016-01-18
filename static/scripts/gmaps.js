@@ -111,8 +111,10 @@ function gmaps_init() {
         //when argument is a node
         if (content.querySelector) {
             //search for the address
-            var addr = content.querySelector('.gm-basicinfo .gm-addr');
-            var name = content.querySelector('.gm-title');
+            var addr = content.querySelector('.address');
+            var addr_text = addr.innerText.replace(/\n/g,' ');
+            var name = content.querySelector('.title');
+            var name_text = name.innerText.replace(/\n/g,' ');
             if (addr && this.logAsInternal) {
                 google.maps.event.addListenerOnce(this, 'map_changed', function() {
                     var map = this.getMap();
@@ -126,9 +128,9 @@ function gmaps_init() {
                                 if (results[0]) {
                                     // Always update the UI elements with new location data
                                     update_ui({
-                                        address: addr.textContent, 
+                                        address: addr_text,
                                         postal_code: get_postal_code(results[0]),
-                                        name: name.textContent, 
+                                        name: name_text,
                                         location: position
                                     });
                                     return;
@@ -136,9 +138,9 @@ function gmaps_init() {
                             }
                             // Geocoder status ok but no results!? or status not ok
                             update_ui({
-                                address: addr.textContent, 
+                                address: addr_text,
                                 postal_code: '',
-                                name: name.textContent, 
+                                name: name_text,
                                 location: position
                             });
                             return;
@@ -146,10 +148,8 @@ function gmaps_init() {
                     }
                 });
             }
-            else {
-                //run the original setContent-method
-                original_setContent.apply(this, arguments);
-            };
+            //run the original setContent-method
+            original_setContent.apply(this, arguments);
         };
     };
     
