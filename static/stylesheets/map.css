@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
+    word-wrap: break-word;
 }
 
 #background {
@@ -359,15 +360,15 @@ a.menu-item {
     text-decoration: none;
 }
 
+#loading {
+    width: 100%;
+    display: none;
+    position: absolute;
+}
+
 #tools div {
     display: inline-block;
     margin: 3px;
-}
-
-#iframe iframe {
-    border: 0px;
-    height: 100%;
-    width: 100%;
 }
 
 @media (max-width: 640px) {
@@ -375,15 +376,15 @@ a.menu-item {
         overflow-x: hidden;
     }
 
-    #iframe {
+    #cardframe {
         width: 100%;
+        min-height: 100%;
         position: absolute;
         top: 0px;
         left: 0px;
         background-color: white;
         display: none; /* default */
         z-index: 2;
-        height: 100%;
         overflow: hidden;
     }
 
@@ -393,9 +394,8 @@ a.menu-item {
 }
 
 @media (min-width: 640px) {
-    #iframe {
+    #cardframe {
         width: 280px;
-        height: 500px; /* default */
         margin: 15px;
         /*        border: 3px solid white; */
         background-color: white;
@@ -404,7 +404,7 @@ a.menu-item {
 
     #tools {
         position: fixed;
-        right: 30px;
+        right: 50px;
         bottom: 15px;
     }
 

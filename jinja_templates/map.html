@@ -6,6 +6,7 @@
     <title>{{configuration['title']}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/map.css"/>
+    <link rel="stylesheet" href="/stylesheets/cards.css"/>
     <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext'>
 </head>
 
@@ -29,7 +30,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 
 <div class="top-right action-buttons-right">
-    <a id="help-button" class="action-button help" href="//www.maptiming.com"></a>
+    <a id="help-button" class="action-button help" href="//blog.maptiming.com/category/help"></a>
 </div>
 
 <div id="timeframe-menu" class="top-left material menu">
@@ -79,7 +80,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!--a class="search-field-smart-result" href="javascript:void(0);">smart result</a-->
 </div>
 
-<div id="iframe" class="top-left material"></div>
+<div id="cardframe" class="top-left material">
+    <img id="loading" src="/images/loading.gif"></img>
+    <div id="cardholder"></div>
+</div>
 
 <div id="background">
     <div id="map-canvas"></div>

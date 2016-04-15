@@ -1,44 +1,46 @@
-id,en,nl
-save-capitals,SAVE,OPSLAAN
-discard,Discard,Verwijderen
-enter-your-email,Enter your email address to confirm the entry,Geef jouw emailadres hier in om de ingave te bevestigen
-untitled-event,Untitled event,Gebeurtenis zonder naam
-date,date,datum
-time,time,uur
-repeat,repeat...,herhalen...
-edit,edit,bewerken
-location,Location,Locatie
-enter-address-to-search,Enter the address to search or click the map,Geef het adres in om te zoeken of klik op de kaart...
-name-of-location,Name of the location,Naam van de locatie
-location-details,"Location details (e.g. building, room,...)","Details over de locatie (bv. gebouw, zaal,...)"
-save,Save,Gereed
-email-phone,"email, phone,...","email, telefoon, ..."
-contact-details,Contact details,Contactgegevens
-registration-required,Registration is required,Aanmelden is noodzakelijk
-website,Website,Website
-description,Description,Beschrijving
-use-hashtags,Use #hashtags in the description to filter later,Gebruik #hashtags in de beschrijving om later als filter te gebruiken
-to,to,tot
-add-event,Add a new event,Voeg een evenement toe
-start-date-past,The start date must not be in the past,De begindatum mag niet in het verleden liggen
-end-date-before-start-date,The end date must not be before the start date,De einddatum mag niet voor de begindatum vallen
-start-time-wrong,Provide a correct start hour,Geef een juist beginuur in
-end-time-wrong,Provide a correct end hour,Geef een juist einduur in
-end-time-before-start-time,The end time must not be before the start time,Het einduur mag niet voor het beginuur vallen
-no-event-name,The event must have a title,Geef de gebeurtenis een naam
-location-name-nor-address,Fill in the address or select a location on the map,Vul het adres in of selecteer een locatie op de kaart
-edit-new-event-based-on-original,Add a new event,Voeg een evenement toe
-edit-new-event-from-scratch,Add a new event,Voeg een evenement toe
-update-event,Update the event,Pas het evenement aan
-search-a-hashtag,All events,Alle evenementen
-all,All,Alles
-now,Now,Nu
-today,Later Today,Later vandaag
-tomorrow,Tomorrow,Morgen
-week,Week,Week
-no-results,No events for your selection,Geen evenementen voldoen aan jouw keuze
-more-results,More events,Meer evenementen
-visit-website,Visit the website,Ga naar de website
-no-marker,There is no marker on the map: type an address and press enter or click the map,Er is geen locatie aangeduid op de kaart: typ een adres en druk enter of klik op de kaart
-help,Help,Help
-information-missing,Not all required information is filled in. Check the highlighted fields.,Er ontbreekt noodzakelijke informatie. Vul de gemarkeerde velden aan.
+id,en,es,nl
+save-capitals,SAVE,Guardar,OPSLAAN
+discard,Discard,Cancelar,Verwijderen
+enter-your-email,Enter your email address to confirm the entry,Ingrese su correo electrónico para confirmar la entrada,Geef jouw emailadres hier in om de ingave te bevestigen
+untitled-event,Untitled event,Evento sin título,Gebeurtenis zonder naam
+date,date,fecha,datum
+time,time,hora,uur
+repeat,repeat...,repetir,herhalen...
+edit,edit,editar,bewerken
+location,Location,ubicación,Locatie
+enter-address-to-search,Enter the address to search or click the map,Ingrese la dirección para buscar o de clic en el mapa,Geef het adres in om te zoeken of klik op de kaart...
+name-of-location,Name of the location,Nombre de la ubicación,Naam van de locatie
+location-details,"Location details (e.g. building, room,...)",Detalles de la ubicación,"Details over de locatie (bv. gebouw, zaal,...)"
+save,Save,Guardar,Gereed
+email-phone,"email, phone,...","correo, teléfono ..","email, telefoon, ..."
+contact-details,Contact details,Detalles de contacto,Contactgegevens
+registration-required,Registration is required,Se requiere registrarse,Aanmelden is noodzakelijk
+website,Website,Página Web,Website
+description,Description,Descripción,Beschrijving
+use-hashtags,Use #hashtags in the description to filter later,Use #hastags en la descripción para filtrar más tarde,Gebruik #hashtags in de beschrijving om later als filter te gebruiken
+to,to,a,tot
+add-event,Add a new event,Agregar un nuevo evento,Voeg een evenement toe
+start-date-past,The start date must not be in the past,La fecha de inicio no debe ser anterior a hoy,De begindatum mag niet in het verleden liggen
+end-date-before-start-date,The end date must not be before the start date,La fecha de final no debe ser antes que la de inicio,De einddatum mag niet voor de begindatum vallen
+start-time-wrong,Provide a correct start hour,Provea una hora de inicio correct,Geef een juist beginuur in
+end-time-wrong,Provide a correct end hour,Provea una hora de finalizacion correcta,Geef een juist einduur in
+end-time-before-start-time,The end time must not be before the start time,La hora de finalización no debe ser antes que la de inicio,Het einduur mag niet voor het beginuur vallen
+no-event-name,The event must have a title,El evento debe tener un título,Geef de gebeurtenis een naam
+location-name-nor-address,Fill in the address or select a location on the map,Llene la dirección o la ubicación en el mapa,Vul het adres in of selecteer een locatie op de kaart
+edit-new-event-based-on-original,Add a new event,Agregar un nuevo evento,Voeg een evenement toe
+edit-new-event-from-scratch,Add a new event,Agregar un nuevo evento,Voeg een evenement toe
+update-event,Update the event,Actualizar evento,Pas het evenement aan
+search-a-hashtag,All events,Todos los eventos,Alle evenementen
+all,All,Todos,Alles
+now,Now,Ahora,Nu
+today,Later Today,Mas tarde hoy,Later vandaag
+tomorrow,Tomorrow,Mañana,Morgen
+week,Week,En la semana,Week
+no-results,No events for your selection,No hay eventos para su selección,Geen evenementen voldoen aan jouw keuze
+more-results,More events,Mas eventos,Meer evenementen
+visit-website,Visit the website,Visitar página web,Ga naar de website
+no-marker,There is no marker on the map: type an address and press enter or click the map,"No hay un marcador en el mapa, teclee una direccion o de clic en el mapa",Er is geen locatie aangeduid op de kaart: typ een adres en druk enter of klik op de kaart
+help,Help,Ayuda,Help
+information-missing,Not all required information is filled in. Check the highlighted fields.,"No toda la informacion esta competa, revise los campos con alertas",Er ontbreekt noodzakelijke informatie. Vul de gemarkeerde velden aan.
+whole-day,Whole day,Todo el día,Hele dag
+

@@ -56,7 +56,7 @@ def get_localization():
     for row in localization_reader:
         header_with_row = zip(header_row,row)
         for field in header_with_row[1:]:
-            localization[field[0]][row[0]] = field[1]
+            localization[field[0]][row[0]] = field[1].decode('utf-8')
     return localization
 
 

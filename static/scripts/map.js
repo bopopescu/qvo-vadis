@@ -298,8 +298,9 @@ var state = {
         }
     },
     displayIFrame: function() {
-        $('#iframe iframe').remove(); // removing the iframe to not make it part of browser history
         if (this.view == 'location' || this.view == 'list' || this.view == 'event') {
+            $('#cardframe').show();
+            $('#loading').css('display','block');
             // compose the URL for the iframe (TODO: update for other views than location)
             var url = window.location.protocol + "//" + window.location.host;
             if (this.view)
@@ -327,14 +328,15 @@ var state = {
             } else {
                 url += '?';
             }
-            url += 'now=' + now;
-            // set the URL and display the iframe
-            $('<iframe/>').appendTo('#iframe');
-            $('#iframe iframe').attr('src', url);
-            $('#iframe').show();
-
+            url += 'now=' + encodeURIComponent(now);
+            // load the URL via AJAX and display the contents
+            $('#cardholder').load(url + ' .card', function() {
+                $('#cardframe').show();
+                $('#loading').css('display','none');
+            });
         } else {
-            $('#iframe').hide();
+            $('#cardholder').empty();
+            $('#cardframe').hide();
         }
     },
     displayQrIcon: function() {
@@ -647,20 +649,6 @@ function on_click_event_in_iframe(event_slug, datetime_slug) {
     state.displayIFrame();
     state.displayAddEventIcon();
     state.displayModifyEventIcon();
-    return;
-}
-
-function on_body_resize_in_iframe() {
-    // callable from within iframe
-    // this is not affecting the state object
-    // it resizes the iframe's containing div
-    // only when in desktop mode
-    var height = $('#iframe iframe').contents().find('body').height();
-    if ($('#iframe').css('position') == 'relative')
-        $('#iframe').css('height', height);  // desktop mode
-    else
-        $('#iframe').css('height', '100%');  // mobile mode
-//    $('#iframe iframe').css('height', height);  // strange behaviour otherwise
     return;
 }
 
