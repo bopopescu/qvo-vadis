@@ -6,7 +6,7 @@ from datetime import date, timedelta
 
 
 class MapHandler(BaseHandler):
-    def get(self):
+    def get(self, *args, **kwargs):
         style = self.request.get("style")  # hidden feature
         now = self.request.get("now")  # hidden feature
         if not now:

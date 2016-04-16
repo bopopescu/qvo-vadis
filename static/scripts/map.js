@@ -21,9 +21,9 @@ var state = {
     // methods acting on the state object
 
     parseHashStringIntoState: function() {
-        var hash = decodeURIComponent(window.location.hash);
+        var hash = decodeURIComponent(History.getState().hash).split('?')[0];
         var map, timeframe, tags, hashtags, view, location, event, datetime;
-        var strings = hash.replace(/^#/,'').split('/');
+        var strings = hash.split('/');
         for (var i=0; i<strings.length; i++) {
             var s = strings[i];
             if (!map && s.match(/-?\d+\.\d+,-?\d+\.\d+,\d+z,\d+px/))
@@ -169,7 +169,7 @@ var state = {
         location = this.location;
         event = this.event;
         datetime = this.datetime;
-        var hash = '#' + map;
+        var hash = '/' + map;
         if (timeframe)
             hash += '/' + timeframe;
         if (tags)
@@ -185,9 +185,12 @@ var state = {
             if (datetime)
                 hash += '/' + datetime;
         }
+        // append the ?id= parameter if present in the location, just for debugging on localhost
+        if (window.location.search)
+            hash += window.location.search;
         this.ignoreHashChange = true;
         this.locationInUrl = true;
-        window.location.hash = hash;
+        History.replaceState(null,null,hash)
     },
 
     // methods acting on the fusion table query
@@ -322,8 +325,8 @@ var state = {
                 url += '/hash/' + hashtags;
             // append the ?id= parameter if present in the location, just for debugging on localhost
             // and also append the client timestamp
-            if (location.search) {
-                url += location.search;
+            if (window.location.search) {
+                url += window.location.search;
                 url += '&';
             } else {
                 url += '?';

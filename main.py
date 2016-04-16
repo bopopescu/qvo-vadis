@@ -7,7 +7,6 @@ email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
 
 
 routes = [
-    webapp2.Route(r'/', handler='map.MapHandler'),
     webapp2.Route(r'/location/<location_slug:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/location/<location_slug:[^/]+>/<timeframe:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/location/<location_slug:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),
@@ -33,7 +32,8 @@ routes = [
     webapp2.Route(r'/sync', handler='sync.SyncHandler'),
     webapp2.Route(r'/load', handler='sync.LoadHandler'),
     webapp2.Route(r'/ical', handler='ical.ICalHandler'),
-    webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler')
+    webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler'),
+    webapp2.Route(r'/<:.*>', handler='map.MapHandler')
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
