@@ -13,6 +13,7 @@ routes = [
     webapp2.Route(r'/location/<location_slug:[^/]+>/<timeframe:[^/]+>/<tags:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/location/<location_slug:[^/]+>/<timeframe:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/location/<location_slug:[^/]+>/<timeframe:[^/]+>/<tags:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),
+    webapp2.Route(r'/locations', handler='cards.LocationsHandler'),
     webapp2.Route(r'/qr/location/<location_slug:[^/]+>', handler='qr.LocationHandler'),
     webapp2.Route(r'/event/<event_slug:[^/]+>/<datetime_slug:[^/]+>', handler='cards.EventHandler'),
     webapp2.Route(r'/event/<event_slug:[^/]+>', handler='cards.EventHandler'),

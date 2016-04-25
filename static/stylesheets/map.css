@@ -366,6 +366,10 @@ a.menu-item {
     position: absolute;
 }
 
+#tempcardholder {
+    display: none;
+}
+
 #tools div {
     display: inline-block;
     margin: 3px;

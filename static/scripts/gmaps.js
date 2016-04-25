@@ -611,7 +611,7 @@ $(document).ready(function() {
                 if (location.search) {
                     url += location.search;
                 }
-                url += '#all/event/';
+                url += 'all/event/';
                 url += data;
                 location.href = url;
             });

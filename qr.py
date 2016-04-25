@@ -39,7 +39,7 @@ class LocationHandler(BaseHandler):
                 raise webapp2.abort(404)
 
         qr_url = self.request.url
-        url = qr_url.replace('/qr/location/','#/location/')
+        url = qr_url.replace('/qr/location/','/all/location/')
 
         template = jinja_environment.get_template('qr.html')
         content = template.render(

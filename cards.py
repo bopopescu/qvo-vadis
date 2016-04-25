@@ -123,6 +123,63 @@ class EventHandler(BaseHandler):
         return
 
 
+class LocationsHandler(BaseHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        localization = get_localization()
+        offset = self.request.get("offset")
+
+        condition = "'state' = 'public'"
+
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
+
+        if offset:
+            condition += " OFFSET %s" % offset
+
+        # at least for debugging, limit to 100 results
+        condition += " LIMIT 100"
+
+        no_results_message = ''
+        data = fusion_tables.select(configuration['master table'], condition=condition)
+        if not data:
+            no_results_message = localization[configuration['language']]['no-results']
+        # remove duplicates
+        unique_data = []
+        location_slugs = []
+        for d in data:
+            location_slug = d['location slug']
+            if location_slug not in location_slugs:
+                unique_data.append(d)
+                location_slugs.append(location_slug)
+
+        next_url = self.request.path_url + "?offset=%s" % str(int(offset if offset else 0) + 100)
+
+        # for debugging, the id must be added to an url as parameter
+        id_appendix = ""
+        if self.request.get("id"):
+            id_appendix = "?id=%s" % self.request.get("id")
+            next_url += "&id=%s" % self.request.get("id")
+
+        template = jinja_environment.get_template('locations.html')
+        content = template.render(
+            configuration=configuration,
+            data=unique_data,
+            date_time_reformat=date_time_reformat,
+            no_results_message=no_results_message,
+            localization=localization[configuration['language']],
+            id_appendix=id_appendix,
+            offset=offset,
+            next_url=next_url
+        )
+
+        # return the web-page content
+        self.response.out.write(content)
+        return
+
+
 def date_time_reformat(date, format='full', lang='en'):
     from babel.dates import format_date, format_datetime, format_time
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)

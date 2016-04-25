@@ -1,3 +1,4 @@
+// copied to map.js
 $(function() {
     $('.header-close').on('click',function() {
         parent.on_click_static_map_in_iframe();

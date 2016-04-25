@@ -90,6 +90,7 @@ def list_of_dicts_to_csv(table_id, list_of_dicts):
 
 def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     """
+     condition can contain GROUP BY and LIMIT statements, but there must be at least one WHERE statement!!
      filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
     """
     if not cols:

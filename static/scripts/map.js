@@ -1,6 +1,7 @@
 var locationColumn = 'latitude';
 var map, layer;
 var now, midnight, midnight1, midnight7;
+var ajaxrequest;
 
 // hidden feature:
 var styles = {
@@ -22,12 +23,13 @@ var state = {
 
     parseHashStringIntoState: function() {
         var hash = decodeURIComponent(History.getState().hash).split('?')[0];
-        var map, timeframe, tags, hashtags, view, location, event, datetime;
+        if (window.location.hash) hash = window.location.hash.replace(/^#/,''); // to make the old links work
+        var coordinates, timeframe, tags, hashtags, view, location, event, datetime;
         var strings = hash.split('/');
         for (var i=0; i<strings.length; i++) {
             var s = strings[i];
-            if (!map && s.match(/-?\d+\.\d+,-?\d+\.\d+,\d+z,\d+px/))
-                map = s;
+            if (!coordinates && s.match(/-?\d+\.\d+,-?\d+\.\d+,\d+z,\d+px/))
+                coordinates = s;
             else if (!view && s.match(/location|list|event/))
                 view = s;
             else if (s.match(/hash/)) {
@@ -46,9 +48,9 @@ var state = {
             else if (!tags && !s.match(/marker|location|list|event/))
                 tags = s;
         }
-        if (map) {
+        if (coordinates) {
             this.locationInUrl = true;
-            var coords = map.split(',');
+            var coords = coordinates.split(',');
             this.lat = parseFloat(coords[0]);
             this.lon = parseFloat(coords[1]);
             this.zoom = parseInt(coords[2].replace(/z/,''));
@@ -188,9 +190,9 @@ var state = {
         // append the ?id= parameter if present in the location, just for debugging on localhost
         if (window.location.search)
             hash += window.location.search;
-        this.ignoreHashChange = true;
         this.locationInUrl = true;
-        History.replaceState(null,null,hash)
+        this.ignoreHashChange = true;
+        History.pushState(null,null,hash)
     },
 
     // methods acting on the fusion table query
@@ -271,9 +273,11 @@ var state = {
 
     setMapCenterpoint: function() {
         var loc = new google.maps.LatLng(this.lat, this.lon);
+        state.ignoreMapEvents = true;
         map.setCenter(loc);
     },
     setMapZoom: function() {
+        state.ignoreMapEvents = true;
         map.setZoom(this.zoom);
     },
     highlightTimeframeButton: function() {
@@ -332,12 +336,23 @@ var state = {
                 url += '?';
             }
             url += 'now=' + encodeURIComponent(now);
-            // load the URL via AJAX and display the contents
-            $('#cardholder').load(url + ' .card', function() {
+            // load the URL via ajax and display the contents
+            if (typeof ajaxrequest !== 'undefined')
+                ajaxrequest.abort();
+            ajaxrequest = $.ajax(url, {  // I could use .load() with page fragments here, but it doesn't return the request
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (response) {
+                $('#tempcardholder').html(response);
+                $('#cardholder').html($('#tempcardholder').find(".card"));
                 $('#cardframe').show();
                 $('#loading').css('display','none');
+                on_location_known_in_iframe();
+                on_location_slug_known_in_iframe();
             });
         } else {
+            if (typeof ajaxrequest !== 'undefined')
+                ajaxrequest.abort();
             $('#cardholder').empty();
             $('#cardframe').hide();
         }
@@ -405,7 +420,8 @@ var state = {
     panDirty: false, // dirty flag when map is being panned
     zoomDirty: false, // dirty flag when map is zoomed
     ignoreHashChange: false, // used to ignore hash changes triggered by myself
-    ignoreMapEvents: false // temporarily ignore map panning and zooming, while processing
+    ignoreMapEvents: false, // ignore next map event
+    keepIgnoringMapEvents: false // temporarily ignore map panning and zooming, while processing
 };
 
 // parse the hash; the coordinates are used by the google map initialization
@@ -459,6 +475,15 @@ function initialize() {
     });
 
     state.generateNewQueryString();
+
+    // workaround for tiles that are not loading
+    // https://groups.google.com/forum/#!topic/fusion-tables-users-group/aLj7Ep7os9w
+    setTimeout(function(){
+        $("img[src*='googleapis'][src*='mapslt']").each(function(){
+                $(this).attr("src",$(this).attr("src")+"&"+(new Date()).getTime());
+        });
+    },3000);
+
     state.highlightLocationMarker();
 
     // re-center the map if a geo position is available and no coordinates were in the URL
@@ -481,20 +506,24 @@ function initialize() {
     });
 
     google.maps.event.addListener(map, 'idle', function() {
-        if (!state.ignoreMapEvents) {
-            if (state.panDirty || state.zoomDirty) {
-                state.ignoreMapEvents = true;
-                if (state.panDirty) {
-                    state.getMapCenterpointAndSet();
-                    state.panDirty = false;
+        if (state.ignoreMapEvents) {
+            state.ignoreMapEvents = false;
+        } else {
+            if (!state.keepIgnoringMapEvents) {
+                if (state.panDirty || state.zoomDirty) {
+                    state.keepIgnoringMapEvents = true;
+                    if (state.panDirty) {
+                        state.getMapCenterpointAndSet();
+                        state.panDirty = false;
+                    }
+                    if (state.zoomDirty) {
+                        state.getMapZoomAndSet();
+                        state.zoomDirty = false;
+                    }
+                    state.generateNewHashString();
+                    state.keepIgnoringMapEvents = false;
+                    state.displayAddEventIcon();
                 }
-                if (state.zoomDirty) {
-                    state.getMapZoomAndSet();
-                    state.zoomDirty = false;
-                }
-                state.generateNewHashString();
-                state.ignoreMapEvents = false;
-                state.displayAddEventIcon();
             }
         }
     });
@@ -538,15 +567,15 @@ $(document).ready(function() {
     $('#timeframe-button').on("click", function() {
         $('#tags-menu,#hash-menu').hide();
         $('#timeframe-menu').toggle();
-    })
+    });
     $('#tags-button').on("click", function() {
         $('#timeframe-menu,#hash-menu').hide();
         $('#tags-menu').toggle();
-    })
+    });
     $('#hash-button').on("click", function() {
         $('#timeframe-menu,#tags-menu').hide();
         $('#hash-menu').toggle();
-    })
+    });
 
     // add event handlers to the timeframe buttons
     $('#timeframe-menu').on("click", "a", function() {
@@ -588,7 +617,7 @@ $(document).ready(function() {
         $('#hash-menu input').val('');
     });
 
-    window.onhashchange = function() {
+    History.Adapter.bind(window,'statechange',function() {
         if (state.ignoreHashChange) {
             state.ignoreHashChange = false;
         } else {
@@ -605,31 +634,51 @@ $(document).ready(function() {
             state.displayAddEventIcon();
             state.displayModifyEventIcon();
         }
-    };
+    });
 
     return;
 });
 
-function on_location_known_in_iframe(latitude, longitude) {
-    // called from within iframe once, right after loading
+// handlers for events in the location or event card pane (originally in cards.js)
+$(function() {
+    $('#cardholder').on('click','.header-close',function() {
+        parent.on_click_static_map_in_iframe();
+    });
+    $('#cardholder').on('click','.header-menu',function() {
+        $('#header-menu-items').toggleClass('hidden');
+    });
+//    $('#cardholder').on('click','#menu-item-website',function() {
+//        on_navigation_request_in_iframe($(this).attr('data-website'));
+//    });
+})
+
+function on_location_known_in_iframe() {
+    // called after ajax loading
     // the idea is that the map is centered on this location
     // only if the view is location or event and no location
     // was provided in the URL
     if ((state.view == 'location' || state.view == 'event') && !state.locationInUrl) {
-        state.setCenterpoint(latitude, longitude);
-        state.setMapCenterpoint();
-        state.generateNewHashString();
+        var latitude = $(".card .header-title").data("latitude");
+        var longitude = $(".card .header-title").data("longitude");
+        if (latitude && longitude) {
+            state.setCenterpoint(latitude, longitude);
+            state.setMapCenterpoint();
+            state.generateNewHashString();
+        }
     }
     return;
 }
 
-function on_location_slug_known_in_iframe(location) {
-    // called from within iframe for event view, right after loading
+function on_location_slug_known_in_iframe() {
+    // called after ajax for event view, right after loading
     // the idea is that the location slug is used for highlighting the markers
     // because if the event slug is used, other event markers may overlap the
     // highlighted marker
-    state.setLocation(location);
-    state.highlightLocationMarker();
+    if (state.view == 'event') {
+        var location = $(".card .header-title").data("location-slug");
+        state.setLocation(location);
+        state.highlightLocationMarker();
+    }
     return;
 }
 
@@ -655,10 +704,10 @@ function on_click_event_in_iframe(event_slug, datetime_slug) {
     return;
 }
 
-function on_navigation_request_in_iframe(url) {
-    // callable from within iframe
-    window.location.href = url;
-}
+//function on_navigation_request_in_iframe(url) {
+//    // callable from within iframe
+//    window.location.href = url;
+//}
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
