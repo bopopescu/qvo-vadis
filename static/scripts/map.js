@@ -60,7 +60,7 @@ var state = {
             this.locationInUrl = false;
             this.lat = 51.213282784793925; // default
             this.lon = 4.427805411499094; // default
-            this.zoom = 13; // default
+            this.zoom = 15; // default
         }
         if (timeframe) {
             this.timeframe = timeframe;
