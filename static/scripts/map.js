@@ -309,7 +309,7 @@ var state = {
             $('#cardframe').show();
             $('#loading').css('display','block');
             // compose the URL for the iframe (TODO: update for other views than location)
-            var url = window.location.protocol + "//" + window.location.host;
+            var url = window.location.protocol + "//" + window.location.host + '/card';
             if (this.view)
                 url += '/' + this.view;
             if (this.view == 'location' && this.location)
@@ -538,6 +538,14 @@ function initialize() {
         state.displayModifyEventIcon();
     });
 
+    state.highlightTimeframeButton();
+    state.highlightTagButtons();
+    state.highlightHashtagButton();
+    state.displayIFrame();
+    state.displayQrIcon();
+    state.displayAddEventIcon();
+    state.displayModifyEventIcon();
+
     return;
 }
 
@@ -546,14 +554,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 // jQuery ready
 $(document).ready(function() {
-
-    state.highlightTimeframeButton();
-    state.highlightTagButtons();
-    state.highlightHashtagButton();
-    state.displayIFrame();
-    state.displayQrIcon();
-    state.displayAddEventIcon();
-    state.displayModifyEventIcon();
 
     // add the timeframe menu items, and hide based on now, midnight, midnight1 and midnight7
     if (limit < midnight7) {
