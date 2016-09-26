@@ -2,6 +2,9 @@ import webapp2
 import logging
 
 
+AVAILABLE_LOCALES = ['en', 'es', 'fr', 'nl']
+
+
 def slugify(value):
     """
     Normalizes string, converts to lowercase, removes non-alpha characters
@@ -58,6 +61,18 @@ def get_localization():
         for field in header_with_row[1:]:
             localization[field[0]][row[0]] = field[1].decode('utf-8')
     return localization
+
+
+def get_language(request, configuration):
+    header = request.headers.get('Accept-Language', '')  # e.g. en-gb,en;q=0.8,es-es;q=0.5,eu;q=0.3
+    locales = [locale.split(';')[0] for locale in header.split(',')]
+    for locale in locales:
+        if locale in AVAILABLE_LOCALES:
+            language = locale
+            break
+    else:
+        language = configuration['language']
+    return language
 
 
 class BaseHandler(webapp2.RequestHandler):

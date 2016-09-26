@@ -1,8 +1,11 @@
 from jinja_templates import jinja_environment
 import customer_configuration
-from lib import get_localization, slugify, BaseHandler
+from lib import get_localization, get_language, slugify, BaseHandler
 import json
 from datetime import date, timedelta
+
+
+localization = get_localization()
 
 
 class MapHandler(BaseHandler):
@@ -12,7 +15,8 @@ class MapHandler(BaseHandler):
         if not now:
             now = ''  # no fallback needed here!
         configuration = customer_configuration.get_configuration(self.request)
-        localization = get_localization()
+        # detect language and use configuration as default
+        language = get_language(self.request, configuration)
         if configuration['id'] == 'www':
             # this is a request for the landing page!
             template = jinja_environment.get_template('www.html')
@@ -40,7 +44,7 @@ class MapHandler(BaseHandler):
             day_of_today=date.today().day,
             day_of_tomorrow=(date.today() + timedelta(days=1)).day,
             slugify=slugify,
-            localization=localization[configuration['language']],
+            localization=localization[language],
             now=now,
             style=style
         )

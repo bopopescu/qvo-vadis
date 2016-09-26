@@ -6,8 +6,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cards.py" afterPath="$PROJECT_DIR$/cards.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/editor.html" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" afterPath="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.py" afterPath="$PROJECT_DIR$/lib.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/localization.csv" afterPath="$PROJECT_DIR$/localization.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qr.py" afterPath="$PROJECT_DIR$/qr.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/submit.py" afterPath="$PROJECT_DIR$/submit.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
@@ -20,7 +28,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1461609401738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1474920199547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -52,29 +60,30 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/ical.py" />
-        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
-        <option value="$PROJECT_DIR$/edit.py" />
         <option value="$PROJECT_DIR$/jinja_templates/www.html" />
         <option value="$PROJECT_DIR$/sync.py" />
-        <option value="$PROJECT_DIR$/submit.py" />
         <option value="$PROJECT_DIR$/static/stylesheets/cards.css" />
-        <option value="$PROJECT_DIR$/localization.csv" />
-        <option value="$PROJECT_DIR$/lib.py" />
         <option value="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-es.js" />
-        <option value="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
-        <option value="$PROJECT_DIR$/map.py" />
         <option value="$PROJECT_DIR$/static/scripts/cards.js" />
         <option value="$PROJECT_DIR$/static/stylesheets/map.css" />
-        <option value="$PROJECT_DIR$/qr.py" />
         <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
         <option value="$PROJECT_DIR$/fusion_tables.py" />
         <option value="$PROJECT_DIR$/jinja_templates/locations.html" />
-        <option value="$PROJECT_DIR$/cards.py" />
         <option value="$PROJECT_DIR$/jinja_templates/event.html" />
         <option value="$PROJECT_DIR$/jinja_templates/location.html" />
         <option value="$PROJECT_DIR$/jinja_templates/map.html" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/static/scripts/map.js" />
+        <option value="$PROJECT_DIR$/lib.py" />
+        <option value="$PROJECT_DIR$/map.py" />
+        <option value="$PROJECT_DIR$/cards.py" />
+        <option value="$PROJECT_DIR$/qr.py" />
+        <option value="$PROJECT_DIR$/submit.py" />
+        <option value="$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-fr.js" />
+        <option value="$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js" />
+        <option value="$PROJECT_DIR$/localization.csv" />
+        <option value="$PROJECT_DIR$/edit.py" />
+        <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
       </list>
     </option>
   </component>
@@ -129,7 +138,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -236,6 +244,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -272,11 +281,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static/scripts" />
       <recent name="$PROJECT_DIR$/jinja_templates" />
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\scripts" />
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\html" />
-      <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis\static\stylesheets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vic\Dropbox\Development\PycharmProjects\qvo-vadis" />
@@ -723,7 +732,11 @@
       <created>1467408581151</created>
       <updated>1467408581151</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fixed problem with mix-up between url for card and (hash-less) url for map&#10;fixed javascript timing problem: map initialization code was run in jquery ready handler, now in map initialization function">
+      <created>1468098238167</created>
+      <updated>1468098238167</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -731,7 +744,7 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29305136" sideWeight="0.67628205" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31117824" sideWeight="0.67628205" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27272728" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -747,7 +760,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32371795" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32225913" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -766,7 +779,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="sync working and cronned" />
     <MESSAGE value="ommercial limit works" />
     <MESSAGE value="recurring event gui works" />
     <MESSAGE value="recurring event gui works better now and location gui as well" />
@@ -791,7 +803,8 @@
     <MESSAGE value="workaround for bad tiles and appearantly lots of other fixed that I forgot to check in last time" />
     <MESSAGE value="changed default zoom level to 13" />
     <MESSAGE value="the link on the help button will now also open when the site is deployed as mobile app with Cordova" />
-    <option name="LAST_COMMIT_MESSAGE" value="the link on the help button will now also open when the site is deployed as mobile app with Cordova" />
+    <MESSAGE value="fixed problem with mix-up between url for card and (hash-less) url for map&#10;fixed javascript timing problem: map initialization code was run in jquery ready handler, now in map initialization function" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed problem with mix-up between url for card and (hash-less) url for map&#10;fixed javascript timing problem: map initialization code was run in jquery ready handler, now in map initialization function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -837,13 +850,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/www.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/qrcode.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
@@ -872,13 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/submit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5555556" vertical-offset="0" max-vertical-offset="1380">
-          <caret line="16" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="622">
@@ -900,30 +899,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/localization.csv">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5603448" vertical-offset="345" max-vertical-offset="780">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-es.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07751938" vertical-offset="0" max-vertical-offset="450">
-          <caret line="2" column="89" selection-start-line="2" selection-start-column="89" selection-end-line="2" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-nl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-en.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
@@ -931,38 +906,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86901766" vertical-offset="4245" max-vertical-offset="28080">
-          <caret line="306" column="3" selection-start-line="306" selection-start-column="3" selection-end-line="306" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8847185" vertical-offset="375" max-vertical-offset="3405">
-          <caret line="47" column="54" selection-start-line="47" selection-start-column="54" selection-end-line="47" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.048780486" vertical-offset="835" max-vertical-offset="1245">
-          <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jinja_templates/qr.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.84" vertical-offset="315" max-vertical-offset="1635">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.18797" vertical-offset="7524" max-vertical-offset="9750">
-          <caret line="613" column="24" selection-start-line="613" selection-start-column="24" selection-end-line="613" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -980,24 +927,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46015424" vertical-offset="346" max-vertical-offset="960">
-          <caret line="41" column="46" selection-start-line="41" selection-start-column="46" selection-end-line="41" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jinja_templates/locations.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.4166667" vertical-offset="428" max-vertical-offset="780">
           <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cards.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2235" max-vertical-offset="2880">
-          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1029,20 +962,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/map.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28695652" vertical-offset="0" max-vertical-offset="765">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4679716" vertical-offset="0" max-vertical-offset="3975">
-          <caret line="61" column="80" selection-start-line="61" selection-start-column="80" selection-end-line="61" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.712" vertical-offset="228" max-vertical-offset="1920">
@@ -1054,14 +973,136 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.41353384" vertical-offset="4500" max-vertical-offset="11580">
           <caret line="311" column="84" selection-start-line="311" selection-start-column="84" selection-end-line="311" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/www.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.747093" vertical-offset="945" max-vertical-offset="2955">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/submit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.55851066" vertical-offset="255" max-vertical-offset="1365">
+          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23136246" vertical-offset="0" max-vertical-offset="960">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5813953" vertical-offset="855" max-vertical-offset="1470">
+          <caret line="73" column="23" selection-start-line="73" selection-start-column="23" selection-end-line="73" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cards.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9844961" vertical-offset="2124" max-vertical-offset="2685">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07751938" vertical-offset="225" max-vertical-offset="885">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-fr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5217391" vertical-offset="0" max-vertical-offset="575">
+          <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-nl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.ui.datepicker-es.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.052173913" vertical-offset="0" max-vertical-offset="575">
+          <caret line="2" column="89" selection-start-line="2" selection-start-column="89" selection-end-line="2" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/localization.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2739363" vertical-offset="5910" max-vertical-offset="9750">
+          <caret line="451" column="33" selection-start-line="451" selection-start-column="33" selection-end-line="451" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/jquery.recurrenceinput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48872182" vertical-offset="7515" max-vertical-offset="29460">
+          <caret line="514" column="82" selection-start-line="514" selection-start-column="82" selection-end-line="514" selection-end-column="82" />
+          <folding>
+            <marker date="1474917145780" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1474917145780" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1474917145780" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/edit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.641604" vertical-offset="614" max-vertical-offset="1050">
+          <caret line="58" column="29" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.52" vertical-offset="2925" max-vertical-offset="3405">
+          <caret line="208" column="18" selection-start-line="208" selection-start-column="18" selection-end-line="208" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="645">
+        <state vertical-scroll-proportion="-0.30075186" vertical-offset="210" max-vertical-offset="645">
           <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32330826" vertical-offset="3576" max-vertical-offset="3975">
+          <caret line="253" column="6" selection-start-line="253" selection-start-column="6" selection-end-line="253" selection-end-column="6" />
           <folding />
         </state>
       </provider>

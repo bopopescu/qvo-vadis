@@ -1,7 +1,7 @@
 import webapp2
 import customer_configuration
 import logging
-from lib import slugify, get_localization, location_slug, event_slug, extract_hash_tags, BaseHandler
+from lib import slugify, location_slug, event_slug, extract_hash_tags, BaseHandler
 import json
 import sync
 import fusion_tables
@@ -19,7 +19,6 @@ app_id = app_identity.get_application_id()
 class NewHandler(BaseHandler):
     def post(self):
         configuration = customer_configuration.get_configuration(self.request)
-        localization = get_localization()
         data = self.request.POST['data']
         master = json.loads(data)
         # check if the location is in use, if so, reuse it's location slug

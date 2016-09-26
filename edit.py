@@ -1,7 +1,7 @@
 from jinja_templates import jinja_environment
 import customer_configuration
 import logging
-from lib import slugify, get_localization, BaseHandler
+from lib import slugify, get_localization, get_language, BaseHandler
 import fusion_tables
 import json
 
@@ -10,6 +10,8 @@ class EditHandler(BaseHandler):
     def get(self, edit_mode='new', event_slug=None, location_slug=None,
             latitude=None, longitude=None, zoom=None, tags=None, hashtags=None):
         configuration = customer_configuration.get_configuration(self.request)
+        # detect language and use configuration as default
+        language = get_language(self.request, configuration)
         event = [{}]
         event_default = 'false'
         location_default = 'false'
@@ -54,7 +56,8 @@ class EditHandler(BaseHandler):
             title=title,
             edit_mode=edit_mode,
             slugify=slugify,
-            localization=localization[configuration['language']]
+            language=language,
+            localization=localization[language]
         )
         # return the web-page content
         self.response.out.write(content)

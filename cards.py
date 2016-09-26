@@ -4,7 +4,7 @@ import customer_configuration
 import logging
 import datetime
 import fusion_tables
-from lib import get_localization, BaseHandler
+from lib import get_localization, get_language, BaseHandler
 
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -16,7 +16,8 @@ class LocationHandler(BaseHandler):
             now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
         configuration = customer_configuration.get_configuration(self.request)
         localization = get_localization()
-
+        # detect language and use configuration as default
+        language = get_language(self.request, configuration)
         # calculate midnight, midnight1 and midnight 7 based on now
         now_p = datetime.datetime.strptime(now, DATE_TIME_FORMAT)
         midnight_p = datetime.datetime.combine(now_p + datetime.timedelta(days=1), datetime.time.min)
@@ -25,7 +26,6 @@ class LocationHandler(BaseHandler):
         midnight = datetime.datetime.strftime(midnight_p, DATE_TIME_FORMAT)
         midnight1 = datetime.datetime.strftime(midnight1_p, DATE_TIME_FORMAT)
         midnight7 = datetime.datetime.strftime(midnight7_p, DATE_TIME_FORMAT)
-
         # query on timeframe
         if timeframe == 'now':
             # start < now and end > now
@@ -42,12 +42,10 @@ class LocationHandler(BaseHandler):
         else:  # 'all' and other timeframes are interpreted as 'all'
             # end > now
             condition = "end >= '" + now + "'"
-
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)
         if limit:
             condition += " AND 'start' < '%s'" % limit
-
         # query on tags
         if tags:
             tags_p = tags.split(',')
@@ -55,19 +53,15 @@ class LocationHandler(BaseHandler):
                 condition += " AND tags CONTAINS '#" + tag + "#'"
                 # tags in the fusion table are surrounded by hash characters to avoid
                 # confusion if one tag would be a substring of another tag
-
         # query on hashtags
         if hashtags:
             hashtags_p = hashtags.split(',')
             for hashtag in hashtags_p:
                 condition += " AND hashtags CONTAINS '#" + hashtag + "#'"
-
         # query on location
         condition += " AND 'location slug' = '" + location_slug + "'"
-
         # sort by datetime slug
         condition += " ORDER BY 'datetime slug'"
-
         no_results_message = ''
         data = fusion_tables.select(configuration['slave table'], condition=condition)
         if not data:
@@ -79,14 +73,13 @@ class LocationHandler(BaseHandler):
                 # is foreseen: fallback to query on event_slug only
                 logging.error("No events found for location (%s)" % condition)
                 raise webapp2.abort(404)
-
         template = jinja_environment.get_template('location.html')
         content = template.render(
             configuration=configuration,
             data=data,
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message,
-            localization=localization[configuration['language']]
+            localization=localization[language]
         )
 
         # return the web-page content
@@ -97,8 +90,9 @@ class LocationHandler(BaseHandler):
 class EventHandler(BaseHandler):
     def get(self, event_slug=None, datetime_slug=None):
         configuration = customer_configuration.get_configuration(self.request)
+        # detect language and use configuration as default
+        language = get_language(self.request, configuration)
         localization = get_localization()
-
         # query on event
         condition = "'event slug' = '%s'" % event_slug
         if datetime_slug:
@@ -108,16 +102,14 @@ class EventHandler(BaseHandler):
         no_results_message = ''
         if not data:
             no_results_message = localization[configuration['language']]['no-results']
-
         template = jinja_environment.get_template('event.html')
         content = template.render(
             configuration=configuration,
             data=data[0] if data else {},
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message,
-            localization=localization[configuration['language']]
+            localization=localization[language]
         )
-
         # return the web-page content
         self.response.out.write(content)
         return
@@ -126,11 +118,11 @@ class EventHandler(BaseHandler):
 class LocationsHandler(BaseHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
+        # detect language and use configuration as default
+        language = get_language(self.request, configuration)
         localization = get_localization()
         offset = self.request.get("offset")
-
         condition = "'state' = 'public'"
-
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)
         if limit:
@@ -141,7 +133,6 @@ class LocationsHandler(BaseHandler):
 
         # at least for debugging, limit to 100 results
         condition += " LIMIT 100"
-
         no_results_message = ''
         data = fusion_tables.select(configuration['master table'], condition=condition)
         if not data:
@@ -154,27 +145,23 @@ class LocationsHandler(BaseHandler):
             if location_slug not in location_slugs:
                 unique_data.append(d)
                 location_slugs.append(location_slug)
-
         next_url = self.request.path_url + "?offset=%s" % str(int(offset if offset else 0) + 100)
-
         # for debugging, the id must be added to an url as parameter
         id_appendix = ""
         if self.request.get("id"):
             id_appendix = "?id=%s" % self.request.get("id")
             next_url += "&id=%s" % self.request.get("id")
-
         template = jinja_environment.get_template('locations.html')
         content = template.render(
             configuration=configuration,
             data=unique_data,
             date_time_reformat=date_time_reformat,
             no_results_message=no_results_message,
-            localization=localization[configuration['language']],
+            localization=localization[language],
             id_appendix=id_appendix,
             offset=offset,
             next_url=next_url
         )
-
         # return the web-page content
         self.response.out.write(content)
         return
