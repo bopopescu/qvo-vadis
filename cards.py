@@ -167,6 +167,67 @@ class LocationsHandler(BaseHandler):
         return
 
 
+class SitemapHandler(BaseHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        offset = self.request.get("offset")
+        batch = self.request.get("batch")
+        condition = "'sequence' > 0"
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
+        if offset:
+            condition += " OFFSET %s" % offset
+        # at least for debugging, limit to 100 results
+        if batch:
+            condition += " LIMIT %s" % batch
+        no_results_message = ''
+        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+            'event slug',
+            'datetime slug',
+            'sequence',
+            'start'
+        ])
+        if not data:
+            no_results_message = '# No results'
+        # for debugging, the id must be added to an url as parameter
+        id_appendix = ""
+        if self.request.get("id"):
+            id_appendix = "?id=%s" % self.request.get("id")
+        template = jinja_environment.get_template('sitemap.txt')
+        content = template.render(
+            configuration=configuration,
+            data=data,
+            no_results_message=no_results_message
+        )
+        # return the web-page content
+        self.response.headers['Content-Type'] = "text/plain"
+        self.response.out.write(content)
+        return
+
+
+class IndexHandler(BaseHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        count = fusion_tables.count(configuration['slave table'])
+        template = jinja_environment.get_template('sitemapindex.xml')
+        # render the series of offsets
+        batch = 1000
+        offsets = [0]
+        while offsets[-1] < count - batch:
+            offsets.append(offsets[-1] + batch)
+        content = template.render(
+            configuration=configuration,
+            batch=batch,
+            offsets=offsets
+        )
+        # return the web-page content
+        self.response.headers['Content-Type'] = "application/xml"
+        self.response.out.write(content)
+        return
+
+
 def date_time_reformat(date, format='full', lang='en'):
     from babel.dates import format_date, format_datetime, format_time
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)

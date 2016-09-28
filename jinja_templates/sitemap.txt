@@ -1,0 +1,2 @@
+{% if no_results_message %}{{no_results_message}}{% else %}{% for row in data %}http://{{configuration['id']}}.maptiming.com/all/event/{{row['event slug']}}/{{row['datetime slug']}}
+{% endfor %}{% endif %}

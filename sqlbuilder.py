@@ -85,6 +85,25 @@ class SQL:
         return select
 
 
+    def count(self, table_id, condition=None):
+        """ Build a SELECT COUNT() sql statement.
+
+        Args:
+          table_id: the id of the table
+          condition: a statement to add to the WHERE clause. For example,
+            "age > 30" or "Name = 'Steve'". Use single quotes as per the API.
+
+        Returns:
+          the sql statement
+        """
+
+        if condition:
+            select = 'SELECT COUNT() FROM %s WHERE %s' % (table_id, condition)
+        else:
+            select = 'SELECT COUNT() FROM %s' % table_id
+        return select
+
+
     def update(self, table_id, cols, values=None, row_id=None):
         """ Build an UPDATE sql statement.
 

@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 
 OAUTH_SCOPE = 'https://www.googleapis.com/auth/fusiontables'
 API_CLIENT = 'fusiontables'
-VERSION = 'v1'
+VERSION = 'v2'
 
 FUSION_TABLE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 DATE_FORMAT = '%Y-%m-%d'
@@ -128,6 +128,31 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
         # filter the rows with sequence lower than the maximum sequence for that event slug
         rows[:] = [row for row in rows if row['sequence'] == maximum_sequence[row['event slug']]]
     return rows
+
+
+def count(table_id, condition=None):
+    """
+     condition can contain GROUP BY and LIMIT statements, but there must be at least one WHERE statement!!
+     filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
+    """
+    query = _SQL.count(table_id, condition)
+    sleep = 1
+    for attempt in range(10):
+        try:
+            logging.debug("Trying to count rows in %s" % table_id)
+            query_result = _service.query().sqlGet(sql=query).execute()
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+            time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
+            logging.warning("Sleeping %d seconds because of HttpError trying to count rows in %s (%s)" % (sleep, table_id, e))
+            sleep = sleep * 2
+        else:
+            break  # no error caught
+    else:
+        logging.critical("Retried 10 times counting rows in %s" % table_id)
+        raise  # attempts exhausted
+    rows = fusion_table_query_result_as_list_of_dict(query_result)
+    count = int(rows[0]['count()'])
+    return count
 
 
 def select_first(table_id, cols=None, condition=None):

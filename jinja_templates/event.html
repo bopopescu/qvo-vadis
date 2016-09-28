@@ -19,7 +19,7 @@
         <div class="item-details">{{no_results_message}}</div>
     </div>
     {% else %}
-    <div class="card">
+    <div class="card" vocab="http://schema.org/" typeof="Event">
         <div class="header">
             <div class="header-close" onclick="on_click_static_map_in_iframe()"></div>
             <div class="header-menu">
@@ -33,14 +33,17 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="header-details">
-                <div class="header-title" data-location-slug="{{data['location slug']}}" data-latitude="{{data['latitude']}}" data-longitude="{{data['longitude']}}">{{data['location name']}}</div>
+            <div class="header-details" property="location" typeof="http://schema.org/Place">
+                <div class="header-title" data-location-slug="{{data['location slug']}}" data-latitude="{{data['latitude']}}" data-longitude="{{data['longitude']}}" property="name">{{data['location name']}}</div>
+                <meta property="latitude" content="{{data['latitude']}}" />
+                <meta property="longitude" content="{{data['longitude']}}" />
+                <meta property="address" content="{{data['address']}}" />
                 <div class="header-suppressed">{{data['address']}}{% if data['location details']%} ({{data['location details']}}){% endif %}</div>
             </div>
         </div>
 
         <div class="item">
-            <div class="item-start">
+            <div class="item-start" property="startDate" content="{{date_time_reformat(data['start'], format='yyyy-mm-ddTHH:MM', lang='en')}}">
                 {% set start_date = date_time_reformat(data['start'], format='d/M', lang='en') %}
                 {% set end_date = date_time_reformat(data['end'], format='d/M', lang='en') %}
                 {% set start_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
@@ -70,13 +73,13 @@
                 {% endif %}
             </div>
             <div class="item-details-card">
-                <div class="item-title-card">{{data['event name']}}</div>
-                <div class="item-description">{{data['description']}}</div>
+                <div class="item-title-card" property="name">{{data['event name']}}</div>
+                <div class="item-description" property="description">{{data['description']}}</div>
                 {% if data['registration required'] == 'true' %}
                 <div class="item-registration-required">{{localization['registration-required']}}</div>
                 {% endif %}
                 {% if data['contact'] %}
-                <div class="item-contact">({{data['contact']}})</div>
+                <div class="item-contact" property="organizer">({{data['contact']}})</div>
                 {% endif %}
             </div>
         </div>
