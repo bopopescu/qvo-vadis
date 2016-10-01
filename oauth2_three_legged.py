@@ -3,7 +3,7 @@ from oauth2client.appengine import CredentialsProperty
 from oauth2client.appengine import StorageByKeyName
 import google_credentials
 from google.appengine.api import users
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 from google.appengine.ext import db
 import webapp2
 import httplib2

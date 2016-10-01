@@ -1,5 +1,5 @@
 from sqlbuilder import SQL
-import oauth2_three_legged
+import oauth2_two_legged
 from lib import slugify, location_slug, event_slug
 import logging
 from recurrenceinput import calculate_occurrences
@@ -8,15 +8,14 @@ from datetime import timedelta
 import copy
 import json
 import StringIO
-from apiclient.http import MediaIoBaseUpload
+from googleapiclient.http import MediaIoBaseUpload
 from csv import DictWriter
 from random import randint
 import re
 import time
 from google.appengine.runtime import apiproxy_errors
-from apiclient import errors
+from googleapiclient import errors
 import httplib
-from google.appengine.api import logservice
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,7 +33,6 @@ DATE_FORMAT = '%Y-%m-%d'
 ISO_DATE_TIME_FORMAT = '%Y%m%dT%H%M%S'
 
 _SQL = SQL()
-_service = oauth2_three_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
 _table_cols = {}  # _table_cols[table_id] gives the list of column names
 _inserts = {}  # _inserts[table_id] gives list of dicts to be inserted
 _deletes = {}  # idem
@@ -48,8 +46,9 @@ def table_cols(table_id):
         sleep = 1
         for attempt in range(10):
             try:
+                service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
                 logging.debug("Trying to read column names in %s" % table_id)
-                query_result = _service.query().sqlGet(sql=query).execute()
+                query_result = service.query().sqlGet(sql=query).execute()
             except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
                 time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
                 logging.warning("Sleeping %d seconds because of HttpError trying to read column names in %s (%s)" % (sleep, table_id, e))
@@ -102,8 +101,9 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to select rows in %s" % table_id)
-            query_result = _service.query().sqlGet(sql=query).execute()
+            query_result = service.query().sqlGet(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to select rows in %s (%s)" % (sleep, table_id, e))
@@ -139,8 +139,9 @@ def count(table_id, condition=None):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to count rows in %s" % table_id)
-            query_result = _service.query().sqlGet(sql=query).execute()
+            query_result = service.query().sqlGet(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to count rows in %s (%s)" % (sleep, table_id, e))
@@ -169,8 +170,9 @@ def select_first(table_id, cols=None, condition=None):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to select first row in %s" % table_id)
-            query_result = _service.query().sqlGet(sql=query).execute()
+            query_result = service.query().sqlGet(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to select first row in %s (%s)" % (sleep, table_id, e))
@@ -197,8 +199,9 @@ def select_nth(table_id, cols=None, condition=None, n=1):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to select nth row in %s" % table_id)
-            query_result = _service.query().sqlGet(sql=query).execute()
+            query_result = service.query().sqlGet(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to select nth row in %s (%s)" % (sleep, table_id, e))
@@ -220,8 +223,9 @@ def insert(table_id, values):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to insert row in %s" % table_id)
-            query_result = _service.query().sql(sql=query).execute()
+            query_result = service.query().sql(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to insert row in %s (%s)" % (sleep, table_id, e))
@@ -255,10 +259,11 @@ def insert_go(table_id):
         sleep = 1
         for attempt in range(10):
             try:
+                service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
                 logging.debug("Trying to insert %d rows in slave %s" % (len(_inserts[table_id]), table_id))
                 csv.seek(0)  # rewind the StringIO object
                 logging.debug("First row: %s" % csv.readline())
-                result = _service.table().importRows(tableId=table_id, media_body=media_body).execute()
+                result = service.table().importRows(tableId=table_id, media_body=media_body).execute()
             except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
                 time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
                 logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in slave %s (%s)" % (sleep, len(_inserts[table_id]), table_id, e))
@@ -286,8 +291,9 @@ def update_with_implicit_rowid(table_id, values):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to insert a row in slave %s" % table_id)
-            query_result = _service.query().sql(sql=query).execute()
+            query_result = service.query().sql(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s (%s)" % (sleep, table_id, e))
@@ -312,8 +318,9 @@ def delete_with_implicit_rowid(table_id, values):
     sleep = 1
     for attempt in range(10):
         try:
+            service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to delete row from slave %s" % table_id)
-            query_result = _service.query().sql(sql=query).execute()
+            query_result = service.query().sql(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to delete row from slave %s (%s)" % (sleep, table_id, e))

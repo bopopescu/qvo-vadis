@@ -1,5 +1,8 @@
 import webapp2
 import logging
+import os
+
+DEV = os.environ['SERVER_SOFTWARE'].startswith('Development')
 
 
 AVAILABLE_LOCALES = ['en', 'es', 'fr', 'nl']
