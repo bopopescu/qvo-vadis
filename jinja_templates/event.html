@@ -33,7 +33,7 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="header-details" property="location" typeof="http://schema.org/Place">
+            <div class="header-details" onclick="on_click_location_in_iframe('{{data['location slug']}}')" property="location" typeof="http://schema.org/Place">
                 <div class="header-title" data-location-slug="{{data['location slug']}}" data-latitude="{{data['latitude']}}" data-longitude="{{data['longitude']}}" property="name">{{data['location name']}}</div>
                 <meta property="latitude" content="{{data['latitude']}}" />
                 <meta property="longitude" content="{{data['longitude']}}" />

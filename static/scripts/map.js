@@ -192,7 +192,7 @@ var state = {
             hash += window.location.search;
         this.locationInUrl = true;
         this.ignoreHashChange = true;
-        History.pushState(null,null,hash)
+        History.pushState(null,$(document).attr('title'),hash)  // title remains unchanged
     },
 
     // methods acting on the fusion table query
@@ -349,12 +349,14 @@ var state = {
                 $('#loading').css('display','none');
                 on_location_known_in_iframe();
                 on_location_slug_known_in_iframe();
+                on_iframe_data_displayed();
             });
         } else {
             if (typeof ajaxrequest !== 'undefined')
                 ajaxrequest.abort();
             $('#cardholder').empty();
             $('#cardframe').hide();
+            $(document).attr('title', $('body').data('title'))  // <body> stores a 'backup' of the title in a data attribute
         }
     },
     displayQrIcon: function() {
@@ -505,6 +507,7 @@ function initialize() {
         state.zoomDirty = true;
     });
 
+    // panning the map or zooming the map
     google.maps.event.addListener(map, 'idle', function() {
         if (state.ignoreMapEvents) {
             state.ignoreMapEvents = false;
@@ -528,6 +531,7 @@ function initialize() {
         }
     });
 
+    // click a marker
     google.maps.event.addListener(layer, 'click', function(e) {
         state.setViewLocation(e.row['location slug'].value);
         state.generateNewHashString();
@@ -682,6 +686,11 @@ function on_location_slug_known_in_iframe() {
     return;
 }
 
+function on_iframe_data_displayed() {
+    // called after ajax for event view, right after loading
+    $(document).attr('title', $(".card .header-title").text() + " " + $(".card .item-title-card").text());
+}
+
 function on_click_static_map_in_iframe() {
     // callable from within iframe
     state.setViewMap();
@@ -697,6 +706,16 @@ function on_click_static_map_in_iframe() {
 function on_click_event_in_iframe(event_slug, datetime_slug) {
     // callable from within iframe
     state.setViewEvent(event_slug, datetime_slug);
+    state.generateNewHashString();
+    state.displayIFrame();
+    state.displayAddEventIcon();
+    state.displayModifyEventIcon();
+    return;
+}
+
+function on_click_location_in_iframe(location_slug) {
+    // callable from within iframe
+    state.setViewLocation(location_slug);
     state.generateNewHashString();
     state.displayIFrame();
     state.displayAddEventIcon();
