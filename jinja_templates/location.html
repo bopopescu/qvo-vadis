@@ -14,7 +14,15 @@
     <div class="card">
         <div class="header">
             <div class="header-close" onclick="on_click_static_map_in_iframe()"></div>
-            <div class="header-menu"></div>
+            <div class="header-menu">
+                <div id="header-menu-items" class="material hidden">
+                    <a href="https://www.google.com/maps/dir/Current+Location/{{data[0]['latitude']}},{{data[0]['longitude']}}" target="_blank">
+                        <div id="menu-item-website" class="header-menu-item">
+                            {{localization['get-directions']}}
+                        </div>
+                    </a>
+                </div>
+            </div>
             <div class="header-details">
                 <div class="header-title" data-latitude="{{data[0]['latitude']}}" data-longitude="{{data[0]['longitude']}}">{{data[0]['location name']}}</div>
                 <div class="header-suppressed">{{data[0]['address']}}</div>
