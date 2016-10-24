@@ -64,6 +64,9 @@ function gmaps_init() {
     // the geocoder object allows us to do latlng lookup based on address
     geocoder = new google.maps.Geocoder();
 
+    // the placesservice object allows us to fetch data from a place
+    placesservice = new google.maps.places.PlacesService(map);
+
     // the marker shows us the position of the latest address
     marker = new google.maps.Marker({
         map: map,
@@ -95,64 +98,25 @@ function gmaps_init() {
     // event triggered when map is clicked
     google.maps.event.addListener(map, 'click', function(event) {
         marker.setPosition(event.latLng);
-        geocode_lookup('latLng', event.latLng);
+        if (event.placeId) {
+            event.stop()  // don't show the balloon
+            placesservice.getDetails({placeId: event.placeId}, function(place, status) {
+                update_ui({
+                    address: place.formatted_address,
+                    postal_code: get_postal_code(place),
+                    name: place.name,
+                    location: event.latLng
+                });
+                return;
+            });
+        } else {
+            geocode_lookup('latLng', event.latLng);
+        }
     });
 
     $('#gmaps-error').hide();
 
-    // Retrieve address from InfoWindow ('balloon')
-    // code copied from http://stackoverflow.com/a/21488643/591336
-
-    //store the original setContent-function
-    var original_setContent = google.maps.InfoWindow.prototype.setContent;
-
-    //override the built-in setContent-method
-    google.maps.InfoWindow.prototype.setContent = function(content) {
-        //when argument is a node
-        if (content.querySelector) {
-            //search for the address
-            var addr = content.querySelector('.address');
-            var addr_text = addr.innerText.replace(/\n/g,' ');
-            var name = content.querySelector('.title');
-            var name_text = name.innerText.replace(/\n/g,' ');
-            if (addr && this.logAsInternal) {
-                google.maps.event.addListenerOnce(this, 'map_changed', function() {
-                    var map = this.getMap();
-                    var position = this.getPosition();
-                    if (map) {
-                        marker.setPosition(position)
-                        // pass through geocode to fetch postal code
-                        geocoder.geocode({latLng: position}, function(results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                // Google geocoding has succeeded!
-                                if (results[0]) {
-                                    // Always update the UI elements with new location data
-                                    update_ui({
-                                        address: addr_text,
-                                        postal_code: get_postal_code(results[0]),
-                                        name: name_text,
-                                        location: position
-                                    });
-                                    return;
-                                }
-                            }
-                            // Geocoder status ok but no results!? or status not ok
-                            update_ui({
-                                address: addr_text,
-                                postal_code: '',
-                                name: name_text,
-                                location: position
-                            });
-                            return;
-                        });
-                    }
-                });
-            }
-            //run the original setContent-method
-            original_setContent.apply(this, arguments);
-        };
-    };
-    
+    // clicking on a location that's in the database of predefined locations
     google.maps.event.addListener(layer, 'click', function(e) {
         var position = new google.maps.LatLng(e.row.latitude.value, e.row.longitude.value);
         var name = e.row.name.value;
@@ -182,6 +146,7 @@ function gmaps_init() {
         });
     });
 
+    // clicking on a location that's in the database of events
     google.maps.event.addListener(layer2, 'click', function(e) {
         var address = e.row['address'].value;
         var name = e.row['location name'].value;
