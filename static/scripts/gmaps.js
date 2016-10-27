@@ -573,11 +573,11 @@ $(document).ready(function() {
         $.post(url, {data: data})
             .done(function(data) {
                 var url = '/';
+                url += 'all/event/';
+                url += data;
                 if (location.search) {
                     url += location.search;
                 }
-                url += 'all/event/';
-                url += data;
                 location.href = url;
             });
         return false;

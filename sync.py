@@ -41,7 +41,7 @@ def sync_updated_events(configuration, condition, don_t_run_too_long=False):
     updated = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Syncing %d updated rows in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
     for row in updated:
-        # old rows are note deleted! New slave rows are just added with incremented sequence number
+        # old rows are not deleted! New slave rows are just added with incremented sequence number
         # create slave dicts
         (slaves, final_date) = fusion_tables.master_to_slave(row)
         # store slave dicts
@@ -188,7 +188,11 @@ def running_too_long(initialize=False, don_t_run_too_long=False):
 
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
-        configurations = customer_configuration.get_configurations()
+        if self.request.get('id'):
+            # for debugging, to limit sync to specific table
+            configurations = [customer_configuration.get_configuration(self.request)]
+        else:
+            configurations = customer_configuration.get_configurations()
         running_too_long(initialize=True)  # initialize
 
         try:
@@ -263,3 +267,9 @@ class LoadHandler(webapp2.RequestHandler):
         # return the web-page content
         self.response.out.write("LoadHandler finished")
         return
+
+
+class StartHandler(webapp2.RequestHandler):
+    def get(self):
+        logging.info("Starting instance")
+        self.response.out.write("Instance started")

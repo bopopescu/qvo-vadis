@@ -27,7 +27,12 @@ class NewHandler(BaseHandler):
         if same_location:
             master['location slug'] = same_location[0]['location slug']
         else:
-            master['location slug'] = location_slug(master)
+            base_location_slug = location_slug(master)
+            master['location slug'] = base_location_slug
+            # add (1) or (2) or etc... to the location slug if it's already in use
+            while fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % master['location slug']):
+                counter = 1 if 'counter' not in locals() else counter + 1
+                master['location slug'] = base_location_slug + '-(' + str(counter) + ')'
         master['state'] = 'new'
         master['sequence'] = 1
         master['entry date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
@@ -61,17 +66,32 @@ class UpdateHandler(BaseHandler):
         original_master = fusion_tables.select_first(configuration['master table'], condition="'event slug' = '%s'" % event_slug)[0]
         data = self.request.POST['data']
         master = json.loads(data)
-        master['location slug'] = original_master['location slug']
+        master['location slug'] = location_slug(master)
+        # check if the new location is in use, if so, reuse it's location slug
+        same_location_condition = "ST_INTERSECTS('latitude', CIRCLE(LATLNG(%f,%f),2))" % (round(float(master['latitude']), 5), round(float(master['longitude']), 5))  # 3 meter
+        same_location = fusion_tables.select_first(configuration['master table'], condition=same_location_condition)
+        if same_location:
+            master['location slug'] = same_location[0]['location slug']
+        else:
+            base_location_slug = location_slug(master)
+            master['location slug'] = base_location_slug
+            # add (1) or (2) or etc... to the location slug if it's already in use
+            while fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % master['location slug']):
+                counter = 1 if 'counter' not in locals() else counter + 1
+                master['location slug'] = base_location_slug + '-(' + str(counter) + ')'
         master['state'] = 'updated'
         master['sequence'] = int(original_master['sequence']) + 1
         master['entry date'] = original_master['entry date']
         master['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-        master['update after sync'] = 'true'
+        master['update after sync'] = 'true'  # this will trigger sync_events_with_final_date_passed()
         master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         master['event slug'] = original_master['event slug']
         master['hashtags'] = ','.join(["#%s#" % slugify(tag) for tag in extract_hash_tags(master['description'])])
         master['rowid'] = original_master['rowid']
         fusion_tables.update_with_implicit_rowid(configuration['master table'], master)
+        if master['location slug'] != original_master['location slug']:
+            # otherwise the old location and event remains visible because the FT layer cannot filter them out
+            sync.sync_old_version_of_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
         sync.sync_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
         logging.info("LIST_OF_UPDATED_ROWS [%s] [%s] %s" % (configuration['id'], master['update date'], data))
         sender = 'info@%s.appspotmail.com' % (app_id)

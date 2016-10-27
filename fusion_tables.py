@@ -16,6 +16,7 @@ import time
 from google.appengine.runtime import apiproxy_errors
 from googleapiclient import errors
 import httplib
+from google.appengine.api import urlfetch
 
 logging.basicConfig(level=logging.INFO)
 
@@ -99,6 +100,7 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition)
     sleep = 1
+    urlfetch.set_default_fetch_deadline(60)
     for attempt in range(10):
         try:
             service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
@@ -294,7 +296,7 @@ def update_with_implicit_rowid(table_id, values):
             service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
             logging.debug("Trying to insert a row in slave %s" % table_id)
             query_result = service.query().sql(sql=query).execute()
-        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
+        except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException, httplib.error) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
             logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
