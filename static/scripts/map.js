@@ -58,9 +58,18 @@ var state = {
                                                               // that the coordinates were provided in the URL
         } else {
             this.locationInUrl = false;
-            this.lat = 51.213282784793925; // default
-            this.lon = 4.427805411499094; // default
-            this.zoom = 15; // default
+            if (default_latitude)
+                this.lat = default_latitude;
+            else
+                this.lat = 51.213282784793925; // default
+            if (default_longitude)
+                this.lon = default_longitude;
+            else
+                this.lon = 4.427805411499094; // default
+            if (default_zoom)
+                this.zoom = parseInt(default_zoom);
+            else
+                this.zoom = 15; // default
         }
         if (timeframe) {
             this.timeframe = timeframe;
@@ -193,6 +202,25 @@ var state = {
         this.locationInUrl = true;
         this.ignoreHashChange = true;
         History.pushState(null,$(document).attr('title'),hash)  // title remains unchanged
+    },
+
+    // methods acting on the maps data layer
+
+    loadGeoJSON: function() {
+        var url = window.location.protocol + "//" + window.location.host + '/geojson';
+        // append the ?id= parameter if present in the location, just for debugging on localhost
+        // and also append the client timestamp
+        if (window.location.search) {
+            url += window.location.search;
+        }
+        map.data.loadGeoJson(url);
+        map.data.setStyle({
+            icon:
+                window.location.protocol + "//" + window.location.host + '/images/map-marker.png',
+            cursor: "pointer",
+            scaledSize: new google.maps.Size(24, 24),
+            anchor: new google.maps.Point(12, 12)
+        });
     },
 
     // methods acting on the fusion table query
@@ -477,6 +505,7 @@ function initialize() {
     });
 
     state.generateNewQueryString();
+//    state.loadGeoJSON();
 
     // workaround for tiles that are not loading
     // https://groups.google.com/forum/#!topic/fusion-tables-users-group/aLj7Ep7os9w
@@ -491,6 +520,7 @@ function initialize() {
     // re-center the map if a geo position is available and no coordinates were in the URL
     // and the view is not location or event
     if (!(state.view == 'location' || state.view == 'event') && !state.locationInUrl && navigator.geolocation) {
+        // geolocation won't work in newer browser unless https protocol is used!
         browserSupportFlag = true;
         navigator.geolocation.getCurrentPosition(function (position) {
             state.setCenterpoint(position.coords.latitude, position.coords.longitude);

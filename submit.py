@@ -9,6 +9,7 @@ from datetime import datetime
 from datetime import timedelta
 from google.appengine.api import mail, app_identity
 import os
+from google.appengine.api import taskqueue
 
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
@@ -79,19 +80,20 @@ class UpdateHandler(BaseHandler):
             while fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % master['location slug']):
                 counter = 1 if 'counter' not in locals() else counter + 1
                 master['location slug'] = base_location_slug + '-(' + str(counter) + ')'
+        if master['location slug'] != original_master['location slug']:
+            # otherwise the old location and event remains visible because the FT layer cannot filter them out
+            logging.info("Starting task on queue for deleting old versions of moved event %s" % original_master['event slug'])
+            taskqueue.add(method="GET", url='/sync/old_version_of_updated_events/%s?id=%s' % (original_master['event slug'], configuration['id']))
         master['state'] = 'updated'
         master['sequence'] = int(original_master['sequence']) + 1
         master['entry date'] = original_master['entry date']
         master['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-        master['update after sync'] = 'true'  # this will trigger sync_events_with_final_date_passed()
+        master['update after sync'] = 'true'  # this will trigger sync_old_version_of_updated_events()
         master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         master['event slug'] = original_master['event slug']
         master['hashtags'] = ','.join(["#%s#" % slugify(tag) for tag in extract_hash_tags(master['description'])])
         master['rowid'] = original_master['rowid']
         fusion_tables.update_with_implicit_rowid(configuration['master table'], master)
-        if master['location slug'] != original_master['location slug']:
-            # otherwise the old location and event remains visible because the FT layer cannot filter them out
-            sync.sync_old_version_of_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
         sync.sync_updated_events(configuration, condition="'event slug' = '%s'" % master['event slug'])
         logging.info("LIST_OF_UPDATED_ROWS [%s] [%s] %s" % (configuration['id'], master['update date'], data))
         sender = 'info@%s.appspotmail.com' % (app_id)

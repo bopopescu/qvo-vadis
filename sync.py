@@ -5,6 +5,8 @@ from datetime import timedelta
 import customer_configuration
 import fusion_tables
 from google.appengine.api import mail
+from lib import DEV
+
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
@@ -96,10 +98,10 @@ def sync_one_month_old_cancellations(configuration, condition):
 
 
 def sync_outdated_events(configuration, condition):
-    updated = fusion_tables.select(configuration['master table'], condition=condition)
-    logging.info("Syncing %d outdated public rows in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
-    for row in updated:
-        # delete old slave rows
+    outdated = fusion_tables.select(configuration['master table'], condition=condition)
+    logging.info("Syncing %d outdated public rows in %s master %s" % (len(outdated), configuration['id'], configuration['master table']))
+    for row in outdated:
+        # select old slave rows
         condition = "'event slug' = '%s'" % row['event slug']
         slaves = fusion_tables.select(configuration['slave table'], cols=['datetime slug'], condition=condition, filter_obsolete_rows=False)
         # create slave dicts
@@ -179,7 +181,9 @@ def running_too_long(initialize=False, don_t_run_too_long=False):
         _start_time = datetime.now()
     elif don_t_run_too_long:
         minutes_running = (datetime.now() - _start_time).total_seconds() / 60
-        if minutes_running > 40:  # running 12 times a day, this will give at max 9 instance hours
+        if not DEV and minutes_running > 40:
+            # running 12 times a day, this will give at max 9 instance hours
+            # debugger can run as long as he wants, no quota :)
             logging.warning("Sync running for %d minutes now... going to quit!" % minutes_running)
             raise RunningTooLongError()
         else:
@@ -234,7 +238,7 @@ class SyncHandler(webapp2.RequestHandler):
                 condition = "'end' < '%s'" % yesterday
                 sync_passed_events(configuration, condition)
 
-                # in the master table, find all events flagged as updated
+                # in the master table, find all events flagged as updated (flag is set in submit.py)
                 condition = "'update after sync' = 'true'"
                 sync_old_version_of_updated_events(configuration, condition)
 
@@ -252,6 +256,58 @@ class SyncHandler(webapp2.RequestHandler):
             fusion_tables.insert_go(configuration['slave table'])
             # then quit
             self.response.out.write("SyncHandler finished with leftovers")
+            return
+
+
+class SyncOldVersionOfUpdatedEventsHandler(webapp2.RequestHandler):
+    def get(self, event_slug=None):
+        logging.info("Start deleting old version of updated events (probably a queued request from submit.py")
+
+        configuration = customer_configuration.get_configuration(self.request)
+
+        # in the master table, find all events flagged as updated for the submitted event
+        condition = "'event slug' = '%s'" % event_slug
+        sync_old_version_of_updated_events(configuration, condition)
+
+        logging.info("Done deleting old version of updated events.")
+
+        # return the web-page content
+        self.response.out.write("SyncOldVersionOfUpdatedEventsHandler finished")
+        return
+
+
+class SyncAllHandler(webapp2.RequestHandler):
+    def get(self):
+        logging.info("Start syncing all by force. For this operation to have effect, you have to delete the slave rows manually first!")
+        if self.request.get('id'):
+            # for debugging, to limit sync to specific table
+            configurations = [customer_configuration.get_configuration(self.request)]
+        else:
+            configurations = customer_configuration.get_configurations()
+        running_too_long(initialize=True)  # initialize
+
+        try:
+            logging.info("Start syncing by force")
+
+            for configuration in [c for c in configurations if c['id'] != 'www']:
+                # www is a fake configuration!
+                logging.info("Start syncing %s by force" % configuration['id'])
+
+                # in the master table, find all events with outdated sync
+                condition = "'state' = 'public' ORDER BY 'sync date'"
+                sync_outdated_events(configuration, condition)
+
+            logging.info("Done syncing by force")
+
+            # return the web-page content
+            self.response.out.write("SyncHandler by force finished")
+            return
+
+        except RunningTooLongError:
+            # first release pending inserts!
+            fusion_tables.insert_go(configuration['slave table'])
+            # then quit
+            self.response.out.write("SyncHandler by force finished with leftovers")
             return
 
 

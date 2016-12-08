@@ -92,6 +92,7 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     """
      condition can contain GROUP BY and LIMIT statements, but there must be at least one WHERE statement!!
      filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
+     filter_repeating_rows: only has effect on slave table queries, returns the next upcoming (or ongoing) event
     """
     if not cols:
         cols = table_cols(table_id)
@@ -116,9 +117,10 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
         logging.critical("Retried 10 times selecting rows in %s" % table_id)
         raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
-    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+    for row in rows:  # this is an intermediate fix for data entered before se quence field was added to slave tables
         if 'sequence' in row and row['sequence'] == 'NaN':
             row['sequence'] = 1
+    # for each event only return the row(s) with the highest 'sequence'
     if filter_obsolete_rows and rows and 'datetime slug' in rows[0]:
         # for each event slug, find the maximum sequence
         maximum_sequence = {}
@@ -129,6 +131,20 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
                 maximum_sequence[event_slug] = sequence
         # filter the rows with sequence lower than the maximum sequence for that event slug
         rows[:] = [row for row in rows if row['sequence'] == maximum_sequence[row['event slug']]]
+#    # for each event only return the row(s) with the earliest TWO 'datetime slug' values
+#    if filter_repeating_rows and rows and 'datetime slug' in rows[0]:
+#        # for each event slug, find the TWO minimum datetime values
+#        maximum_datetime = {}
+#        maximum2_datetime = {}
+#        for row in rows:
+#            event_slug = row['event slug']
+#            datetime = row['datetime slug']
+#            if event_slug not in maximum_datetime or maximum_datetime[event_slug] > datetime:
+#                maximum_datetime[event_slug] = datetime
+#            elif event_slug not in maximum2_datetime or maximum2_datetime[event_slug] > datetime:
+#                maximum2_datetime[event_slug] = datetime
+#        # filter the rows with two lowest datetime values for that event slug
+#        rows[:] = [row for row in rows if row['datetime slug'] in (maximum_datetime[row['event slug']], maximum2_datetime[row['event slug']])]
     return rows
 
 
@@ -365,6 +381,7 @@ def master_to_slave(master):
     ]:
         slave[key] = master[key]
 
+    previous_start = "1970-01-01 00:00:00"
     # then calculate the date occurrences
     if master['calendar rule']:
         # start field holds the start date for the recurrence rule
@@ -399,6 +416,8 @@ def master_to_slave(master):
                     new_slave['start'] = datetime.combine(start_date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
                     new_slave['end'] = datetime.combine(start_date + days, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
                     new_slave['datetime slug'] = slugify(new_slave['start'])
+                    new_slave['previous start'] = previous_start
+                    previous_start = new_slave['start']
                     if final_date < new_slave['end']:
                         final_date = new_slave['end']
                     slaves.append(new_slave)
@@ -414,6 +433,7 @@ def master_to_slave(master):
         slave['start'] = master['start']
         slave['end'] = master['end']
         slave['datetime slug'] = slugify(slave['start'])
+        slave['previous start'] = previous_start
         return ([slave], slave['end'])
 
 

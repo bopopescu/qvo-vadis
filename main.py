@@ -8,6 +8,7 @@ email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
 
 routes = [
     webapp2.Route(r'/_ah/start', handler='sync.StartHandler'),
+    webapp2.Route(r'/geojson', handler='cards.GeoJSONHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/<timeframe:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),
@@ -33,6 +34,8 @@ routes = [
     webapp2.Route(r'/submit/new', handler='submit.NewHandler'),
     webapp2.Route(r'/submit/update/<event_slug:[^/]+>', handler='submit.UpdateHandler'),
     webapp2.Route(r'/recurrenceinput', handler='recurrenceinput.RecurrenceInputHandler'),
+    webapp2.Route(r'/sync/old_version_of_updated_events/<event_slug:[^/]+>', handler='sync.SyncOldVersionOfUpdatedEventsHandler'),
+    webapp2.Route(r'/sync/all', handler='sync.SyncAllHandler'),
     webapp2.Route(r'/sync', handler='sync.SyncHandler'),
     webapp2.Route(r'/load', handler='sync.LoadHandler'),
     webapp2.Route(r'/ical', handler='ical.ICalHandler'),

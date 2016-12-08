@@ -17,15 +17,6 @@ class MapHandler(BaseHandler):
         configuration = customer_configuration.get_configuration(self.request)
         # detect language and use configuration as default
         language = get_language(self.request, configuration)
-        if configuration['id'] == 'www':
-            # this is a request for the landing page!
-            template = jinja_environment.get_template('www.html')
-            content = template.render(
-                localization=localization['en']  # TODO add localization to template and get user's langauage
-            )
-            # return the web-page content
-            self.response.out.write(content)
-            return
         # apply commercial limit
         limit = customer_configuration.get_limit(self.request)
         template = jinja_environment.get_template('map.html')

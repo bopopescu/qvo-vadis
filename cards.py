@@ -5,7 +5,7 @@ import logging
 import datetime
 import fusion_tables
 from lib import get_localization, get_language, BaseHandler
-
+import json
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -164,6 +164,45 @@ class LocationsHandler(BaseHandler):
         )
         # return the web-page content
         self.response.out.write(content)
+        return
+
+
+
+class GeoJSONHandler(BaseHandler):
+    def get(self):
+        now = self.request.get("now")
+        if not now:
+            now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
+        condition = "'previous start' <= '" + now + "' and 'end' >= '" + now + "'"
+        cols = ['datetime slug', 'event slug', 'sequence', 'latitude', 'longitude', 'location slug', 'tags', 'hashtags']
+        configuration = customer_configuration.get_configuration(self.request)
+        # query on event
+        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=cols)
+        # convert the results to GeoJSON
+        features = []
+        for row in data:
+            features.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [row['longitude'], row['latitude']]
+                },
+                "properties": {
+                    "datetime slug": row['datetime slug'],
+                    "event slug": row['event slug'],
+                    "sequence": row['sequence'],
+                    "location slug": row['location slug'],
+                    "tags": row['tags'],
+                    "hashtags": row['hashtags']
+                }
+            })
+        feature_collection = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+        # return the web-page content
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(feature_collection))
         return
 
 
