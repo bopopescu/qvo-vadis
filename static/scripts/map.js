@@ -169,7 +169,7 @@ var state = {
 
     generateNewHashString: function() {
         var map, timeframe, tags, hashtags, view, location, event, datetime;
-        map = this.lat.toFixed(6) + ',' + this.lon.toFixed(6);
+        map = parseFloat(this.lat).toFixed(6) + ',' + parseFloat(this.lon).toFixed(6);
         map += ',' + this.zoom + 'z';
         var mapDiv = $('#map-canvas');
         map += ',' + Math.min(mapDiv.height(), mapDiv.width()) + 'px';
