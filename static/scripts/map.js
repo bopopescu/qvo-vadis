@@ -66,7 +66,7 @@ var state = {
                 this.lon = default_longitude;
             else
                 this.lon = 4.427805411499094; // default
-            if (default_zoom)
+            if (default_zoom && default_zoom != 'NaN' && default_zoom > 0)
                 this.zoom = parseInt(default_zoom);
             else
                 this.zoom = 15; // default
