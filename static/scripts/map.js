@@ -649,6 +649,7 @@ $(document).ready(function() {
 
     $('#hash-menu').on("click", "a.search-reset-button", function() {
         $('#hash-menu input').val('');
+        $("#hash-menu a.search-button").click();
     });
 
     History.Adapter.bind(window,'statechange',function() {

@@ -51,7 +51,8 @@
                         'riweeklyinterval',
                         'riweeklyweekdays',
                         'rirangeoptions'
-                    ]
+                    ],
+                    default: true
                 },
                 monthly: {
                     rrule: 'FREQ=MONTHLY',
@@ -711,7 +712,7 @@
                             '{{if hasRepeatForeverButton}}',
                             '<div>',
                                 '<div class="w-radio">',
-                                    '<input class="w-radio-input" id="${name}rangetype:NOENDDATE" type="radio" name="rirangetype" value="NOENDDATE">',
+                                    '<input class="w-radio-input" id="${name}rangetype:NOENDDATE" type="radio" name="rirangetype" value="NOENDDATE" checked="checked">',
                                     '<label class="w-form-label label inline" for="${name}rangetype:NOENDDATE">',
                                         '${i18n.rangeNoEnd}',
                                     '</label>',
@@ -720,7 +721,7 @@
                             '{{/if}}',
                             '<div>',
                                 '<div class="w-radio">',
-                                    '<input class="w-radio-input" id="${name}rangetype:BYOCCURRENCES" type="radio" name="rirangetype" value="BYOCCURRENCES" checked="checked">',
+                                    '<input class="w-radio-input" id="${name}rangetype:BYOCCURRENCES" type="radio" name="rirangetype" value="BYOCCURRENCES">',
                                     '<label class="w-form-label label inline" for="${name}rangetype:BYOCCURRENCES">',
                                         '${i18n.rangeByOccurrences1}',
                                     '</label>',

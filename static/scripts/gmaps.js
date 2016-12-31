@@ -444,7 +444,7 @@ $(document).ready(function() {
     if ($('#gmaps-canvas').length) {
         gmaps_init();
         autocomplete_init();
-    };
+    }
     $('#location-ok').click(function() {
         $('#location-modal').hide();
         location_visualization({
