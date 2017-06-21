@@ -206,6 +206,39 @@ class GeoJSONHandler(BaseHandler):
         return
 
 
+class SitemapByLocationHandler(BaseHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        location = self.request.get("location")
+        condition = "'sequence' > 0"
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
+        if location:
+            condition += " AND 'location slug' = '%s'" % location
+        condition += " ORDER BY 'datetime slug'"
+        no_results_message = ''
+        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+            'event slug',
+            'datetime slug',
+            'sequence',
+            'start'
+        ])
+        if not data:
+            no_results_message = '# No results'
+        template = jinja_environment.get_template('sitemap.txt')
+        content = template.render(
+            configuration=configuration,
+            data=data,
+            no_results_message=no_results_message
+        )
+        # return the web-page content
+        self.response.headers['Content-Type'] = "text/plain"
+        self.response.out.write(content)
+        return
+
+
 class SitemapHandler(BaseHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
@@ -230,10 +263,6 @@ class SitemapHandler(BaseHandler):
         ])
         if not data:
             no_results_message = '# No results'
-        # for debugging, the id must be added to an url as parameter
-        id_appendix = ""
-        if self.request.get("id"):
-            id_appendix = "?id=%s" % self.request.get("id")
         template = jinja_environment.get_template('sitemap.txt')
         content = template.render(
             configuration=configuration,
@@ -242,6 +271,34 @@ class SitemapHandler(BaseHandler):
         )
         # return the web-page content
         self.response.headers['Content-Type'] = "text/plain"
+        self.response.out.write(content)
+        return
+
+
+class IndexByLocationHandler(BaseHandler):
+    def get(self):
+        configuration = customer_configuration.get_configuration(self.request)
+        count = fusion_tables.count(configuration['slave table'])
+        template = jinja_environment.get_template('sitemapindexbylocation.xml')
+        # get a list of all locations (location slug)
+        condition = "'sequence' > 0"
+        # apply commercial limit
+        limit = customer_configuration.get_limit(self.request)
+        if limit:
+            condition += " AND 'start' < '%s'" % limit
+        condition += " GROUP BY 'location slug'"
+        no_results_message = ''
+        locations = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+            'location slug'
+        ])
+        if not locations:
+            no_results_message = '# No results'
+        content = template.render(
+            configuration=configuration,
+            locations=locations
+        )
+        # return the web-page content
+        self.response.headers['Content-Type'] = "application/xml"
         self.response.out.write(content)
         return
 
