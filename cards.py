@@ -107,6 +107,7 @@ class EventHandler(BaseHandler):
             configuration=configuration,
             data=data[0] if data else {},
             date_time_reformat=date_time_reformat,
+            date_time_reformat_iso=date_time_reformat_iso,
             no_results_message=no_results_message,
             localization=localization[language]
         )
@@ -328,3 +329,37 @@ def date_time_reformat(date, format='full', lang='en'):
     from babel.dates import format_date, format_datetime, format_time
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
     return format_datetime(date_p, format=format, locale=lang)
+
+
+from google.appengine.ext import ndb
+from google.appengine.api import urlfetch
+
+
+class Timezone_cache(ndb.Model):
+    location = ndb.DateProperty()  # key is string composed of latitude + longitude
+    content = ndb.TextProperty()
+
+
+def date_time_reformat_iso(date, latitude, longitude):
+    date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
+    key = "%.4f,%.4f" % (latitude, longitude)
+    timezone_cache = Timezone_cache.get_or_insert(key)
+    if not timezone_cache.content:
+        api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
+        timestamp = (date_p - datetime.datetime(1970, 1, 1)).total_seconds()  # actually shouldn't do this, because date_p isn't UTC
+        url = "https://maps.googleapis.com/maps/api/timezone/json?location=%.6f,%.6f&timestamp=%d&key=%s" % (latitude, longitude, timestamp, api_key)
+        try:
+            result = urlfetch.fetch(url)
+            if result.status_code == 200:
+                timezone = result.content
+            else:
+                logging.exception("HTTP error fetching url %s" % url)
+                timezone = {}
+        except urlfetch.Error:
+            logging.exception("Caught exception fetching url %s" % url)
+        timezone_cache.content = timezone
+        timezone_cache.put()
+    timezone = json.loads(timezone_cache.content)
+    (offset_hours, offset_minutes) = divmod((timezone["dstOffset"] + timezone["rawOffset"]) / 60, 60)
+    iso = date_p.isoformat() + '+' + "%02d:%02d" % (offset_hours, offset_minutes)
+    return iso

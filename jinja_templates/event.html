@@ -48,7 +48,7 @@
         </div>
 
         <div class="item">
-            <div class="item-start" property="startDate" content="{{date_time_reformat(data['start'], format='yyyy-mm-ddTHH:MM', lang='en')}}">
+            <div class="item-start" property="startDate" content="{{date_time_reformat_iso(data['start'],data['latitude'],data['longitude'])}}">
                 {% set start_date = date_time_reformat(data['start'], format='d/M', lang='en') %}
                 {% set end_date = date_time_reformat(data['end'], format='d/M', lang='en') %}
                 {% set start_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
