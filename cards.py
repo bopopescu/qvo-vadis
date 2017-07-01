@@ -102,10 +102,14 @@ class EventHandler(BaseHandler):
         no_results_message = ''
         if not data:
             no_results_message = localization[configuration['language']]['no-results']
+        data = data[0] if data else {}
+        # if data has no address, fetch it
+        if not data['address']:
+            data['address'] = address(data['latitude'], data['longitude'], language)
         template = jinja_environment.get_template('event.html')
         content = template.render(
             configuration=configuration,
-            data=data[0] if data else {},
+            data=data,
             date_time_reformat=date_time_reformat,
             date_time_reformat_iso=date_time_reformat_iso,
             no_results_message=no_results_message,
@@ -335,31 +339,50 @@ from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
 
 
-class Timezone_cache(ndb.Model):
-    location = ndb.DateProperty()  # key is string composed of latitude + longitude
-    content = ndb.TextProperty()
-
-
 def date_time_reformat_iso(date, latitude, longitude):
+    # caching timezone doesn't make much sense, because it will depend on the actual date because of daylight saving
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
     key = "%.4f,%.4f" % (latitude, longitude)
-    timezone_cache = Timezone_cache.get_or_insert(key)
-    if not timezone_cache.content:
-        api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
-        timestamp = (date_p - datetime.datetime(1970, 1, 1)).total_seconds()  # actually shouldn't do this, because date_p isn't UTC
-        url = "https://maps.googleapis.com/maps/api/timezone/json?location=%.6f,%.6f&timestamp=%d&key=%s" % (latitude, longitude, timestamp, api_key)
-        try:
-            result = urlfetch.fetch(url)
-            if result.status_code == 200:
-                timezone = result.content
-            else:
-                logging.exception("HTTP error fetching url %s" % url)
-                timezone = {}
-        except urlfetch.Error:
-            logging.exception("Caught exception fetching url %s" % url)
-        timezone_cache.content = timezone
-        timezone_cache.put()
-    timezone = json.loads(timezone_cache.content)
+    api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
+    timestamp = (date_p - datetime.datetime(1970, 1, 1)).total_seconds()  # actually shouldn't do this, because date_p isn't UTC
+    url = "https://maps.googleapis.com/maps/api/timezone/json?location=%.6f,%.6f&timestamp=%d&key=%s" % (latitude, longitude, timestamp, api_key)
+    try:
+        result = urlfetch.fetch(url)
+        if result.status_code == 200:
+            timezone_json = result.content
+        else:
+            logging.exception("HTTP error fetching url %s" % url)
+            timezone_json = ''
+    except urlfetch.Error:
+        logging.exception("Caught exception fetching url %s" % url)
+    timezone = json.loads(timezone_json)
     (offset_hours, offset_minutes) = divmod((timezone["dstOffset"] + timezone["rawOffset"]) / 60, 60)
     iso = date_p.isoformat() + '+' + "%02d:%02d" % (offset_hours, offset_minutes)
     return iso
+
+
+class Address_cache(ndb.Model):
+    location = ndb.DateProperty()  # key is string composed of latitude + longitude + language
+    content = ndb.TextProperty()
+
+
+def address(latitude, longitude, language):
+    key = "%.6f,%.6f" % (latitude, longitude)
+    address_cache = Address_cache.get_or_insert(key)
+    if not address_cache.content:
+        api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
+        url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&result_type=street_address&language=%s&key=%s" % (latitude, longitude, language, api_key)
+        try:
+            result = urlfetch.fetch(url)
+            if result.status_code == 200:
+                address_json = result.content
+            else:
+                logging.exception("HTTP error fetching url %s" % url)
+                address_json = ''
+        except urlfetch.Error:
+            logging.exception("Caught exception fetching url %s" % url)
+        address_cache.content = address_json
+        address_cache.put()
+    addresses = json.loads(address_cache.content)
+    address = addresses['results'][0]['formatted_address']
+    return address

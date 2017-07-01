@@ -40,9 +40,13 @@
             </div>
             <div class="header-details" onclick="on_click_location_in_iframe('{{data['location slug']}}')" property="location" typeof="http://schema.org/Place">
                 <div class="header-title" data-location-slug="{{data['location slug']}}" data-latitude="{{data['latitude']}}" data-longitude="{{data['longitude']}}" property="name">{{data['location name']}}</div>
-                <meta property="latitude" content="{{data['latitude']}}" />
-                <meta property="longitude" content="{{data['longitude']}}" />
+                <div property="geo" typeof="GeoCoordinates">
+                    <meta property="latitude" content="{{data['latitude']}}" />
+                    <meta property="longitude" content="{{data['longitude']}}" />
+                </div>
                 <meta property="address" content="{{data['address']}}" />
+                <meta property="telephone" content="{{data['contact']}}" />
+                <meta property="description" content="{{data['location details']}}" />
                 <div class="header-suppressed">{{data['address']}}{% if data['location details']%} ({{data['location details']}}){% endif %}</div>
             </div>
         </div>
@@ -76,6 +80,7 @@
                 <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
                 <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
                 {% endif %}
+                <meta property="endDate" content="{{date_time_reformat_iso(data['end'],data['latitude'],data['longitude'])}}" />
             </div>
             <div class="item-details-card">
                 <div class="item-title-card" property="name">{{data['event name']}}</div>
