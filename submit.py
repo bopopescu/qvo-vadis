@@ -26,12 +26,15 @@ class NewHandler(BaseHandler):
         same_location_condition = "ST_INTERSECTS('latitude', CIRCLE(LATLNG(%f,%f),2))" % (round(float(master['latitude']), 5), round(float(master['longitude']), 5))  # 3 meter
         same_location = fusion_tables.select_first(configuration['master table'], condition=same_location_condition)
         if same_location:
+            logging.info("Using the location slug of an existing location [%s] instead of [%s]" % (same_location[0]['location slug'], master['location slug']))
             master['location slug'] = same_location[0]['location slug']
         else:
             base_location_slug = location_slug(master)
+            logging.info("This is a new location [%s]" % base_location_slug)
             master['location slug'] = base_location_slug
             # add (1) or (2) or etc... to the location slug if it's already in use
             while fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % master['location slug']):
+                logging.info("Adding (1), (2),... to location slug [%s] because it already existed." % master['location slug'])
                 counter = 1 if 'counter' not in locals() else counter + 1
                 master['location slug'] = base_location_slug + '-(' + str(counter) + ')'
         master['state'] = 'new'
@@ -72,12 +75,15 @@ class UpdateHandler(BaseHandler):
         same_location_condition = "ST_INTERSECTS('latitude', CIRCLE(LATLNG(%f,%f),2))" % (round(float(master['latitude']), 5), round(float(master['longitude']), 5))  # 3 meter
         same_location = fusion_tables.select_first(configuration['master table'], condition=same_location_condition)
         if same_location:
+            logging.info("Using the location slug of an existing location [%s] instead of [%s]" % (same_location[0]['location slug'], master['location slug']))
             master['location slug'] = same_location[0]['location slug']
         else:
             base_location_slug = location_slug(master)
+            logging.info("This is a new location [%s]" % base_location_slug)
             master['location slug'] = base_location_slug
             # add (1) or (2) or etc... to the location slug if it's already in use
             while fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % master['location slug']):
+                logging.info("Adding (1), (2),... to location slug [%s] because it already existed." % master['location slug'])
                 counter = 1 if 'counter' not in locals() else counter + 1
                 master['location slug'] = base_location_slug + '-(' + str(counter) + ')'
         if master['location slug'] != original_master['location slug']:

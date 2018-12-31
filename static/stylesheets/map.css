@@ -19,7 +19,7 @@ html, body {
 #map-canvas {
     height: 100%;
 }
-
+/*
 #map-canvas img {
     max-width: none !important;
     height: auto !important;
@@ -33,7 +33,7 @@ html, body {
     width: auto;
     display: inline;
 }
-
+*/
 .top-left {
     float: left;
     clear: left;
