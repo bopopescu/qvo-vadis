@@ -342,6 +342,7 @@ from google.appengine.api import urlfetch
 def date_time_reformat_iso(date, latitude, longitude):
     # caching timezone doesn't make much sense, because it will depend on the actual date because of daylight saving
     date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
+    """
     key = "%.4f,%.4f" % (latitude, longitude)
     api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
     timestamp = (date_p - datetime.datetime(1970, 1, 1)).total_seconds()  # actually shouldn't do this, because date_p isn't UTC
@@ -355,6 +356,9 @@ def date_time_reformat_iso(date, latitude, longitude):
             timezone_json = ''
     except urlfetch.Error:
         logging.exception("Caught exception fetching url %s" % url)
+    """
+    # 20190103 caching would make sense!!! I'm now paying > $50 per month for timezone API calls! For time being, local timezone only!
+    timezone_json = '{"dstOffset" : 0, "rawOffset" : 3600, "status" : "OK", "timeZoneId" : "Europe/Brussels", "timeZoneName" : "Central European Standard Time"}'
     timezone = json.loads(timezone_json)
     (offset_hours, offset_minutes) = divmod((timezone["dstOffset"] + timezone["rawOffset"]) / 60, 60)
     iso = date_p.isoformat() + '+' + "%02d:%02d" % (offset_hours, offset_minutes)
