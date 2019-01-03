@@ -1,6 +1,6 @@
 application: qvo-vadis
 module: sync
-version: 1
+version: datastore
 runtime: python27
 api_version: 1
 threadsafe: true

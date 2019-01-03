@@ -192,6 +192,9 @@ def running_too_long(initialize=False, don_t_run_too_long=False):
 
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
+        self.response.out.write("SyncHandler disabled for qvo-vadis version datastore")
+        return
+"""
         if self.request.get('id'):
             # for debugging, to limit sync to specific table
             configurations = [customer_configuration.get_configuration(self.request)]
@@ -250,6 +253,7 @@ class SyncHandler(webapp2.RequestHandler):
             # return the web-page content
             self.response.out.write("SyncHandler finished")
             return
+"""
 
         except RunningTooLongError:
             # first release pending inserts!

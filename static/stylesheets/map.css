@@ -39,6 +39,7 @@ html, body {
     clear: left;
     position: relative;
     z-index: 1;
+    background-color: red;
 }
 
 .top-right {
