@@ -42,6 +42,8 @@ routes = [
     webapp2.Route(r'/load', handler='sync.LoadHandler'),
     webapp2.Route(r'/ical', handler='ical.ICalHandler'),
     webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler'),
+    webapp2.Route(r'/migrateconfiguration', handler='migrate.MigrateConfigurationHandler'),
+    webapp2.Route(r'/migrate', handler='migrate.MigrateHandler'),
     webapp2.Route(r'/<:.*>', handler='map.MapHandler')
 ]
 

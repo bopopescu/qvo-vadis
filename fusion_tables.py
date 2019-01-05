@@ -97,7 +97,7 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     if not cols:
         cols = table_cols(table_id)
     # make sure you return the rowid, that's useful for later 'updates'
-    if not 'rowid' in cols and not 'GROUP BY' in condition:
+    if not 'rowid' in cols and (not condition or not 'GROUP BY' in condition):
         cols.append('rowid')
     query = _SQL.select(table_id, cols, condition)
     sleep = 1
