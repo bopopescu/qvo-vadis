@@ -3,9 +3,11 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 import customer_configuration
+import customer_map
 import fusion_tables
 from google.appengine.api import mail
 from lib import DEV
+import model
 
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
@@ -97,33 +99,12 @@ def sync_one_month_old_cancellations(configuration, condition):
     running_too_long(don_t_run_too_long=True)
 
 
-def sync_outdated_events(configuration, condition):
-    outdated = fusion_tables.select(configuration['master table'], condition=condition)
-    logging.info("Syncing %d outdated public rows in %s master %s" % (len(outdated), configuration['id'], configuration['master table']))
-    for row in outdated:
-        # select old slave rows
-        condition = "'event slug' = '%s'" % row['event slug']
-        slaves = fusion_tables.select(configuration['slave table'], cols=['datetime slug'], condition=condition, filter_obsolete_rows=False)
-        # create slave dicts
-        datetime_slugs = [slave['datetime slug'] for slave in slaves]
-        (new_slaves, final_date) = fusion_tables.master_to_slave(row)
-        # store slave dicts
-        logging.info("Inserting approx. %d future rows in %s slave %s" % (len(new_slaves) - len(slaves), configuration['id'], configuration['slave table']))
-        for new_slave in new_slaves:
-            if new_slave['datetime slug'] not in datetime_slugs:
-                fusion_tables.insert_hold(configuration['slave table'], new_slave)
-            # set master event state to 'public'
-        update = {
-            'rowid': row['rowid'],
-            'state': 'public',
-            'sync date': datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT),
-            'final date': final_date
-        }
-        logging.info("Updated sync timestamp and final date in regenerated row in %s master %s" % (configuration['id'], configuration['master table']))
-        fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
-        running_too_long(don_t_run_too_long=True)
-    fusion_tables.insert_go(configuration['slave table'])
-    logging.info("Done syncing outdated public rows in %s master %s" % (configuration['id'], configuration['master table']))
+def sync_outdated_events(map, query):
+    logging.info("Syncing outdated public rows in %s" % map.key.id())
+    for event in query:
+        logging.info("Syncing row %s" % event.key.id())
+        model.update_instances(event)
+    logging.info("Done syncing outdated public rows in %s" % map.key.id())
 
 
 def sync_events_with_final_date_passed(configuration, condition):
@@ -192,8 +173,38 @@ def running_too_long(initialize=False, don_t_run_too_long=False):
 
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.out.write("SyncHandler disabled for qvo-vadis version datastore")
-        return
+        # find all events with outdated sync
+        if self.request.get('id'):
+            # for debugging, to limit sync to specific table
+            maps = [customer_map.get_map(self.request)]
+        else:
+            maps = customer_map.get_maps()
+
+        running_too_long(initialize=True)  # initialize
+
+        try:
+            logging.info("Start syncing")
+
+            for map in [m for m in maps if m.key.id() != 'www']:
+                # www is a fake configuration!
+                logging.info("Start syncing %s" % map.key.id())
+
+                # find all events with outdated sync
+                today_minus_one_month = datetime.today() - timedelta(days=30)
+                query = model.Event.query(model.Event.sync_date < today_minus_one_month)
+                sync_outdated_events(map, query)
+
+            logging.info("Done syncing")
+
+            # return the web-page content
+            self.response.out.write("SyncHandler for qvo-vadis version datastore done")
+
+            return
+
+        except RunningTooLongError:
+            self.response.out.write("SyncHandler finished with leftovers")
+            return
+
 """
         if self.request.get('id'):
             # for debugging, to limit sync to specific table
@@ -253,7 +264,6 @@ class SyncHandler(webapp2.RequestHandler):
             # return the web-page content
             self.response.out.write("SyncHandler finished")
             return
-"""
 
         except RunningTooLongError:
             # first release pending inserts!
@@ -261,6 +271,7 @@ class SyncHandler(webapp2.RequestHandler):
             # then quit
             self.response.out.write("SyncHandler finished with leftovers")
             return
+"""
 
 
 class SyncOldVersionOfUpdatedEventsHandler(webapp2.RequestHandler):

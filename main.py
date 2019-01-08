@@ -8,7 +8,7 @@ email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
 
 routes = [
     webapp2.Route(r'/_ah/start', handler='sync.StartHandler'),
-    webapp2.Route(r'/geojson', handler='cards.GeoJSONHandler'),
+    webapp2.Route(r'/geojson/<tile:[^/]+>', handler='geojson.GeoJSONHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/<timeframe:[^/]+>', handler='cards.LocationHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),
