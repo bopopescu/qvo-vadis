@@ -36,7 +36,6 @@ class MigrateConfigurationHandler(BaseHandler):
                 title=row['title'],
                 tags=row['tags'].split(','),
                 qr_code_string=row['qr code string'],
-                commercial_limit=int(row['commercial limit']) if row['commercial limit'].isdigit() else None,
                 language=row['language'],
                 plan=row['plan'],
                 help=row['help'],

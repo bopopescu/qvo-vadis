@@ -207,6 +207,11 @@ var state = {
     // methods acting on the maps data layer
 
     loadGeoJSON: function() {
+        // find the viewport's bottom left and top right coordinates
+        var bounds = map.getBounds();
+        // calculate the list of tiles
+        // load geojson for the tiles
+
         var url = window.location.protocol + "//" + window.location.host + '/geojson';
         // append the ?id= parameter if present in the location, just for debugging on localhost
         // and also append the client timestamp
@@ -251,8 +256,6 @@ var state = {
             query += " AND hashtags CONTAINS '#" + hashtags[i] + "#'";
             // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
-        if (limit)
-            query += " AND start < '" + limit + "'";
         layer.setOptions({
             query: {
                 select: locationColumn,
@@ -486,7 +489,7 @@ function initialize() {
     } else {
         map.setOptions({styles:styles['default']});
     }
-
+/*
     layer = new google.maps.FusionTablesLayer({
         map: map,
         heatmap: {
@@ -503,9 +506,8 @@ function initialize() {
             suppressInfoWindows: true
         }
     });
-
     state.generateNewQueryString();
-//    state.loadGeoJSON();
+*/
 
     // workaround for tiles that are not loading
     // https://groups.google.com/forum/#!topic/fusion-tables-users-group/aLj7Ep7os9w
@@ -514,8 +516,6 @@ function initialize() {
                 $(this).attr("src",$(this).attr("src")+"&"+(new Date()).getTime());
         });
     },3000);
-
-    state.highlightLocationMarker();
 
     // re-center the map if a geo position is available and no coordinates were in the URL
     // and the view is not location or event
@@ -528,6 +528,10 @@ function initialize() {
             state.generateNewHashString();
         });
     }
+
+    state.loadGeoJSON();
+
+    state.highlightLocationMarker();
 
     google.maps.event.addListener(map, 'drag', function() {
         state.panDirty = true;
@@ -588,14 +592,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 // jQuery ready
 $(document).ready(function() {
-
-    // add the timeframe menu items, and hide based on now, midnight, midnight1 and midnight7
-    if (limit < midnight7) {
-        $("a.menu-item-week").hide();
-        if (limit < midnight1) {
-            $("a.menu-item-tomorrow").hide();
-        }
-    }
 
     // add event handlers to the action buttons
     $('#timeframe-button').on("click", function() {

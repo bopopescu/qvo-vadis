@@ -1,5 +1,5 @@
 from jinja_templates import jinja_environment
-import customer_configuration
+import customer_map
 from lib import get_localization, get_language, slugify, BaseHandler
 import json
 from datetime import date, timedelta
@@ -14,26 +14,23 @@ class MapHandler(BaseHandler):
         now = self.request.get("now")  # hidden feature
         if not now:
             now = ''  # no fallback needed here!
-        configuration = customer_configuration.get_configuration(self.request)
+        map = customer_map.get_map(self.request)
         # detect language and use configuration as default
-        language = get_language(self.request, configuration)
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        template = jinja_environment.get_template('map.html')
+        language = get_language(self.request, map)
         # map colors to tags
         colors = ['purple', 'blue', 'teal', 'lightgreen', 'amber', 'red']
-        tags = configuration['tags'].split(',')
+        tags = map.tags.split(',')
         tag_colors = {}
         for i, tag in enumerate(tags):
             tag_colors[slugify(tag)] = colors[i % 6]
         tag_colors['all-tags'] = 'white'
+        template = jinja_environment.get_template('map.html')
         content = template.render(
-            configuration=configuration,
-            limit=limit if limit else 0,  # e.g. "2014-07-19 09:00:00"
+            map=map,
             tag_colors=tag_colors,
-            tag_colors_json=json.dumps(tag_colors),
-            day_of_today=date.today().day,
-            day_of_tomorrow=(date.today() + timedelta(days=1)).day,
+            tag_colors_json=json.dumps(tag_colors),  # TODO this is UCT, you know?
+            day_of_today=date.today().day,  # TODO this is UCT, you know?
+            day_of_tomorrow=(date.today() + timedelta(days=1)).day,  # TODO this is UCT, you know?
             slugify=slugify,
             localization=localization[language],
             now=now,

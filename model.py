@@ -48,7 +48,6 @@ class Map(ndb.Model):
     title = ndb.StringProperty()
     tags = ndb.StringProperty(repeated=True)
     qr_code_string = ndb.TextProperty()
-    commercial_limit = ndb.IntegerProperty()
     language = ndb.StringProperty()
     plan = ndb.StringProperty()
     help = ndb.TextProperty()
@@ -98,7 +97,7 @@ class Event(ndb.Model):
     postal_code = ndb.StringProperty()
     coordinates = ndb.GeoPtProperty()
     geohash = ndb.StringProperty()
-    tile = ndb.StringProperty(repeated=True)
+    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes, currently 2, 3, 4 and 5
     location_slug = ndb.StringProperty()
     location_details = ndb.TextProperty()
     tags = ndb.StringProperty(repeated=True)

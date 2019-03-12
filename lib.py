@@ -66,7 +66,7 @@ def get_localization():
     return localization
 
 
-def get_language(request, configuration):
+def get_language(request, map):
     header = request.headers.get('Accept-Language', '')  # e.g. en-gb,en;q=0.8,es-es;q=0.5,eu;q=0.3
     locales = [locale.split(';')[0] for locale in header.split(',')]
     for locale in locales:
@@ -74,7 +74,7 @@ def get_language(request, configuration):
             language = locale
             break
     else:
-        language = configuration['language']
+        language = map.language
     return language
 
 
