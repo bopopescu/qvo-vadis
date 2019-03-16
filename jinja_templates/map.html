@@ -62,7 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="menu-icon">&nbsp;</div>
       <div class="menu-text">{{localization['all']}}</div>
     </a>
-    {% for tag in map.tags.split(',') %}
+    {% for tag in map.tags %}
     <a id="{{slugify(tag)}}" class="menu-item tags {{tag_colors[slugify(tag)]}}" href="javascript:void(0);">
       <div class="menu-icon">&nbsp;</div>
       <div class="menu-text">{{tag}}</div>

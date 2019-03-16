@@ -19,7 +19,7 @@ class MapHandler(BaseHandler):
         language = get_language(self.request, map)
         # map colors to tags
         colors = ['purple', 'blue', 'teal', 'lightgreen', 'amber', 'red']
-        tags = map.tags.split(',')
+        tags = map.tags
         tag_colors = {}
         for i, tag in enumerate(tags):
             tag_colors[slugify(tag)] = colors[i % 6]

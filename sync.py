@@ -18,7 +18,7 @@ _start_time = False
 class RunningTooLongError(Exception):
     pass
 
-
+"""
 def sync_new_events(configuration, condition, don_t_run_too_long=False):
     new = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Syncing %d new rows in %s master %s" % (len(new), configuration['id'], configuration['master table']))
@@ -39,8 +39,8 @@ def sync_new_events(configuration, condition, don_t_run_too_long=False):
         running_too_long(don_t_run_too_long)
     fusion_tables.insert_go(configuration['slave table'])
     logging.info("Done syncing new rows in %s master %s" % (configuration['id'], configuration['master table']))
-
-
+"""
+"""
 def sync_updated_events(configuration, condition, don_t_run_too_long=False):
     updated = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Syncing %d updated rows in %s master %s" % (len(updated), configuration['id'], configuration['master table']))
@@ -67,8 +67,8 @@ def sync_updated_events(configuration, condition, don_t_run_too_long=False):
         running_too_long(don_t_run_too_long)
     fusion_tables.insert_go(configuration['slave table'])
     logging.info("Done syncing updated rows in %s master %s" % (configuration['id'], configuration['master table']))
-
-
+"""
+"""
 def sync_cancelled_events(configuration, condition):
     cancelled = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Syncing %d cancelled rows in %s master %s" % (len(cancelled), configuration['id'], configuration['master table']))
@@ -87,8 +87,8 @@ def sync_cancelled_events(configuration, condition):
         fusion_tables.update_with_implicit_rowid(configuration['master table'], update)
         running_too_long(don_t_run_too_long=True)
     logging.info("Done syncing cancelled rows in %s master %s" % (configuration['id'], configuration['master table']))
-
-
+"""
+"""
 def sync_one_month_old_cancellations(configuration, condition):
     cancellation = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Syncing %d cancellation rows in %s master %s" % (len(cancellation), configuration['id'], configuration['master table']))
@@ -97,7 +97,7 @@ def sync_one_month_old_cancellations(configuration, condition):
         fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
     logging.info("Done syncing cancellation rows in %s master %s" % (configuration['id'], configuration['master table']))
     running_too_long(don_t_run_too_long=True)
-
+"""
 
 def sync_outdated_events(map, query):
     logging.info("Syncing outdated public rows in %s" % map.key.id())
@@ -191,7 +191,7 @@ class SyncHandler(webapp2.RequestHandler):
 
                 # find all events with outdated sync
                 today_minus_one_month = datetime.today() - timedelta(days=30)
-                query = model.Event.query(model.Event.sync_date < today_minus_one_month)
+                query = model.Event.query(model.Event.sync_date < today_minus_one_month, model.Event.map == map.key)
                 sync_outdated_events(map, query)
 
             logging.info("Done syncing")
