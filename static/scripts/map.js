@@ -1,5 +1,5 @@
 var locationColumn = 'latitude';
-var map, layer;
+var map/*, layer*/;
 var now, midnight, midnight1, midnight7;
 var ajaxrequest;
 
@@ -209,16 +209,28 @@ var state = {
     loadGeoJSON: function() {
         // find the viewport's bottom left and top right coordinates
         var bounds = map.getBounds();
+        var ne = bounds.getNorthEast();   // I read that this must be best put
+        var sw = bounds.getSouthWest();  // inside the 'idle' event handler
+        var box = { top: ne.lat(), bottom: sw.lat(), left: sw.lng(), right: ne.lng()}
         // calculate the list of tiles
+        var geohash_area_array = geohash_area_area(checkRect(box), overrule_precision)
         // load geojson for the tiles
-
-        var url = window.location.protocol + "//" + window.location.host + '/geojson';
-        // append the ?id= parameter if present in the location, just for debugging on localhost
-        // and also append the client timestamp
-        if (window.location.search) {
-            url += window.location.search;
+        for (var i=0; i<geohash_area_array.length; i++) {
+            var geohash = geohash_area_array[i].hash;
+            // apply sharding for non-localhost
+            if (window.location.host.indexOf("localhost") == -1) {
+                sharding_host = geohash + '.' + window.location.host;
+            } else {
+                sharding_host = window.location.host;
+            }
+            var url = window.location.protocol + "//" + sharding_host + '/geojson/' + geohash;
+            // append the ?id= parameter if present in the location, just for debugging on localhost
+            // and also append the client timestamp or precision or...
+            if (window.location.search) {
+                url += window.location.search;
+            }
+            map.data.loadGeoJson(url);
         }
-        map.data.loadGeoJson(url);
         map.data.setStyle({
             icon:
                 window.location.protocol + "//" + window.location.host + '/images/map-marker.png',
@@ -256,6 +268,7 @@ var state = {
             query += " AND hashtags CONTAINS '#" + hashtags[i] + "#'";
             // tags in the fusion table are surrounded by hash characters to avoid
             // confusion if one tag would be a substring of another tag
+/*
         layer.setOptions({
             query: {
                 select: locationColumn,
@@ -263,9 +276,11 @@ var state = {
                 where: query
             }
         });
+*/
     },
     highlightLocationMarker: function() {
         if (state.location) {
+/*
             layer.set('styles', [{
                 markerOptions: {
                     iconName: "placemark_circle"
@@ -277,6 +292,7 @@ var state = {
                     iconName: "placemark_circle_highlight"
                 }
             }]);
+*/
 /*
         } else if (state.view == 'event') {
             layer.set('styles', [{
@@ -292,11 +308,13 @@ var state = {
             }]);
 */
         } else {
+/*
             layer.set('styles', [{
                 markerOptions: {
                     iconName: "placemark_circle"
                 }
             }]);
+*/
         }
     },
 
@@ -529,8 +547,6 @@ function initialize() {
         });
     }
 
-    state.loadGeoJSON();
-
     state.highlightLocationMarker();
 
     google.maps.event.addListener(map, 'drag', function() {
@@ -543,6 +559,8 @@ function initialize() {
 
     // panning the map or zooming the map
     google.maps.event.addListener(map, 'idle', function() {
+        state.loadGeoJSON();
+
         if (state.ignoreMapEvents) {
             state.ignoreMapEvents = false;
         } else {
@@ -566,6 +584,7 @@ function initialize() {
     });
 
     // click a marker
+/*
     google.maps.event.addListener(layer, 'click', function(e) {
         state.setViewLocation(e.row['location slug'].value);
         state.generateNewHashString();
@@ -575,7 +594,7 @@ function initialize() {
         state.displayAddEventIcon();
         state.displayModifyEventIcon();
     });
-
+*/
     state.highlightTimeframeButton();
     state.highlightTagButtons();
     state.highlightHashtagButton();

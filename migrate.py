@@ -51,11 +51,15 @@ class MigrateConfigurationHandler(BaseHandler):
 
 class MigrateHandler(BaseHandler):
     def get(self):
+        # get the data from the fusion table
         configuration = customer_configuration.get_configuration(self.request)
         data = fusion_tables.select(configuration['master table'])
         if not data:
             logging.error("No events found for configuration (%s)" % configuration['id'])
             raise webapp2.abort(404)
+        # flush the data from the datastore
+        model.Map.get_by_id(configuration['id']).flush_events_and_instances()
+        # transfer the data to the datastore
         for row in data:
             event = model.Event(
                 id=row['event slug'],
@@ -81,15 +85,16 @@ class MigrateHandler(BaseHandler):
                     Geohash.encode(row['latitude'], row['longitude'], precision=2),
                     Geohash.encode(row['latitude'], row['longitude'], precision=3),
                     Geohash.encode(row['latitude'], row['longitude'], precision=4),
-                    Geohash.encode(row['latitude'], row['longitude'], precision=5)
+                    Geohash.encode(row['latitude'], row['longitude'], precision=5),
+                    Geohash.encode(row['latitude'], row['longitude'], precision=6)
                 ],
                 location_slug=row['location slug'],
                 location_details=row['location details'],
                 tags=[tag.replace('#','') for tag in row['tags'].split(',')],
-                hashtags=[tag.replace('#','') for tag in row['hashtags'].split(',')],
-                instances=[]
+                hashtags=[tag.replace('#','') for tag in row['hashtags'].split(',')]
+                # timezone is set during syncing
             )
-            event.put()
+            event.generate_and_store_instances()  # this also puts the event to the datastore
         # return the web-page content
         self.response.out.write("Migrated configuration (%s)" % configuration['id'])
         return

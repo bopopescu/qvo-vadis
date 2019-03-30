@@ -14,6 +14,9 @@ class MapHandler(BaseHandler):
         now = self.request.get("now")  # hidden feature
         if not now:
             now = ''  # no fallback needed here!
+        precision = self.request.get("precision")  # hidden feature
+        if not precision:
+            precision = 4
         map = customer_map.get_map(self.request)
         # detect language and use configuration as default
         language = get_language(self.request, map)
@@ -34,7 +37,8 @@ class MapHandler(BaseHandler):
             slugify=slugify,
             localization=localization[language],
             now=now,
-            style=style
+            style=style,
+            precision=precision
         )
         # return the web-page content
         self.response.out.write(content)

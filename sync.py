@@ -103,7 +103,7 @@ def sync_outdated_events(map, query):
     logging.info("Syncing outdated public rows in %s" % map.key.id())
     for event in query:
         logging.info("Syncing row %s" % event.key.id())
-        model.update_instances(event)
+        model.Event.update_instances(event)
     logging.info("Done syncing outdated public rows in %s" % map.key.id())
 
 
