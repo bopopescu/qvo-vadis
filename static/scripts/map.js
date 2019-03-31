@@ -17,6 +17,55 @@ var styles = {
     'night7': [{"featureType":"all","elementType":"all","stylers": [{"saturation": -70 },{"gamma": 0.30 },{"lightness": -70 }]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"on"},{"weight":2},{"saturation":-100},{"lightness":-100}]},{"featureType":"administrative.locality","elementType":"labels","stylers":[{"visibility":"off"}]}]
 };
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+if (!Array.prototype.includes) {
+  Object.defineProperty(Array.prototype, 'includes', {
+    value: function(searchElement, fromIndex) {
+
+      // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If len is 0, return false.
+      if (len === 0) {
+        return false;
+      }
+
+      // 4. Let n be ? ToInteger(fromIndex).
+      //    (If fromIndex is undefined, this step produces the value 0.)
+      var n = fromIndex | 0;
+
+      // 5. If n ≥ 0, then
+      //  a. Let k be n.
+      // 6. Else n < 0,
+      //  a. Let k be len + n.
+      //  b. If k < 0, let k be 0.
+      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+      // 7. Repeat, while k < len
+      while (k < len) {
+        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+        // b. If SameValueZero(searchElement, elementK) is true, return true.
+        // c. Increase k by 1.
+        // NOTE: === provides the correct "SameValueZero" comparison needed here.
+        if (o[k] === searchElement) {
+          return true;
+        }
+        k++;
+      }
+
+      // 8. Return false
+      return false;
+    }
+  });
+}
+
 var state = {
 
     // methods acting on the state object
@@ -240,44 +289,34 @@ var state = {
         });
     },
 
-    // methods acting on the fusion table query
-
-    generateNewQueryString: function() {
+    visibleFeatures: function() {
         var timeframe = this.timeframe;
         var tags = this.tags;
         var hashtags = this.hashtags;
-        var query;
-        if (timeframe == 'now')
-        // start < now and end > now
-            query = "start <= '" + now + "' AND end >= '" + now + "'";
-        else if (timeframe == 'today')
-        // end > now and start < midnight
-            query = "end >= '" + now + "' AND start <= '" + midnight + "'";
-        else if (timeframe == 'tomorrow')
-        // end > midnight and start < midnight + 1 day
-            query = "end >= '" + midnight + "' AND start <= '" + midnight1 + "'";
-        else if (timeframe == 'week')
-        // end > now and start < midnight + 7 days
-            query = "end >= '" + now + "' AND start <= '" + midnight7 + "'";
-        else if (timeframe == 'all')
-        // end > now
-            query = "end >= '" + now + "'";
-        for (var i = 0; i < tags.length; i++)
-            query += " AND tags CONTAINS '#" + tags[i] + "#'";
-        for (var i = 0; i < hashtags.length; i++)
-            query += " AND hashtags CONTAINS '#" + hashtags[i] + "#'";
-            // tags in the fusion table are surrounded by hash characters to avoid
-            // confusion if one tag would be a substring of another tag
-/*
-        layer.setOptions({
-            query: {
-                select: locationColumn,
-                from: tableId,
-                where: query
+        set_style = function(feature) {
+            // evaluate timeframe
+            var visibility = (timeframe == 'all') ||
+                (timeframe == 'now' && feature.getProperty('now')) ||
+                (timeframe == 'today' && feature.getProperty('today')) ||
+                (timeframe == 'tomorrow' && feature.getProperty('tomorrow')) ||
+                (timeframe == 'week' && feature.getProperty('week'));
+            // evaluate tags (make invisible if any item in tags is not in feature.getProperty('tags'))
+            for (var i = 0; i < tags.length; i++) {
+                if (!feature.getProperty('tags').includes(tags[i]))
+                    visibility = false;
             }
-        });
-*/
+            // evaluate hashtags (make invisible if any item in hashtags is not in feature.getProperty('hashtags'))
+            for (var i = 0; i < hashtags.length; i++) {
+                if (!feature.getProperty('hashtags').includes(hashtags[i]))
+                    visibility = false;
+            }
+            return {
+                visible: visibility
+            };
+        };
+        map.data.setStyle(set_style);
     },
+
     highlightLocationMarker: function() {
         if (state.location) {
 /*
@@ -507,33 +546,6 @@ function initialize() {
     } else {
         map.setOptions({styles:styles['default']});
     }
-/*
-    layer = new google.maps.FusionTablesLayer({
-        map: map,
-        heatmap: {
-            enabled: false
-        },
-        styles: [{
-            markerOptions: {
-               iconName: "large_green"
-            }
-         }],
-        options: {
-            styleId: 2,
-            templateId: 2,
-            suppressInfoWindows: true
-        }
-    });
-    state.generateNewQueryString();
-*/
-
-    // workaround for tiles that are not loading
-    // https://groups.google.com/forum/#!topic/fusion-tables-users-group/aLj7Ep7os9w
-    setTimeout(function(){
-        $("img[src*='googleapis'][src*='mapslt']").each(function(){
-                $(this).attr("src",$(this).attr("src")+"&"+(new Date()).getTime());
-        });
-    },3000);
 
     // re-center the map if a geo position is available and no coordinates were in the URL
     // and the view is not location or event
@@ -630,7 +642,7 @@ $(document).ready(function() {
     $('#timeframe-menu').on("click", "a", function() {
         $('#timeframe-menu').hide();
         state.setTimeframe(this.id);
-        state.generateNewQueryString();
+        state.visibleFeatures();
         state.generateNewHashString();
         state.highlightTimeframeButton();
         state.displayIFrame();
@@ -639,7 +651,7 @@ $(document).ready(function() {
     $('#tags-menu').on("click", "a", function() {
         $('#tags-menu').hide();
         state.toggleTagInList(this.id);
-        state.generateNewQueryString();
+        state.visibleFeatures();
         state.generateNewHashString();
         state.highlightTagButtons();
         state.displayIFrame();
@@ -649,7 +661,7 @@ $(document).ready(function() {
     $('#hash-menu').on("click", "a.search-button", function() {
         $('#hash-menu').hide();
         state.toggleHashtagInList($('#hash-menu input').val());
-        state.generateNewQueryString();
+        state.visibleFeatures();
         state.generateNewHashString();
         state.highlightHashtagButton();
         state.displayIFrame();
@@ -672,7 +684,7 @@ $(document).ready(function() {
             state.ignoreHashChange = false;
         } else {
             state.parseHashStringIntoState();
-            state.generateNewQueryString();
+            state.visibleFeatures();
             state.setMapCenterpoint();
             state.setMapZoom();
             state.highlightTimeframeButton();

@@ -6,15 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geojson.py" afterPath="$PROJECT_DIR$/geojson.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.py" afterPath="$PROJECT_DIR$/map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migrate.py" afterPath="$PROJECT_DIR$/migrate.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model.py" afterPath="$PROJECT_DIR$/model.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,7 +18,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1553986280438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1554036468759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -49,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="map.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="226" column="64" selection-start="13585" selection-end="13585" vertical-scroll-proportion="0.0" vertical-offset="2865" max-vertical-offset="12555">
+            <state line="313" column="15" selection-start="16698" selection-end="16698" vertical-scroll-proportion="0.77242523" vertical-offset="4230" max-vertical-offset="12735">
               <folding />
             </state>
           </provider>
@@ -67,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="geojson.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="geojson.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geojson.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.61764705" vertical-offset="0" max-vertical-offset="1755">
+            <state line="28" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1755">
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
                 <marker date="1553986728561" expanded="true" signature="765:864" placeholder="SELECT timez..Event..." />
@@ -193,9 +185,9 @@
         <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/map.py" />
         <option value="$PROJECT_DIR$/jinja_templates/map.html" />
-        <option value="$PROJECT_DIR$/static/scripts/map.js" />
         <option value="$PROJECT_DIR$/app.yaml" />
         <option value="$PROJECT_DIR$/geojson.py" />
+        <option value="$PROJECT_DIR$/static/scripts/map.js" />
       </list>
     </option>
   </component>
@@ -941,11 +933,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27272728" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3188406" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26811594" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26811594" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33540374" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33540374" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1277,13 +1269,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="226" column="64" selection-start="13585" selection-end="13585" vertical-scroll-proportion="0.0" vertical-offset="2865" max-vertical-offset="12555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
@@ -1302,11 +1287,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/geojson.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.61764705" vertical-offset="0" max-vertical-offset="1755">
+        <state line="28" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1755">
           <folding>
             <element signature="e#0#27#0" expanded="true" />
             <marker date="1553986728561" expanded="true" signature="765:864" placeholder="SELECT timez..Event..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/scripts/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="313" column="15" selection-start="16698" selection-end="16698" vertical-scroll-proportion="0.77242523" vertical-offset="4230" max-vertical-offset="12735">
+          <folding />
         </state>
       </provider>
     </entry>
