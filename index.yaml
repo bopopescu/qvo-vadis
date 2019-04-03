@@ -41,6 +41,12 @@ indexes:
 
 - kind: Instance
   properties:
+  - name: location_slug
+  - name: map
+  - name: start_local
+
+- kind: Instance
+  properties:
   - name: map
   - name: tile
   - name: start_utc

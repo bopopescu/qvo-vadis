@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>{{data['location name']}} - {{data['event name']}}</title>
+    <title>{{event.location_name}} - {{event.event_name}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/cards.css"/>
     <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext'/>
@@ -11,8 +11,8 @@
 
 <body>
     <!--script type="text/javascript">
-        on_location_known_in_iframe({{data['latitude']}},{{data['longitude']}});
-        on_location_slug_known_in_iframe("{{data['location slug']}}");
+        on_location_known_in_iframe({{event.latitude}},{{event.longitude}});
+        on_location_slug_known_in_iframe("{{event.location_slug}}");
     </script-->
     {% if no_results_message %}
     <div class="item">
@@ -24,72 +24,72 @@
             <div class="header-close" onclick="on_click_static_map_in_iframe()"></div>
             <div class="header-menu">
                 <div id="header-menu-items" class="material hidden">
-                    {% if data['website'] %}
-                    <a href="{{data['website']}}" target="_blank">
-                        <div id="menu-item-website" class="header-menu-item" data-website="{{data['website']}}">
+                    {% if event.website %}
+                    <a href="{{event.website}}" target="_blank">
+                        <div id="menu-item-website" class="header-menu-item" data-website="{{event.website}}">
                             {{localization['visit-website']}}
                         </div>
                     </a>
                     {% endif %}
-                    <a href="https://www.google.com/maps/dir/Current+Location/{{data['latitude']}},{{data['longitude']}}" target="_blank">
+                    <a href="https://www.google.com/maps/dir/Current+Location/{{event.latitude}},{{event.longitude}}" target="_blank">
                         <div id="menu-item-website" class="header-menu-item">
                             {{localization['get-directions']}}
                         </div>
                     </a>
                 </div>
             </div>
-            <div class="header-details" onclick="on_click_location_in_iframe('{{data['location slug']}}')" property="location" typeof="http://schema.org/Place">
-                <div class="header-title" data-location-slug="{{data['location slug']}}" data-latitude="{{data['latitude']}}" data-longitude="{{data['longitude']}}" property="name">{{data['location name']}}</div>
+            <div class="header-details" onclick="on_click_location_in_iframe('{{event.location_slug}}')" property="location" typeof="http://schema.org/Place">
+                <div class="header-title" data-location-slug="{{event.location_slug}}" data-latitude="{{event.latitude}}" data-longitude="{{event.longitude}}" property="name">{{event.location_name}}</div>
                 <div property="geo" typeof="GeoCoordinates">
-                    <meta property="latitude" content="{{data['latitude']}}" />
-                    <meta property="longitude" content="{{data['longitude']}}" />
+                    <meta property="latitude" content="{{event.latitude}}" />
+                    <meta property="longitude" content="{{event.longitude}}" />
                 </div>
-                <meta property="address" content="{{data['address']}}" />
-                <meta property="telephone" content="{{data['contact']}}" />
-                <meta property="description" content="{{data['location details']}}" />
-                <div class="header-suppressed">{{data['address']}}{% if data['location details']%} ({{data['location details']}}){% endif %}</div>
+                <meta property="address" content="{{event.address}}" />
+                <meta property="telephone" content="{{event.contact}}" />
+                <meta property="description" content="{{event.location_details}}" />
+                <div class="header-suppressed">{{event.address}}{% if event.location_details%} ({{event.location_details}}){% endif %}</div>
             </div>
         </div>
 
         <div class="item">
-            <div class="item-start" property="startDate" content="{{date_time_reformat_iso(data['start'],data['latitude'],data['longitude'])}}">
-                {% set start_date = date_time_reformat(data['start'], format='d/M', lang='en') %}
-                {% set end_date = date_time_reformat(data['end'], format='d/M', lang='en') %}
-                {% set start_time = date_time_reformat(data['start'], format='H:mm', lang='en') %}
-                {% set end_time = date_time_reformat(data['end'], format='H:mm', lang='en') %}
+            <div class="item-start" property="startDate" content="{{instance.start_local.isoformat()}}">
+                {% set start_date = format_datetime(instance['start_local'], 'd/M', locale='en') %}
+                {% set end_date = format_datetime(instance['end_local'], 'd/M', locale='en') %}
+                {% set start_time = format_datetime(instance['start_local'], 'H:mm', locale='en') %}
+                {% set end_time = format_datetime(instance['end_local'], 'H:mm', locale='en') %}
                 {% if start_date == end_date and start_time != end_time %}
-                <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
-                <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
-                <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
-                <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
+                <div class="item-start-month">{{format_datetime(instance['start_local'], 'MMM', locale=map['language'])}}</div>
+                <div class="item-start-day">{{format_datetime(instance['start_local'], 'd', locale=map['language'])}}</div>
+                <div class="item-start-weekday">{{format_datetime(instance['start_local'], 'EE', locale=map['language'])}}</div>
+                <div class="item-start-end-time-start">{{format_datetime(instance['start_local'], 'H:mm', locale=map['language'])}}</div>
                 <div class="item-start-end-time-dash">&mdash;</div>
-                <div class="item-start-end-time-end">{{date_time_reformat(data['end'], format='H:mm', lang=configuration['language'])}}</div>
+                <div class="item-start-end-time-end">{{format_datetime(instance['end_local'], 'H:mm', locale=map['language'])}}</div>
                 {% elif start_date != end_date %}
-                <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
-                <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
-                <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
-                <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
+                <div class="item-start-month">{{format_datetime(instance['start_local'], 'MMM', locale=map['language'])}}</div>
+                <div class="item-start-day">{{format_datetime(instance['start_local'], 'd', locale=map['language'])}}</div>
+                <div class="item-start-weekday">{{format_datetime(instance['start_local'], 'EE', locale=map['language'])}}</div>
+                <div class="item-start-end-time-start">{{format_datetime(instance['start_local'], 'H:mm', locale=map['language'])}}</div>
                 <div class="item-start-end-time-dash">&mdash;</div>
-                <div class="item-start-month">{{date_time_reformat(data['end'], format='MMM', lang=configuration['language'])}}</div>
-                <div class="item-start-day">{{date_time_reformat(data['end'], format='d', lang=configuration['language'])}}</div>
-                <div class="item-start-weekday">{{date_time_reformat(data['end'], format='EE', lang=configuration['language'])}}</div>
-                <div class="item-start-end-time-start">{{date_time_reformat(data['end'], format='H:mm', lang=configuration['language'])}}</div>
+                <div class="item-start-month">{{format_datetime(instance['end_local'], 'MMM', locale=map['language'])}}</div>
+                <div class="item-start-day">{{format_datetime(instance['end_local'], 'd', locale=map['language'])}}</div>
+                <div class="item-start-weekday">{{format_datetime(instance['end_local'], 'EE', locale=map['language'])}}</div>
+                <div class="item-start-end-time-start">{{format_datetime(instance['end_local'], 'H:mm', locale=map['language'])}}</div>
                 {% else %}{# start_date == end_date and start_time == end_time #}
-                <div class="item-start-month">{{date_time_reformat(data['start'], format='MMM', lang=configuration['language'])}}</div>
-                <div class="item-start-day">{{date_time_reformat(data['start'], format='d', lang=configuration['language'])}}</div>
-                <div class="item-start-weekday">{{date_time_reformat(data['start'], format='EE', lang=configuration['language'])}}</div>
-                <div class="item-start-end-time-start">{{date_time_reformat(data['start'], format='H:mm', lang=configuration['language'])}}</div>
+                <div class="item-start-month">{{format_datetime(instance['start_local'], 'MMM', locale=map['language'])}}</div>
+                <div class="item-start-day">{{format_datetime(instance['start_local'], 'd', locale=map['language'])}}</div>
+                <div class="item-start-weekday">{{format_datetime(instance['start_local'], 'EE', locale=map['language'])}}</div>
+                <div class="item-start-end-time-start">{{format_datetime(instance['start_local'], 'H:mm', locale=map['language'])}}</div>
                 {% endif %}
-                <meta property="endDate" content="{{date_time_reformat_iso(data['end'],data['latitude'],data['longitude'])}}" />
+                <meta property="endDate" content="{{instance.end_local.isoformat()}}" />
             </div>
             <div class="item-details-card">
-                <div class="item-title-card" property="name">{{data['event name']}}</div>
-                <div class="item-description" property="description">{{data['description']}}</div>
-                {% if data['registration required'] == 'true' %}
+                <div class="item-title-card" property="name">{{event.event_name}}</div>
+                <div class="item-description" property="description">{{event.description}}</div>
+                {% if event.registration_required == 'true' %}
                 <div class="item-registration-required">{{localization['registration-required']}}</div>
                 {% endif %}
-                {% if data['contact'] %}
-                <div class="item-contact" property="organizer">({{data['contact']}})</div>
+                {% if event.contact %}
+                <div class="item-contact" property="organizer">({{event.contact}})</div>
                 {% endif %}
             </div>
         </div>

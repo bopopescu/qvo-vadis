@@ -1,7 +1,7 @@
-var locationColumn = 'latitude';
-var map/*, layer*/;
-var now, midnight, midnight1, midnight7;
+var map;
 var ajaxrequest;
+var loaded_tiles = [];
+var precision = 4;
 
 // hidden feature:
 var styles = {
@@ -256,44 +256,37 @@ var state = {
     // methods acting on the maps data layer
 
     loadGeoJSON: function() {
-        // find the viewport's bottom left and top right coordinates
-        var bounds = map.getBounds();
-        var ne = bounds.getNorthEast();   // I read that this must be best put
-        var sw = bounds.getSouthWest();  // inside the 'idle' event handler
-        var box = { top: ne.lat(), bottom: sw.lat(), left: sw.lng(), right: ne.lng()}
-        // calculate the list of tiles
-        var geohash_area_array = geohash_area_area(checkRect(box), overrule_precision)
-        // load geojson for the tiles
-        for (var i=0; i<geohash_area_array.length; i++) {
-            var geohash = geohash_area_array[i].hash;
-            // apply sharding for non-localhost
-            if (window.location.host.indexOf("localhost") == -1) {
-                sharding_host = geohash + '.' + window.location.host;
-            } else {
-                sharding_host = window.location.host;
-            }
-            var url = window.location.protocol + "//" + sharding_host + '/geojson/' + geohash;
-            // append the ?id= parameter if present in the location, just for debugging on localhost
-            // and also append the client timestamp or precision or...
-            if (window.location.search) {
-                url += window.location.search;
-            }
-            map.data.loadGeoJson(url);
+        // calculate the list of tiles in the viewport
+        var new_tiles = viewport_tiles(precision);
+        // subtract the loaded tiles
+        new_tiles = subtract(new_tiles, loaded_tiles);
+        //console.log("new tiles in viewport: " + new_tiles.length + " : " + new_tiles.toString());
+        if (new_tiles.length > 12 && precision > 1) {
+            precision = precision - 1;
+            //console.log("SWITCHING TO PRECISION " + precision);
+            var parent_tiles = parent(loaded_tiles);
+            //console.log("parent tiles: " + parent_tiles.length + " : " + parent_tiles.toString());
+            var missing_tiles = complement(parent_tiles, loaded_tiles);
+            //console.log("missing tiles: " + missing_tiles.length + " : " + missing_tiles.toString());
+            missing_tiles.forEach(function(tile) {
+                map.data.loadGeoJson(geojson_url(tile));
+            });
+            loaded_tiles = parent_tiles;
+            new_tiles = subtract(viewport_tiles(precision), loaded_tiles);
+            //console.log("new tiles in viewport: " + new_tiles.length + " : " + new_tiles.toString());
         }
-        map.data.setStyle({
-            icon:
-                window.location.protocol + "//" + window.location.host + '/images/map-marker.png',
-            cursor: "pointer",
-            scaledSize: new google.maps.Size(24, 24),
-            anchor: new google.maps.Point(12, 12)
+        // load geojson for the tiles (using forEach as a closure for the tile variable)
+        new_tiles.forEach(function(tile) {
+            map.data.loadGeoJson(geojson_url(tile));
         });
+        loaded_tiles = loaded_tiles.concat(new_tiles);
     },
 
     visibleFeatures: function() {
         var timeframe = this.timeframe;
         var tags = this.tags;
         var hashtags = this.hashtags;
-        set_style = function(feature) {
+        var set_style = function(feature) {
             // evaluate timeframe
             var visibility = (timeframe == 'all') ||
                 (timeframe == 'now' && feature.getProperty('now')) ||
@@ -311,7 +304,12 @@ var state = {
                     visibility = false;
             }
             return {
-                visible: visibility
+                visible: visibility,
+                icon:
+                    window.location.protocol + "//" + window.location.host + '/images/map-marker.png',
+                cursor: "pointer",
+                scaledSize: new google.maps.Size(24, 24),
+                anchor: new google.maps.Point(12, 12)
             };
         };
         map.data.setStyle(set_style);
@@ -423,7 +421,7 @@ var state = {
             } else {
                 url += '?';
             }
-            url += 'now=' + encodeURIComponent(now);
+            //url += 'now=' + encodeURIComponent(now);
             // load the URL via ajax and display the contents
             if (typeof ajaxrequest !== 'undefined')
                 ajaxrequest.abort();
@@ -518,7 +516,7 @@ var state = {
 state.parseHashStringIntoState();
 
 // start syncing the reference times
-updateNowAndMidnight();
+//updateNowAndMidnight();
 
 // google maps initialization function (called before jQuery ready!)
 function initialize() {
@@ -570,35 +568,38 @@ function initialize() {
     });
 
     // panning the map or zooming the map
-    google.maps.event.addListener(map, 'idle', function() {
+    // (wait for the bounds_changed first)
+    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
         state.loadGeoJSON();
+        google.maps.event.addListener(map, "idle", function(){
+            state.loadGeoJSON();
 
-        if (state.ignoreMapEvents) {
-            state.ignoreMapEvents = false;
-        } else {
-            if (!state.keepIgnoringMapEvents) {
-                if (state.panDirty || state.zoomDirty) {
-                    state.keepIgnoringMapEvents = true;
-                    if (state.panDirty) {
-                        state.getMapCenterpointAndSet();
-                        state.panDirty = false;
+            if (state.ignoreMapEvents) {
+                state.ignoreMapEvents = false;
+            } else {
+                if (!state.keepIgnoringMapEvents) {
+                    if (state.panDirty || state.zoomDirty) {
+                        state.keepIgnoringMapEvents = true;
+                        if (state.panDirty) {
+                            state.getMapCenterpointAndSet();
+                            state.panDirty = false;
+                        }
+                        if (state.zoomDirty) {
+                            state.getMapZoomAndSet();
+                            state.zoomDirty = false;
+                        }
+                        state.generateNewHashString();
+                        state.keepIgnoringMapEvents = false;
+                        state.displayAddEventIcon();
                     }
-                    if (state.zoomDirty) {
-                        state.getMapZoomAndSet();
-                        state.zoomDirty = false;
-                    }
-                    state.generateNewHashString();
-                    state.keepIgnoringMapEvents = false;
-                    state.displayAddEventIcon();
                 }
             }
-        }
+        });
     });
 
     // click a marker
-/*
-    google.maps.event.addListener(layer, 'click', function(e) {
-        state.setViewLocation(e.row['location slug'].value);
+    map.data.addListener('click', function(e) {
+        state.setViewLocation(e.feature.getProperty('location slug'));
         state.generateNewHashString();
         state.displayIFrame();
         state.highlightLocationMarker();
@@ -606,7 +607,8 @@ function initialize() {
         state.displayAddEventIcon();
         state.displayModifyEventIcon();
     });
-*/
+
+    state.visibleFeatures();
     state.highlightTimeframeButton();
     state.highlightTagButtons();
     state.highlightHashtagButton();
@@ -800,44 +802,73 @@ function slugify(str) {
     return str;
 }
 
-// helper function for updating a set of global variables each minutes,
-// used when filtering the fusion table on timeframe and
-// as part of the iframe URL to provide the server with client time
-function updateNowAndMidnight() {
-    function format(date) {
-        // day = 0 for Sunday, 1 for Monday etc...
-        var yyyy = date.getFullYear();
-        var mm = date.getMonth() + 1;
-        var dd = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        if (dd < 10) {dd = '0' + dd};
-        if (mm < 10) {mm = '0' + mm};
-        if (hours < 10) {hours = '0' + hours};
-        if (minutes < 10) {minutes = '0' + minutes};
-        var s = yyyy + '-' + mm + '-' + dd + ' ' + hours + ':' + minutes + ':00';
-        return s;
+function viewport_tiles(precision) {
+    // find the viewport's bottom left and top right coordinates
+    var bounds = map.getBounds();
+    var ne = bounds.getNorthEast();   // I read that this must be best put
+    var sw = bounds.getSouthWest();  // inside the 'idle' event handler
+    var box = { top: ne.lat(), bottom: sw.lat(), left: sw.lng(), right: ne.lng()}
+    // calculate the list of tiles
+    var gaa = geohash_area_area(checkRect(box), precision);
+    var tiles = [];
+    for (i=0, l=gaa.length; i < l; i++) {
+        tiles.push(gaa[i].hash);
     }
-    var d;
-    if (overrule_now) {
-        now = overrule_now;
-        d = new Date(overrule_now);  // will not work on any browser!
-    } else {
-        d = new Date();
-        now = format(d);
-    }
-    d.setDate(d.getDate() + 1);
-    d.setHours(0);
-    d.setMinutes(0);
-    midnight = format(d);
-    d.setDate(d.getDate() + 1);
-    midnight1 = format(d);
-    d.setDate(d.getDate() + 7);
-    midnight7 = format(d);
-    // from now on, update every hour (this value is in the iframe URL because the server only knows
-    // server time, and if the frequency would be increased, the browser caching wouldn't make
-    // much sense)
-    setTimeout(updateNowAndMidnight, 3600000);
-    return;
+    return tiles;
 }
 
+function subtract(array1, array2) {
+    // return array1, but without elements that are in array2
+    var array = [];
+    for (var i = 0, l = array1.length; i < l; i++) {
+        if (!array2.includes(array1[i]))
+            array.push(array1[i]);
+    }
+    return array;
+}
+
+function parent(tiles) {
+    // tiles is an array of geohash codes, e.g. "1e55"
+    // return a list of (unique) parent geohash codes, e.g. "1e55" becomes "1e5"
+    var ps = [];
+    for (var i= 0, l = tiles.length; i < l; i++) {
+        var p = tiles[i].slice(0,-1);
+        if (!ps.includes(p))
+            ps.push(p)
+    }
+    return ps;
+}
+
+function complement(parent_tiles, tiles) {
+    // parent tiles is an array of geohash codes, e.g. "1e5"
+    // tiles is an array of geohash codes, e.g. "1e55"
+    //   - of a precision higher than the parent tiles
+    //   - all child of one of the parent tiles
+    // return a list of geohash codes of the same precision as tiles
+    // such that it complements the tiles to cover all parent_tiles
+    var geohash_chars = "0123456789bcdefghjkmnpqrstuvwxyz";
+    var c = [];
+    for (var i=0, l=parent_tiles.length; i < l; i++) {
+        for (var j= 0; j < 32; j++) {
+            var tile = parent_tiles[i] + geohash_chars[j];
+            if (!tiles.includes(tile))
+                c.push(tile);
+        }
+    }
+    return c;
+}
+
+function geojson_url(tile) {
+    // apply sharding for non-localhost
+    var sharding_host = window.location.host;
+    if (window.location.host.indexOf("localhost") == -1) {
+        sharding_host = tile + '.' + sharding_host;
+    }
+    var url = window.location.protocol + "//" + sharding_host + '/geojson/' + tile;
+    // append the ?id= parameter if present in the location, just for debugging on localhost
+    // and also append the client timestamp or precision or...
+    if (window.location.search) {
+        url += window.location.search;
+    }
+    return url;
+}

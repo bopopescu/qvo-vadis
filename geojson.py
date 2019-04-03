@@ -26,7 +26,7 @@ class GeoJSONHandler(BaseHandler):
         map = customer_map.get_map(self.request)
         # get all events on the active map for the specified tile
         events = ndb.gql("SELECT timezone, coordinates, location_slug, tags, hashtags FROM Event WHERE tile = :1 AND map = :2", tile, map.key)
-        # setup a dict of events, with reference timespots for each event (as events can be in different timezones)
+        # setup a dict of events, with local timespots for each event (as events can be in different timezones)
         logging.info("Setup timespots dict")
         timespots_dict = {}
         naive_utc_now = datetime.datetime.today()

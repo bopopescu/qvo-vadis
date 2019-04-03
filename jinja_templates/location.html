@@ -3,20 +3,20 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>{{data[0]['location name']}}</title>
+    <title>{{location_name}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/cards.css"/>
     <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext'/>
 </head>
 
 <body>
-    <!--script type="text/javascript">on_location_known_in_iframe({{data[0]['latitude']}},{{data[0]['longitude']}});</script-->
+    <!--script type="text/javascript">on_location_known_in_iframe({{latitude}},{{longitude}});</script-->
     <div class="card">
         <div class="header">
             <div class="header-close" onclick="on_click_static_map_in_iframe()"></div>
             <div class="header-menu">
                 <div id="header-menu-items" class="material hidden">
-                    <a href="https://www.google.com/maps/dir/Current+Location/{{data[0]['latitude']}},{{data[0]['longitude']}}" target="_blank">
+                    <a href="https://www.google.com/maps/dir/Current+Location/{{latitude}},{{longitude}}" target="_blank">
                         <div id="menu-item-website" class="header-menu-item">
                             {{localization['get-directions']}}
                         </div>
@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="header-details">
-                <div class="header-title" data-latitude="{{data[0]['latitude']}}" data-longitude="{{data[0]['longitude']}}">{{data[0]['location name']}}</div>
-                <div class="header-suppressed">{{data[0]['address']}}</div>
+                <div class="header-title" data-latitude="{{latitude}}" data-longitude="{{longitude}}">{{location_name}}</div>
+                <div class="header-suppressed">{{address}}</div>
             </div>
         </div>
 
@@ -35,29 +35,29 @@
         </div>
         {% else %}
         {% for row in data[:4] %}
-        <div class="item" onclick="on_click_event_in_iframe('{{row['event slug']}}', '{{row['datetime slug']}}')">
+        <div class="item" onclick="on_click_event_in_iframe('{{row.event_slug.id()}}', '{{row.date_time_slug}}')">
             <div class="item-start">
-                <div class="item-start-month">{{date_time_reformat(row['start'], format='MMM', lang=configuration['language'])}}</div>
-                <div class="item-start-day">{{date_time_reformat(row['start'], format='d', lang=configuration['language'])}}</div>
-                <div class="item-start-weekday">{{date_time_reformat(row['start'], format='EE', lang=configuration['language'])}}</div>
+                <div class="item-start-month">{{format_datetime(row.start_local, 'MMM', locale=map.language)}}</div>
+                <div class="item-start-day">{{format_datetime(row.start_local, 'd', locale=map.language)}}</div>
+                <div class="item-start-weekday">{{format_datetime(row.start_local, 'EE', locale=map.language)}}</div>
             </div>
             <div class="item-details">
-                <div class="item-start-time">{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</div>
-                <div class="item-title">{{row['event name']}}</div>
+                <div class="item-start-time">{{format_datetime(row.start_local, 'H:mm', locale=map.language)}}</div>
+                <div class="item-title">{{row.event_name}}</div>
             </div>
         </div>
         {% endfor %}
         <div id="more-items" class="hidden">
             {% for row in data[4:] %}
-            <div class="item" onclick="on_click_event_in_iframe('{{row['event slug']}}', '{{row['datetime slug']}}')">
+            <div class="item" onclick="on_click_event_in_iframe('{{row.event_slug.id()}}', '{{row.date_time_slug}}')">
                 <div class="item-start">
-                    <div class="item-start-month">{{date_time_reformat(row['start'], format='MMM', lang=configuration['language'])}}</div>
-                    <div class="item-start-day">{{date_time_reformat(row['start'], format='d', lang=configuration['language'])}}</div>
-                    <div class="item-start-weekday">{{date_time_reformat(row['start'], format='EE', lang=configuration['language'])}}</div>
+                    <div class="item-start-month">{{format_datetime(row.start_local, 'MMM', locale=map.language)}}</div>
+                    <div class="item-start-day">{{format_datetime(row.start_local, 'd', locale=map.language)}}</div>
+                    <div class="item-start-weekday">{{format_datetime(row.start_local, 'EE', locale=map.language)}}</div>
                 </div>
                 <div class="item-details">
-                    <div class="item-start-time">{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</div>
-                    <div class="item-title">{{row['event name']}}</div>
+                    <div class="item-start-time">{{format_datetime(row.start_local, 'H:mm', locale=map.language)}}</div>
+                    <div class="item-title">{{row.event_name}}</div>
                 </div>
             </div>
             {% endfor %}

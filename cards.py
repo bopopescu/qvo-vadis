@@ -1,117 +1,137 @@
 import webapp2
 from jinja_templates import jinja_environment
-import customer_configuration
+import customer_map
 import logging
 import datetime
 import fusion_tables
 from lib import get_localization, get_language, BaseHandler
 import json
+import model
+import pytz
+from babel.dates import format_date, format_datetime, format_time
 
 DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class LocationHandler(BaseHandler):
     def get(self, location_slug=None, timeframe=None, tags=None, hashtags=None):
-        now = self.request.get("now")
-        if not now:
-            now = datetime.datetime.strftime(datetime.datetime.now(), DATE_TIME_FORMAT)  # fallback to server time
-        configuration = customer_configuration.get_configuration(self.request)
+        map = customer_map.get_map(self.request)
         localization = get_localization()
         # detect language and use configuration as default
-        language = get_language(self.request, configuration)
-        # calculate midnight, midnight1 and midnight 7 based on now
-        now_p = datetime.datetime.strptime(now, DATE_TIME_FORMAT)
-        midnight_p = datetime.datetime.combine(now_p + datetime.timedelta(days=1), datetime.time.min)
-        midnight1_p = datetime.datetime.combine(now_p + datetime.timedelta(days=2), datetime.time.min)
-        midnight7_p = datetime.datetime.combine(now_p + datetime.timedelta(days=8), datetime.time.min)
-        midnight = datetime.datetime.strftime(midnight_p, DATE_TIME_FORMAT)
-        midnight1 = datetime.datetime.strftime(midnight1_p, DATE_TIME_FORMAT)
-        midnight7 = datetime.datetime.strftime(midnight7_p, DATE_TIME_FORMAT)
-        # query on timeframe
+        language = get_language(self.request, map)
+        # fetch all events
+        events = model.Event.query(model.Event.location_slug == location_slug, model.Event.map == map.key)
+        # setup a dict (by event slug) containing the event name, the timezone, tags and hashtags
+        logging.info("Setup events dict")
+        events_dict = {}
+        first = True
+        for e in events:
+            events_dict[e.key.id()] = {}
+            ed = events_dict[e.key.id()]
+            ed['event_name'] = e.event_name
+            ed['tags'] = e.tags
+            ed['hashtags'] = e.hashtags
+            if first:
+                # fetch location name, coordinates and address
+                location_name = e.location_name
+                coordinates = e.coordinates
+                address = e.address
+                # setup local timespots
+                naive_utc_now = datetime.datetime.today()
+                utc_now = pytz.utc.localize(naive_utc_now)
+                local_now = utc_now.astimezone(pytz.timezone(e.timezone))
+                now = local_now.replace(tzinfo=None)
+                midnight = now.replace(hour=0, minute=0, second=0) + datetime.timedelta(days=1)
+                midnight1 = midnight + datetime.timedelta(days=1)
+                midnight7 = midnight + datetime.timedelta(days=7)
+        # fetch all Instances
+        instances = model.Instance.query(model.Instance.location_slug == location_slug, model.Instance.map == map.key).order(model.Instance.start_local)
         if timeframe == 'now':
-            # start < now and end > now
-            condition = "start <= '" + now + "' and end >= '" + now + "'"
+            instances = instances.filter(model.Instance.start_local < now)
         elif timeframe == 'today':
-            # end > now and start < midnight
-            condition = "end >= '" + now + "' and start <= '" + midnight + "'"
+            instances = instances.filter(model.Instance.start_local < midnight)
         elif timeframe == 'tomorrow':
-            # end > midnight and start < midnight + 1 day
-            condition = "end >= '" + midnight + "' and start <= '" + midnight1 + "'"
+            instances = instances.filter(model.Instance.start_local < midnight1)
         elif timeframe == 'week':
-            # end > now and start < midnight + 7 days
-            condition = "end >= '" + now + "' and start <= '" + midnight7 + "'"
-        else:  # 'all' and other timeframes are interpreted as 'all'
-            # end > now
-            condition = "end >= '" + now + "'"
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        if limit:
-            condition += " AND 'start' < '%s'" % limit
-        # query on tags
-        if tags:
-            tags_p = tags.split(',')
-            for tag in tags_p:
-                condition += " AND tags CONTAINS '#" + tag + "#'"
-                # tags in the fusion table are surrounded by hash characters to avoid
-                # confusion if one tag would be a substring of another tag
-        # query on hashtags
-        if hashtags:
-            hashtags_p = hashtags.split(',')
-            for hashtag in hashtags_p:
-                condition += " AND hashtags CONTAINS '#" + hashtag + "#'"
-        # query on location
-        condition += " AND 'location slug' = '" + location_slug + "'"
-        # sort by datetime slug
-        condition += " ORDER BY 'datetime slug'"
+            instances = instances.filter(model.Instance.start_local < midnight7)
+        if timeframe == 'all' and not tags and not hashtags:
+            instances = instances.fetch(20)
+        # iterate the Instances to finish the filtration and to setup a list with all data required for the HTML
+        data = []
+        for i in instances:
+            visible = True
+            ed = events_dict[i.event_slug.id()]
+            # remove Instances with end_local < now
+            if i.end_local < now:
+                continue
+            # if timeperiod is "tomorrow", remove Instances with end_local < midnight
+            if timeframe == 'tomorrow' and i.end_local < midnight:
+                continue
+            # if tags are specified, remove Instances that don't match all of the tags
+            if tags:
+                tags_p = tags.split(',')
+                for tag in tags_p:
+                    if tag not in ed['tags']:
+                        visible = False
+                        break
+                if not visible:
+                    continue
+            if hashtags:
+                hashtags_p = hashtags.split(',')
+                for hashtag in hashtags_p:
+                    if hashtag not in ed['hashtags']:
+                        visible = False
+                        break
+                if not visible:
+                    continue
+            # this instances is OK for output!
+            data.append(i)
+            i.event_name = ed['event_name']
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
         if not data:
-            no_results_message = localization[configuration['language']]['no-results']
-            condition = "'location slug' = '" + location_slug + "'"  # search without timeframe or tags filter
-            data = fusion_tables.select_first(configuration['slave table'], condition=condition)
-            if not data:
-                # TODO what if the location's events have been deleted?
-                # is foreseen: fallback to query on event_slug only
-                logging.error("No events found for location (%s)" % condition)
-                raise webapp2.abort(404)
+            no_results_message = localization[map.language]['no-results']
+            logging.error("No events found for location (%s)" % location_slug)
         template = jinja_environment.get_template('location.html')
         content = template.render(
-            configuration=configuration,
+            map=map,
             data=data,
-            date_time_reformat=date_time_reformat,
+            location_name=location_name,
+            address=address,
+            latitude=coordinates.lat,
+            longitude=coordinates.lon,
+            format_datetime=format_datetime,
             no_results_message=no_results_message,
             localization=localization[language]
         )
-
         # return the web-page content
         self.response.out.write(content)
         return
 
 
 class EventHandler(BaseHandler):
-    def get(self, event_slug=None, datetime_slug=None):
-        configuration = customer_configuration.get_configuration(self.request)
+    def get(self, event_slug=None, date_time_slug=None):
+        map = customer_map.get_map(self.request)
         # detect language and use configuration as default
-        language = get_language(self.request, configuration)
+        language = get_language(self.request, map)
         localization = get_localization()
-        # query on event
-        condition = "'event slug' = '%s'" % event_slug
-        if datetime_slug:
-            condition += " AND "
-            condition += "'datetime slug' = '%s'" % datetime_slug
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        # query for Event
+        event = model.Event.get_by_id(event_slug)
+        # query for Instance
+        if date_time_slug:
+            instance = model.Instance.get_by_id(event_slug + '-' + date_time_slug)
+        else:
+            instance = model.Instance.query(event_slug == ndb.Key(model.Event, event_slug)).order(model.Instance.start_local).get()
         no_results_message = ''
-        if not data:
-            no_results_message = localization[configuration['language']]['no-results']
-        data = data[0] if data else {}
+        if not event or not instance:
+            no_results_message = localization[map['language']]['no-results']
         # if data has no address, fetch it
-        if not data['address']:
-            data['address'] = address(data['latitude'], data['longitude'], language)
+        if not event.address:
+            event.address = address(event.latitude, event.longitude, language)
         template = jinja_environment.get_template('event.html')
         content = template.render(
-            configuration=configuration,
-            data=data,
-            date_time_reformat=date_time_reformat,
-            date_time_reformat_iso=date_time_reformat_iso,
+            map=map,
+            event=event,
+            instance=instance,
+            format_datetime=format_datetime,
             no_results_message=no_results_message,
             localization=localization[language]
         )
@@ -291,36 +311,8 @@ class IndexHandler(BaseHandler):
         return
 
 
-def date_time_reformat(date, format='full', lang='en'):
-    from babel.dates import format_date, format_datetime, format_time
-    date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
-    return format_datetime(date_p, format=format, locale=lang)
-
-
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
-
-
-def date_time_reformat_iso(date, latitude, longitude):
-    # caching timezone doesn't make much sense, because it will depend on the actual date because of daylight saving
-    date_p = datetime.datetime.strptime(date, DATE_TIME_FORMAT)
-    key = "%.4f,%.4f" % (latitude, longitude)
-    api_key = "AIzaSyAObYcVpywvDwFBZqDxU6PIRvVji9vM9TQ"
-    timestamp = (date_p - datetime.datetime(1970, 1, 1)).total_seconds()  # actually shouldn't do this, because date_p isn't UTC
-    url = "https://maps.googleapis.com/maps/api/timezone/json?location=%.6f,%.6f&timestamp=%d&key=%s" % (latitude, longitude, timestamp, api_key)
-    try:
-        result = urlfetch.fetch(url)
-        if result.status_code == 200:
-            timezone_json = result.content
-        else:
-            logging.exception("HTTP error fetching url %s" % url)
-            timezone_json = ''
-    except urlfetch.Error:
-        logging.exception("Caught exception fetching url %s" % url)
-    timezone = json.loads(timezone_json)
-    (offset_hours, offset_minutes) = divmod((timezone["dstOffset"] + timezone["rawOffset"]) / 60, 60)
-    iso = date_p.isoformat() + '+' + "%02d:%02d" % (offset_hours, offset_minutes)
-    return iso
 
 
 class Address_cache(ndb.Model):
