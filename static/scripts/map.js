@@ -283,6 +283,7 @@ var state = {
     },
 
     visibleFeatures: function() {
+        // applies filtering and highlights the selected location
         var timeframe = this.timeframe;
         var tags = this.tags;
         var hashtags = this.hashtags;
@@ -303,56 +304,22 @@ var state = {
                 if (!feature.getProperty('hashtags').includes(hashtags[i]))
                     visibility = false;
             }
+            // check if the location should be highlighted
+            if (state.location == feature.getProperty('location slug'))
+                var url = window.location.protocol + "//" + window.location.host + '/images/map-marker-highlighted.png';
+            else
+                var url = window.location.protocol + "//" + window.location.host + '/images/map-marker.png';
             return {
                 visible: visibility,
-                icon:
-                    window.location.protocol + "//" + window.location.host + '/images/map-marker.png',
-                cursor: "pointer",
-                scaledSize: new google.maps.Size(24, 24),
-                anchor: new google.maps.Point(12, 12)
+                icon: {
+                    url: url,
+                    scaledSize: new google.maps.Size(24, 24),
+                    anchor: new google.maps.Point(12, 12),
+                    cursor: "pointer"
+                }
             };
         };
         map.data.setStyle(set_style);
-    },
-
-    highlightLocationMarker: function() {
-        if (state.location) {
-/*
-            layer.set('styles', [{
-                markerOptions: {
-                    iconName: "placemark_circle"
-                }
-            },
-            {
-                where: "'location slug' = '" + state.location + "'",
-                markerOptions: {
-                    iconName: "placemark_circle_highlight"
-                }
-            }]);
-*/
-/*
-        } else if (state.view == 'event') {
-            layer.set('styles', [{
-                markerOptions: {
-                    iconName: "placemark_circle"
-                }
-            },
-                {
-                    where: "'event slug' = '" + state.event + "'",
-                    markerOptions: {
-                        iconName: "placemark_circle_highlight"
-                }
-            }]);
-*/
-        } else {
-/*
-            layer.set('styles', [{
-                markerOptions: {
-                    iconName: "placemark_circle"
-                }
-            }]);
-*/
-        }
     },
 
     // methods acting on the GUI (map, buttons, ...)
@@ -557,7 +524,7 @@ function initialize() {
         });
     }
 
-    state.highlightLocationMarker();
+    //state.visibleFeatures();
 
     google.maps.event.addListener(map, 'drag', function() {
         state.panDirty = true;
@@ -602,7 +569,7 @@ function initialize() {
         state.setViewLocation(e.feature.getProperty('location slug'));
         state.generateNewHashString();
         state.displayIFrame();
-        state.highlightLocationMarker();
+        state.visibleFeatures();
         state.displayQrIcon();
         state.displayAddEventIcon();
         state.displayModifyEventIcon();
@@ -693,7 +660,6 @@ $(document).ready(function() {
             state.highlightTagButtons();
             state.highlightHashtagButton();
             state.displayIFrame();
-            state.highlightLocationMarker();
             state.displayQrIcon();
             state.displayAddEventIcon();
             state.displayModifyEventIcon();
@@ -741,7 +707,7 @@ function on_location_slug_known_in_iframe() {
     if (state.view == 'event') {
         var location = $(".card .header-title").data("location-slug");
         state.setLocation(location);
-        state.highlightLocationMarker();
+        state.visibleFeatures();
     }
     return;
 }
@@ -756,7 +722,7 @@ function on_click_static_map_in_iframe() {
     state.setViewMap();
     state.generateNewHashString();
     state.displayIFrame();
-    state.highlightLocationMarker();
+    state.visibleFeatures();
     state.displayQrIcon();
     state.displayAddEventIcon();
     state.displayModifyEventIcon();
