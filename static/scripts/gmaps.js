@@ -4,6 +4,54 @@ var layer;
 var layer2;
 var marker;
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+if (!Array.prototype.includes) {
+    Object.defineProperty(Array.prototype, 'includes', {
+        value: function(searchElement, fromIndex) {
+
+            // 1. Let O be ? ToObject(this value).
+            if (this == null) {
+                throw new TypeError('"this" is null or not defined');
+            }
+
+            var o = Object(this);
+
+            // 2. Let len be ? ToLength(? Get(O, "length")).
+            var len = o.length >>> 0;
+
+            // 3. If len is 0, return false.
+            if (len === 0) {
+                return false;
+            }
+
+            // 4. Let n be ? ToInteger(fromIndex).
+            //    (If fromIndex is undefined, this step produces the value 0.)
+            var n = fromIndex | 0;
+
+            // 5. If n ≥ 0, then
+            //  a. Let k be n.
+            // 6. Else n < 0,
+            //  a. Let k be len + n.
+            //  b. If k < 0, let k be 0.
+            var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+            // 7. Repeat, while k < len
+            while (k < len) {
+                // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+                // b. If SameValueZero(searchElement, elementK) is true, return true.
+                // c. Increase k by 1.
+                // NOTE: === provides the correct "SameValueZero" comparison needed here.
+                if (o[k] === searchElement) {
+                    return true;
+                }
+                k++;
+            }
+
+            // 8. Return false
+            return false;
+        }
+    });
+}
 // initialise the google maps objects, and add listeners
 function gmaps_init() {
 
@@ -25,42 +73,55 @@ function gmaps_init() {
         streetViewControl: false
     };
 
+    // center the map if a geo position is available and no coordinates were in the URL
+    if (event_default || location_default || coordinates_default) {
+        var latLng = new google.maps.LatLng(original_event['latitude'], original_event['longitude']);
+        options.center = latLng;
+        if (coordinates_default) {
+            options.zoom = parseInt(original_event['zoom']);
+        }
+    } else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            options.center = latLng;
+        });
+    }
     // create our map object
-    map = new google.maps.Map(document.getElementById("gmaps-canvas"), options);
+    var mapDiv = document.getElementById("gmaps-canvas");
+    map = new google.maps.Map(mapDiv, options);
 
-    // create the fusion table layer containing predefined locations
-    layer = new google.maps.FusionTablesLayer({
-        map: map,
-        query: {
-            select: 'latitude',
-            from: predefined_locations_table  // table must be shared !!
-        },
-        styles: [{
-            markerOptions: {
-               iconName: "small_green"
+    // load geojson containing current locations
+    var simple_url = window.location.protocol + "//" + window.location.host + "/geojsonsimple";
+    if (location.search) {
+        simple_url += location.search;
+    }
+    map.data.loadGeoJson(simple_url);
+
+    // load geojson containing predefined locations
+    var locations_url = window.location.protocol + "//" + window.location.host + "/geojsonlocations";
+    if (location.search) {
+        locations_url += location.search;
+    }
+    map.data.loadGeoJson(locations_url);
+
+    // style the markers
+    var set_style = function(feature) {
+        // check if the location should be highlighted
+        if (feature.getProperty('predefined') == "no")
+            var url = window.location.protocol + "//" + window.location.host + '/images/map-marker-small-red.png';
+        else if (feature.getProperty('predefined') == "yes")
+            var url = window.location.protocol + "//" + window.location.host + '/images/map-marker-small-green.png';
+        return {
+            icon: {
+                url: url,
+                scaledSize: new google.maps.Size(24, 24),
+                anchor: new google.maps.Point(12, 12),
+                cursor: "pointer"
             }
-        }],
-        options: {
-/*            styleId: 2,
-            templateId: 2,*/
-            suppressInfoWindows: true
-        }
-    });
-    
-    // create the fusion table layer containing current locations
-    layer2 = new google.maps.FusionTablesLayer({
-        map: map,
-        query: {
-            select: 'latitude',
-            from: slave_table  // table must be shared !!
-        }, // when adding a second layer, keep in mind that only one layer can be styled!!!
-        options: {
-/*            styleId: 2,
-            templateId: 2,*/
-            suppressInfoWindows: true
-        }
-    });
-    
+        };
+    };
+    map.data.setStyle(set_style);
+
     // the geocoder object allows us to do latlng lookup based on address
     geocoder = new google.maps.Geocoder();
 
@@ -73,22 +134,7 @@ function gmaps_init() {
         draggable: true
     });
 
-    // re-center the map if a geo position is available and no coordinates were in the URL
-    if (event_default == 'true' || location_default == 'true' || coordinates_default == 'true') {
-        var latLng = new google.maps.LatLng(original_event['latitude'], original_event['longitude']);
-        map.setCenter(latLng);
-        if (coordinates_default == 'true') {
-            map.setZoom(parseInt(original_event['zoom']));
-        }
-        if (event_default == 'true' || location_default == 'true') {
-            marker.setPosition(latLng);
-        }
-    } else if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(latLng);
-        });
-    }
+    // marker.setPosition(latLng); // is the marker automatically centered on the map?
 
     // event triggered when marker is dragged and dropped
     google.maps.event.addListener(marker, 'dragend', function() {
@@ -116,52 +162,60 @@ function gmaps_init() {
 
     $('#gmaps-error').hide();
 
-    // clicking on a location that's in the database of predefined locations
-    google.maps.event.addListener(layer, 'click', function(e) {
-        var position = new google.maps.LatLng(e.row.latitude.value, e.row.longitude.value);
-        var name = e.row.name.value;
-        geocoder.geocode({latLng: position}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                // Google geocoding has succeeded!
-                if (results[0]) {
-                    // Always update the UI elements with new location data
-                    update_ui({
-                        address: '', 
-                        postal_code: get_postal_code(results[0]),
-                        name: name, 
-                        location: position
-                    });
-                    return;
-                }
+    map.data.addListener('click', function(e) {
+        var latlng = e.feature.getGeometry().get();
+        if (e.feature.getProperty('predefined') == "no") {
+            // clicking on a location that's in the database of events
+            var location_slug = e.feature.getProperty('location_slug');
+            // query for the event attributes on the server
+            var url = window.location.protocol + "//" + window.location.host + "/geojsonlocation/" + location_slug;
+            if (location.search) {
+                url += location.search;
             }
-            // Geocoder status ok but no results!? or status not ok
-            update_ui({
-                address: '', 
-                postal_code: '',
-                name: name, 
-                location: position
+            $.getJSON(url, function(data) {
+                // fill in the fields on the left side
+                var properties = data['features'][0]['properties'];
+                var address = properties['address'];
+                var name = properties['location_name'];
+                var postal_code = properties['postal_code'];
+                update_ui({
+                    address: address,
+                    postal_code: postal_code,
+                    name: name,
+                    location: latlng
+                });
+                marker.setPosition(latlng);
             });
-            marker.setPosition(position);
-            return;
-        });
-    });
-
-    // clicking on a location that's in the database of events
-    google.maps.event.addListener(layer2, 'click', function(e) {
-        var address = e.row['address'].value;
-        var name = e.row['location name'].value;
-        // address and name are read from the map, people should not change this!
-        var postal_code = e.row['postal code'].value;
-        var position = new google.maps.LatLng(e.row.latitude.value, e.row.longitude.value);
-        update_ui({
-            address: address,
-            postal_code: postal_code,
-            name: name, 
-            location: position
-        });
-        marker.setPosition(position);
-    });
-
+        } else {
+            // clicking on a location that's in the database of predefined locations
+            var name = e.feature.getProperty('name');
+            geocoder.geocode({latLng: latlng}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    // Google geocoding has succeeded!
+                    if (results[0]) {
+                        // Always update the UI elements with new location data
+                        update_ui({
+                            address: '',
+                            postal_code: get_postal_code(results[0]),
+                            name: name,
+                            location: latlng
+                        });
+                        marker.setPosition(latlng);
+                        return;
+                    }
+                }
+                // Geocoder status ok but no results!? or status not ok
+                update_ui({
+                    address: '',
+                    postal_code: '',
+                    name: name,
+                    location: latlng
+                });
+                marker.setPosition(latlng);
+                return;
+            });
+        }
+    })
 }
 
 // move the marker to a new position, and center the map on it
@@ -352,7 +406,7 @@ function newDate(dateTimeString) {
 
 function initialize_data() {
     // called from $(), *after* datepicker is initialized
-    if (event_default == 'true') {
+    if (event_default) {
         var start_date = newDate(original_event['start']);
         var end_date = newDate(original_event['end']);
         var today = new Date();
@@ -383,7 +437,7 @@ function initialize_data() {
         }
         $('#owner').val(original_event['owner']);
     }
-    if (event_default == 'true' || location_default == 'true') {
+    if (event_default || location_default) {
         $('#location-name').val(original_event['location name']);
         $('#address').val(original_event['address']);
         $('#gmaps-output-postal-code').text(original_event['postal code']);
@@ -392,18 +446,18 @@ function initialize_data() {
         // initializing map position cannot be done here... find 'setCenter'
         $('#location-details').val(original_event['location details']);
     }
-//    if (coordinates_default = 'true') {
+//    if (coordinates_default) {
         // initializing map position cannot be done here... find 'setCenter'
 //    }
-    if (event_default == 'true' || tags_default == 'true') {
+    if (event_default || tags_default) {
         $('.tag').each(function() {
-            var tag = '#' + $(this).attr('id') + '#';
-            if (original_event['tags'].match(tag)) {
+            var tag = $(this).attr('id');
+            if (original_event['tags'].includes(tag)) {
                 $(this).prop('checked', true);
             }
         });
     }
-    if (hashtags_default == 'true') {
+    if (hashtags_default) {
         var description = [];
         $.each(original_event['hashtags'].split(','),function(index,value) {
             description.push('#' + value.slice(1,-1)); // remove the #-es
@@ -551,7 +605,7 @@ $(document).ready(function() {
         var tags = [];
         $('.tag').each(function() {
             if ( $(this).is(':checked') ) {
-                tags.push('#' + $(this).attr('id') + '#');
+                tags.push($(this).attr('id'));
             }
         });
         event['tags'] = tags.join();

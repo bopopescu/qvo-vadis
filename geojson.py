@@ -14,7 +14,7 @@ def datetime_serializer(o):
 
 
 class GeoJSONHandler(BaseHandler):
-    """Returns a geojson dataset containing all events on a specified geohash tile
+    """Returns a geojson dataset containing all events for a map on a specified geohash tile
 
     Parameters:
         tile: geohash id, must match one of the precisions as stored in the tile property of the Event model
@@ -109,3 +109,116 @@ class GeoJSONHandler(BaseHandler):
         return
 
 
+class GeoJSONLocationsHandler(BaseHandler):
+    """Returns a geojson dataset containing all predefined locations for a map
+
+    Parameters: none (the map is implicit)
+
+    Returns:
+        geojson dataset with custom attribute name
+    """
+    def get(self):
+        map = customer_map.get_map(self.request)
+        # get all locations on the active map
+        locations = ndb.gql("SELECT * FROM Location WHERE map = :1", map.key)
+        # convert the results to GeoJSON
+        logging.info("Generate geojson locations")
+        features = []
+        for e in locations:
+            logging.info("GeoJSONLocationsHandler adding location data to output for %s" % e.key)
+            features.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.coordinates.lon, e.coordinates.lat]
+                },
+                "properties": {
+                    "name": e.name,
+                    "predefined": "yes"
+                }
+            })
+        feature_collection = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+        # return the json dataset
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(feature_collection, default=datetime_serializer))
+        return
+
+
+class GeoJSONSimpleHandler(BaseHandler):
+    """Returns a geojson dataset containing all locations for a map
+
+    Parameters: none (the map is implicit)
+
+    Returns:
+        geojson dataset with custom attribute location slug
+    """
+    def get(self):
+        map = customer_map.get_map(self.request)
+        # get all locations on the active map
+        events = ndb.gql("SELECT DISTINCT location_slug, coordinates FROM Event WHERE map = :1", map.key)
+        # convert the results to GeoJSON
+        logging.info("Generate geojson simple")
+        features = []
+        for e in events:
+            logging.info("GeoJSONSimpleHandler adding event data to output for %s" % e.key)
+            features.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.coordinates.lon, e.coordinates.lat]
+                },
+                "properties": {
+                    "location_slug": e.location_slug,
+                    "predefined": "no"
+                }
+            })
+        feature_collection = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+        # return the json dataset
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(feature_collection, default=datetime_serializer))
+        return
+
+
+class GeoJSONLocationHandler(BaseHandler):
+    """Returns a geojson dataset containing the event for a location
+        (if more than one event is stored, it takes the first that is returned)
+
+    Parameters: location_slug
+
+    Returns:
+        geojson dataset with custom attributes address, location_name, postal_code
+    """
+    def get(self, location_slug):
+        map = customer_map.get_map(self.request)
+        # query for Event
+        event = model.Event.query(model.Event.location_slug == location_slug, model.Event.map == map.key).fetch(1)[0]
+        # convert the results to GeoJSON
+        logging.info("Generate geojson simple")
+        features = []
+        logging.info("GeoJSONEventHandler adding event data to output for %s" % event.key)
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [event.coordinates.lon, event.coordinates.lat]
+            },
+            "properties": {
+                "address": event.address,
+                "location_name": event.location_name,
+                "postal_code": event.postal_code
+            }
+        })
+        feature_collection = {
+            "type": "FeatureCollection",
+            "features": features
+        }
+        # return the json dataset
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(feature_collection, default=datetime_serializer))
+        return

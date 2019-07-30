@@ -117,9 +117,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     var overrule_now = '{{now}}';
     var overrule_style = '{{style}}';
     var overrule_precision = '{{precision}}';
-    var default_latitude = '{{map.latitude}}';
-    var default_longitude = '{{map.longitude}}';
-    var default_zoom = '{{map.zoom}}';
+    var default_latitude = '{{map.latitude}}' == 'None' ? null : parseFloat('{{map.latitude}}');
+    var default_longitude = '{{map.longitude}}' == 'None' ? null : parseFloat('{{map.longitude}}');
+    var default_zoom = parseInt('{{map.zoom}}');
 </script>
 <script type="text/javascript" src="/scripts/map.js"></script>
 </body>

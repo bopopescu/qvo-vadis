@@ -54,7 +54,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <img id="spinner" src="/images/spinner.gif" class="hidden"/>
         </div>
         <div class="w-col w-col-6">
-            {% if configuration['plan'] not in ['hash', 'open'] %}
+            {% if map['plan'] not in ['hash', 'open'] %}
             <input class="w-input" id="owner" type="text"
                    placeholder="{{localization['enter-your-email']}}" name="owner"
                    required="required" autofocus="autofocus" data-name="owner">
@@ -63,7 +63,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 </div>
 <div class="section">
-    <h4>{{configuration['title']}}: {{localization[title]}}</h4>
+    <h4>{{map['title']}}: {{localization[title]}}</h4>
     <div class="message-text hidden" id="information-missing">{{localization['information-missing']}}</div>
 </div>
 <div class="section">
@@ -176,8 +176,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="section">
     <label for="description">{{localization['description']}}</label>
 
-    {% if configuration["tags"] %}
-    {% for tag in configuration["tags"].split(',') %}
+    {% if map["tags"] %}
+    {% for tag in map["tags"] %}
     <div class="w-checkbox inline margin-right">
         <input class="w-checkbox-input tag" id="{{slugify(tag)}}" type="checkbox" name="{{slugify(tag)}}">
         <label class="w-form-label" for="{{slugify(tag)}}">{{tag}}</label>
@@ -205,17 +205,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!--[if lte IE 9]>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
 <script type="text/javascript">
-    var id = '{{configuration["id"]}}';
-    var tags = '{{configuration["tags"]}}';
+    var id = '{{map["id"]}}';
+    var tags = '{{map["tags"]}}';
     var language = '{{language}}';
-    var predefined_locations_table = '{{configuration["predefined locations table"]}}';
-    var slave_table = '{{configuration["slave table"]}}';
     var original_event = {{event_json | safe}}[0];
-    var event_default = '{{event_default}}';
-    var location_default = '{{location_default}}';
-    var coordinates_default = '{{coordinates_default}}';
-    var tags_default = '{{tags_default}}';
-    var hashtags_default = '{{hashtags_default}}';
+    var event_default = '{{event_default}}' == 'true';
+    var location_default = '{{location_default}}' == 'true';
+    var coordinates_default = '{{coordinates_default}}' == 'true';
+    var tags_default = '{{tags_default}}' == 'true';
+    var hashtags_default = '{{hashtags_default}}' == 'true';
     var edit_mode = '{{edit_mode}}';
 </script>
 </body>

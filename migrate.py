@@ -49,6 +49,38 @@ class MigrateConfigurationHandler(BaseHandler):
         return
 
 
+class MigrateLocationsHandler(BaseHandler):
+    def get(self):
+        # get the data from the fusion table
+        configuration = customer_configuration.get_configuration(self.request)
+        data = fusion_tables.select(configuration['predefined locations table'])
+        if not data:
+            logging.error("No predefined locations found for configuration (%s)" % configuration['id'])
+            raise webapp2.abort(404)
+        # flush the data from the datastore
+        model.Map.get_by_id(configuration['id']).flush_locations()
+        # transfer the data to the datastore
+        for row in data:
+            if row['latitude']:  # some rows in the fusion table have empty coordinate values
+                location = model.Location(
+                    map=ndb.Key(model.Map, configuration['id']),
+                    name=row['name'],
+                    coordinates=GeoPt(row['latitude'], row['longitude']),
+                    geohash=Geohash.encode(row['latitude'], row['longitude']),
+                    tile=[
+                        Geohash.encode(row['latitude'], row['longitude'], precision=2),
+                        Geohash.encode(row['latitude'], row['longitude'], precision=3),
+                        Geohash.encode(row['latitude'], row['longitude'], precision=4),
+                        Geohash.encode(row['latitude'], row['longitude'], precision=5),
+                        Geohash.encode(row['latitude'], row['longitude'], precision=6)
+                    ]
+                )
+                location.put()
+        # return the web-page content
+        self.response.out.write("Migrated predefined locations (%s)" % configuration['id'])
+        return
+
+
 class MigrateHandler(BaseHandler):
     def get(self):
         # get the data from the fusion table
@@ -96,7 +128,7 @@ class MigrateHandler(BaseHandler):
             )
             event.generate_and_store_instances()  # this also puts the event to the datastore
         # return the web-page content
-        self.response.out.write("Migrated configuration (%s)" % configuration['id'])
+        self.response.out.write("Migrated events and regenerated instances (%s)" % configuration['id'])
         return
 
 

@@ -115,8 +115,8 @@ var state = {
                 this.lon = default_longitude;
             else
                 this.lon = 4.427805411499094; // default
-            if (default_zoom && default_zoom != 'NaN' && default_zoom > 0)
-                this.zoom = parseInt(default_zoom);
+            if (default_zoom > 0)
+                this.zoom = default_zoom;
             else
                 this.zoom = 15; // default
         }
@@ -511,7 +511,7 @@ function initialize() {
     } else {
         map.setOptions({styles:styles['default']});
     }
-
+/*
     // re-center the map if a geo position is available and no coordinates were in the URL
     // and the view is not location or event
     if (!(state.view == 'location' || state.view == 'event') && !state.locationInUrl && navigator.geolocation) {
@@ -523,22 +523,23 @@ function initialize() {
             state.generateNewHashString();
         });
     }
-
+*/
     //state.visibleFeatures();
 
-    google.maps.event.addListener(map, 'drag', function() {
+    map.addListener('drag', function() {
         state.panDirty = true;
     });
 
-    google.maps.event.addListener(map, 'zoom_changed', function() {
+    map.addListener('zoom_changed', function() {
         state.zoomDirty = true;
     });
 
     // panning the map or zooming the map
     // (wait for the bounds_changed first)
-    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
+    map.addListener("bounds_changed", function(){
+        google.maps.event.clearListeners(map, 'bounds_changed');
         state.loadGeoJSON();
-        google.maps.event.addListener(map, "idle", function(){
+        map.addListener("idle", function(){
             state.loadGeoJSON();
 
             if (state.ignoreMapEvents) {

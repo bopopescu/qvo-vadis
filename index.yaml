@@ -18,6 +18,12 @@ indexes:
 - kind: Event
   properties:
   - name: map
+  - name: coordinates
+  - name: location_slug
+
+- kind: Event
+  properties:
+  - name: map
   - name: sync_date
 
 - kind: Event

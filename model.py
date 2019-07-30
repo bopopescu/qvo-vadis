@@ -90,6 +90,13 @@ class Map(ndb.Model):
             raise  # attempts exhausted
         logging.info("Deleted all Event and Instance entities for map %s" % self.key.id())
 
+    def flush_locations(self):
+        # delete all predefined location for this map configuration
+        logging.info("Deleting all predefined locations for map %s" % self.key.id())
+        event_keys = Location.query(Location.map == self.key).fetch(keys_only=True)
+        ndb.delete_multi(event_keys)
+        logging.info("Deleted all predefined locations for map %s" % self.key.id())
+
 
 class Location(ndb.Model):
     """ models a predefined location """
@@ -97,7 +104,7 @@ class Location(ndb.Model):
     coordinates = ndb.GeoPtProperty()
     geohash = ndb.StringProperty()
     tile = ndb.StringProperty(repeated=True)
-    map = ndb.KeyProperty(repeated=True, kind=Map)
+    map = ndb.KeyProperty()
 
 
 class Instance(ndb.Model):

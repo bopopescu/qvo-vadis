@@ -273,7 +273,7 @@ class SyncHandler(webapp2.RequestHandler):
             return
 """
 
-
+"""
 class SyncOldVersionOfUpdatedEventsHandler(webapp2.RequestHandler):
     def get(self, event_slug=None):
         logging.info("Start deleting old version of updated events (probably a queued request from submit.py")
@@ -290,7 +290,9 @@ class SyncOldVersionOfUpdatedEventsHandler(webapp2.RequestHandler):
         self.response.out.write("SyncOldVersionOfUpdatedEventsHandler finished")
         return
 
+"""
 
+"""
 class SyncAllHandler(webapp2.RequestHandler):
     def get(self):
         logging.info("Start syncing all by force. For this operation to have effect, you have to delete the slave rows manually first!")
@@ -324,7 +326,7 @@ class SyncAllHandler(webapp2.RequestHandler):
             # then quit
             self.response.out.write("SyncHandler by force finished with leftovers")
             return
-
+"""
 
 class LoadHandler(webapp2.RequestHandler):
     def get(self):

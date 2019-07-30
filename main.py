@@ -9,6 +9,9 @@ email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
 routes = [
     webapp2.Route(r'/_ah/start', handler='sync.StartHandler'),
     webapp2.Route(r'/geojson/<tile:[^/]+>', handler='geojson.GeoJSONHandler'),
+    webapp2.Route(r'/geojsonsimple', handler='geojson.GeoJSONSimpleHandler'),
+    webapp2.Route(r'/geojsonlocations', handler='geojson.GeoJSONLocationsHandler'),
+    webapp2.Route(r'/geojsonlocation/<location_slug:[^/]+>', handler='geojson.GeoJSONLocationHandler'),
     webapp2.Route(r'/card/location/<location_slug:[^/]+>', handler='cards.LocationHandler'),  # TODO
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/<timeframe:[^/]+>', handler='cards.LocationHandler'),  # TODO
     webapp2.Route(r'/card/location/<location_slug:[^/]+>/hash/<hashtags:[^/]+>', handler='cards.LocationHandler'),  # TODO
@@ -43,6 +46,7 @@ routes = [
     webapp2.Route(r'/ical', handler='ical.ICalHandler'),  # TODO
     webapp2.Route(r'/oauth2callback', handler='oauth2_three_legged.OauthHandler'),  # TODO
     webapp2.Route(r'/migrateconfiguration', handler='migrate.MigrateConfigurationHandler'),
+    webapp2.Route(r'/migratelocations', handler='migrate.MigrateLocationsHandler'),
     webapp2.Route(r'/migrate', handler='migrate.MigrateHandler'),
     webapp2.Route(r'/<:.*>', handler='map.MapHandler')
 ]
