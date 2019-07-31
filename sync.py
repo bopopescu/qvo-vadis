@@ -8,6 +8,7 @@ import fusion_tables
 from google.appengine.api import mail
 from lib import DEV
 import model
+from google.appengine.ext import ndb
 
 
 FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
@@ -99,14 +100,7 @@ def sync_one_month_old_cancellations(configuration, condition):
     running_too_long(don_t_run_too_long=True)
 """
 
-def sync_outdated_events(map, query):
-    logging.info("Syncing outdated public rows in %s" % map.key.id())
-    for event in query:
-        logging.info("Syncing row %s" % event.key.id())
-        model.Event.update_instances(event)
-    logging.info("Done syncing outdated public rows in %s" % map.key.id())
-
-
+"""
 def sync_events_with_final_date_passed(configuration, condition):
     outdated = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Deleting %d finally past events in %s master (and slave) %s" % (len(outdated), configuration['id'], configuration['master table']))
@@ -120,16 +114,18 @@ def sync_events_with_final_date_passed(configuration, condition):
         fusion_tables.delete_with_implicit_rowid(configuration['master table'], row)
         running_too_long(don_t_run_too_long=True)
     logging.info("Done deleting finally past events in %s master (and slave) %s" % (configuration['id'], configuration['master table']))
+"""
 
-
+"""
 def sync_passed_events(configuration, condition):
     outdated = fusion_tables.select(configuration['slave table'], condition=condition, filter_obsolete_rows=False)
     logging.info("Deleting %d past events in %s slave %s" % (len(outdated), configuration['id'], configuration['slave table']))
     delete_slaves(configuration['slave table'], outdated)
     logging.info("Done deleting past events in %s slave %s" % (configuration['id'], configuration['master table']))
     running_too_long(don_t_run_too_long=True)
+"""
 
-
+"""
 def sync_old_version_of_updated_events(configuration, condition):
     updated_master = fusion_tables.select(configuration['master table'], condition=condition)
     logging.info("Deleting old slave rows for %d updated events in %s master %s" % (len(updated_master), configuration['id'], configuration['master table']))
@@ -149,12 +145,13 @@ def sync_old_version_of_updated_events(configuration, condition):
         logging.info("Unflagged updated row %s in %s master %s" % (updated_master_row['rowid'], configuration['id'], configuration['master table']))
         running_too_long(don_t_run_too_long=True)
     logging.info("Done deleting old slave rows in %s slave %s" % (configuration['id'], configuration['slave table']))
+"""
 
-
+"""
 def delete_slaves(tableId, slaves):
     for slave in slaves:
         fusion_tables.delete_with_implicit_rowid(tableId, slave)
-
+"""
 
 def running_too_long(initialize=False, don_t_run_too_long=False):
     global _start_time
@@ -173,7 +170,6 @@ def running_too_long(initialize=False, don_t_run_too_long=False):
 
 class SyncHandler(webapp2.RequestHandler):
     def get(self):
-        # find all events with outdated sync
         if self.request.get('id'):
             # for debugging, to limit sync to specific table
             maps = [customer_map.get_map(self.request)]
@@ -188,11 +184,29 @@ class SyncHandler(webapp2.RequestHandler):
             for map in [m for m in maps if m.key.id() != 'www']:
                 # www is a fake configuration!
                 logging.info("Start syncing %s" % map.key.id())
+                yesterday = datetime.today() - timedelta(days=1)
+                today_minus_one_month = datetime.today() - timedelta(days=30)
 
                 # find all events with outdated sync
-                today_minus_one_month = datetime.today() - timedelta(days=30)
                 query = model.Event.query(model.Event.sync_date < today_minus_one_month, model.Event.map == map.key)
-                sync_outdated_events(map, query)
+                logging.info("Syncing outdated events in %s" % map.key.id())
+                for event in query:
+                    logging.info("Syncing event %s" % event.key.id())
+                    event.generate_and_store_instances(start_from_final_date=True)
+                    if event.final_date < yesterday:
+                        # the event is passed
+                        logging.info("Deleting event %s as it is passed" % event.key.id())
+                        event.key.delete()
+                logging.info("Done syncing outdated events in %s" % map.key.id())
+
+                # find all instances with end date in the past (*)
+                # (*) yesterday, because this is running server time, and other timezones in the world
+                # still need the event, while for the server it's already 'past'
+                logging.info("Deleting passed instances in %s" % map.key.id())
+                instance_keys = model.Instance.query(model.Instance.end_utc < yesterday, model.Instance.map == map.key).fetch(keys_only=True)
+                ndb.delete_multi(instance_keys)
+                logging.info("Done deleting passed instances in %s" % map.key.id())
+
 
             logging.info("Done syncing")
 

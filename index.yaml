@@ -54,5 +54,10 @@ indexes:
 - kind: Instance
   properties:
   - name: map
+  - name: end_utc
+
+- kind: Instance
+  properties:
+  - name: map
   - name: tile
   - name: start_utc

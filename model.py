@@ -152,18 +152,24 @@ class Event(ndb.Model):
     timezone = ndb.StringProperty()
 #    instances = ndb.StructuredProperty(Instance, repeated=True)
 
-    def generate_and_store_instances(self):
+    def generate_and_store_instances(self, start_from_final_date=False):
         previous_start_utc = datetime.datetime.strptime("1970-01-01 00:00:00", DATE_TIME_FORMAT)
         # calculate the date occurrences
         if self.calendar_rule:
             # start field holds the start date for the recurrence rule
             # the start and end time are in the timezone of the event's location
+            today_date = datetime.datetime.today().date()
             start_date = self.start.date()
             end_date = self.end.date()
             days = end_date - start_date
-            today_date = datetime.datetime.today().date()
-            if start_date <= today_date:
-                start_date = today_date
+            if start_from_final_date:
+                final_date = self.final_date
+                if start_date <= final_date.date():
+                    start_date = final_date.date()
+            else:
+                final_date = datetime.datetime.strptime("1970-01-01 00:00:00", DATE_TIME_FORMAT)
+                if start_date <= today_date:
+                    start_date = today_date
             data = {
                 'year': start_date.year,
                 'month': start_date.month,
@@ -177,7 +183,6 @@ class Event(ndb.Model):
             end = self.end.time()
             today_plus_13_months_date = today_date + datetime.timedelta(days=13*30)  # naive, don't care
             done = False
-            final_date = datetime.datetime.strptime("1970-01-01 00:00:00", DATE_TIME_FORMAT)
             logging.info("Starting loop processing instances of event %s" % self.key.id())
             while True:
                 occurrences = [o for o in calculate_occurrences(data)['occurrences'] if o['type'] != 'exdate']
@@ -238,7 +243,8 @@ class Event(ndb.Model):
                 else:
                     break  # while
             self.final_date = final_date
-        else:  # not recurring, can span multiple days
+        elif not start_from_final_date:
+            # not recurring, can span multiple days; if start_from_final_date, assume it's already created
             logging.info("Creating non-recurring instance for event %s" % self.key.id())
             date_time_slug = slugify(self.start.strftime(DATE_TIME_FORMAT))
             instance = model.Instance(
@@ -271,3 +277,5 @@ class Event(ndb.Model):
         context.clear_cache()
         gc.collect()
         return
+
+

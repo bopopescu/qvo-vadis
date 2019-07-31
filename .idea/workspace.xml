@@ -6,21 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="addedd reverse geocoding street address in case the address is not in the database (displayed and marked as structured data)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/map-marker-small-green.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/map-marker-small-red.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/images/map-marker-highlighted.png" afterPath="$PROJECT_DIR$/static/images/map-marker-highlighted.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/edit.py" afterPath="$PROJECT_DIR$/edit.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/editor.html" afterPath="$PROJECT_DIR$/jinja_templates/editor.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geojson.py" afterPath="$PROJECT_DIR$/geojson.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/gmaps.js" afterPath="$PROJECT_DIR$/static/scripts/gmaps.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.yaml" afterPath="$PROJECT_DIR$/index.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/map.html" afterPath="$PROJECT_DIR$/jinja_templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/map.js" afterPath="$PROJECT_DIR$/static/scripts/map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/migrate.py" afterPath="$PROJECT_DIR$/migrate.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model.py" afterPath="$PROJECT_DIR$/model.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +20,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1564484595442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/qvo-vadis$qvo_vadis.coverage" NAME="qvo-vadis Coverage Results" MODIFIED="1564515744336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -67,7 +55,7 @@
       <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="72" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="855">
+            <state line="12" column="72" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="855">
               <folding />
             </state>
           </provider>
@@ -76,16 +64,7 @@
       <file leaf-file-name="migrate.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="18" selection-start="5941" selection-end="5941" vertical-scroll-proportion="0.0" vertical-offset="1330" max-vertical-offset="1950">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editor.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jinja_templates/editor.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="210" column="27" selection-start="11041" selection-end="11041" vertical-scroll-proportion="-18.125" vertical-offset="2715" max-vertical-offset="3375">
+            <state line="128" column="18" selection-start="5941" selection-end="5941" vertical-scroll-proportion="0.0" vertical-offset="1225" max-vertical-offset="1950">
               <folding />
             </state>
           </provider>
@@ -94,7 +73,7 @@
       <file leaf-file-name="gmaps.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="194" column="20" selection-start="7314" selection-end="7314" vertical-scroll-proportion="0.0" vertical-offset="2505" max-vertical-offset="10035">
+            <state line="662" column="0" selection-start="25364" selection-end="25364" vertical-scroll-proportion="0.0" vertical-offset="8906" max-vertical-offset="10035">
               <folding />
             </state>
           </provider>
@@ -103,7 +82,18 @@
       <file leaf-file-name="sync.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="206" column="0" selection-start="10513" selection-end="10513" vertical-scroll-proportion="0.36290324" vertical-offset="2730" max-vertical-offset="5175">
+            <state line="344" column="10" selection-start="17034" selection-end="17034" vertical-scroll-proportion="0.7511046" vertical-offset="4650" max-vertical-offset="5520">
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="submit.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/submit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="24" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1620">
               <folding />
             </state>
           </provider>
@@ -134,7 +124,7 @@
       <file leaf-file-name="model.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="272" column="13" selection-start="12741" selection-end="12741" vertical-scroll-proportion="0.0" vertical-offset="2710" max-vertical-offset="4185">
+            <state line="161" column="17" selection-start="7138" selection-end="7138" vertical-scroll-proportion="0.0" vertical-offset="2175" max-vertical-offset="4305">
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -195,18 +185,19 @@
         <option value="$PROJECT_DIR$/jinja_templates/map.html" />
         <option value="$PROJECT_DIR$/jinja_templates/editor.html" />
         <option value="$PROJECT_DIR$/edit.py" />
-        <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/migrate.py" />
         <option value="$PROJECT_DIR$/geojson.py" />
         <option value="$PROJECT_DIR$/static/scripts/gmaps.js" />
         <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="y" value="-15" />
     <option name="width" value="1920" />
-    <option name="height" value="1061" />
+    <option name="height" value="1076" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -954,7 +945,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1061" extended-state="6" />
+    <frame x="0" y="-15" width="1920" height="1076" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21532091" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -962,12 +953,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27272728" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3182297" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26763487" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31327802" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26763487" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34035826" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34024897" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1025,11 +1016,16 @@
           <line>112</line>
           <option name="timeStamp" value="156" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/model.py</url>
+          <line>155</line>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="190" />
+      <option name="time" value="191" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -1159,13 +1155,6 @@
     <entry file="file://$PROJECT_DIR$/customer_configuration.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="0" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1275" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/submit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="35" selection-start="4894" selection-end="4894" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1620">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/recurrenceinput.py">
@@ -1299,9 +1288,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
+    <entry file="file://$PROJECT_DIR$/cron.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="20" selection-start="7314" selection-end="7314" vertical-scroll-proportion="0.0" vertical-offset="2505" max-vertical-offset="10035">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
           <folding />
         </state>
       </provider>
@@ -1315,16 +1304,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="13" selection-start="12741" selection-end="12741" vertical-scroll-proportion="0.0" vertical-offset="2710" max-vertical-offset="4185">
+        <state line="161" column="17" selection-start="7138" selection-end="7138" vertical-scroll-proportion="0.0" vertical-offset="2175" max-vertical-offset="4305">
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cron.yaml">
+    <entry file="file://$PROJECT_DIR$/static/scripts/gmaps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
+        <state line="662" column="0" selection-start="25364" selection-end="25364" vertical-scroll-proportion="0.0" vertical-offset="8906" max-vertical-offset="10035">
           <folding />
         </state>
       </provider>
@@ -1336,10 +1325,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/submit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="24" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="0" selection-start="10513" selection-end="10513" vertical-scroll-proportion="0.36290324" vertical-offset="2730" max-vertical-offset="5175">
-          <folding />
+        <state line="344" column="10" selection-start="17034" selection-end="17034" vertical-scroll-proportion="0.7511046" vertical-offset="4650" max-vertical-offset="5520">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
