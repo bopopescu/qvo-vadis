@@ -618,7 +618,7 @@ $(document).ready(function() {
         if (edit_mode == 'new') {
             var url = "/submit/new";
         } else {
-            var url = "/submit/update/" + original_event['event_slug'];
+            var url = "/submit/update/" + event_slug;
         }
         if (location.search) {
             url += location.search;

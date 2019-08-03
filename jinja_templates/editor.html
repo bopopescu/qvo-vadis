@@ -209,6 +209,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     var tags = '{{map["tags"]}}';
     var language = '{{language}}';
     var original_event = {{event_json | safe}}[0];
+    var event_slug = '{{event_slug}}';
     var event_default = '{{event_default}}' == 'true';
     var location_default = '{{location_default}}' == 'true';
     var coordinates_default = '{{coordinates_default}}' == 'true';

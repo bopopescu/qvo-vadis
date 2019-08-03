@@ -97,15 +97,6 @@ class Map(ndb.Model):
         ndb.delete_multi(location_keys)
         logging.info("Deleted all predefined locations for map %s" % self.key.id())
 
-    def flush_events_and_instances(self):
-        # delete all events and instances on the map
-        logging.info("Deleting all events and instances for map %s" % self.key.id())
-        instance_keys = Instance.query(Instance.map == self.key).fetch(keys_only=True)
-        ndb.delete_multi(instance_keys)
-        event_keys = Event.query(Event.map == self.key).fetch(keys_only=True)
-        ndb.delete_multi(event_keys)
-        logging.info("Deleted all events and instances for map %s" % self.key.id())
-
 
 class Location(ndb.Model):
     """ models a predefined location """
@@ -157,6 +148,12 @@ class Event(ndb.Model):
     tags = ndb.StringProperty(repeated=True)
     hashtags = ndb.StringProperty(repeated=True)
     timezone = ndb.StringProperty()
+
+    def flush_instances_async(self):
+        logging.info("Deleting all Instance entities for Event %s" % self.key.id())
+        instance_keys = Instance.query(Instance.event_slug == self.key).fetch(keys_only=True)
+        ndb.delete_multi_async(instance_keys)
+
 
     def generate_and_store_instances(self, start_from_final_date=False):
         previous_start_utc = datetime.datetime.strptime("1970-01-01 00:00:00", DATE_TIME_FORMAT)

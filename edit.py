@@ -51,6 +51,7 @@ class EditHandler(BaseHandler):
             map=map,
             # note that event is a [{}] !
             event_json=json.dumps(event, default=str) if event else '[0]',  # check map.html and gmaps.js why
+            event_slug=event_slug,
             event_default=event_default,
             location_default=location_default,
             coordinates_default=coordinates_default,
