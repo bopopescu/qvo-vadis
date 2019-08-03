@@ -93,17 +93,26 @@ class Map(ndb.Model):
     def flush_locations(self):
         # delete all predefined location for this map configuration
         logging.info("Deleting all predefined locations for map %s" % self.key.id())
-        event_keys = Location.query(Location.map == self.key).fetch(keys_only=True)
-        ndb.delete_multi(event_keys)
+        location_keys = Location.query(Location.map == self.key).fetch(keys_only=True)
+        ndb.delete_multi(location_keys)
         logging.info("Deleted all predefined locations for map %s" % self.key.id())
+
+    def flush_events_and_instances(self):
+        # delete all events and instances on the map
+        logging.info("Deleting all events and instances for map %s" % self.key.id())
+        instance_keys = Instance.query(Instance.map == self.key).fetch(keys_only=True)
+        ndb.delete_multi(instance_keys)
+        event_keys = Event.query(Event.map == self.key).fetch(keys_only=True)
+        ndb.delete_multi(event_keys)
+        logging.info("Deleted all events and instances for map %s" % self.key.id())
 
 
 class Location(ndb.Model):
     """ models a predefined location """
     name = ndb.TextProperty()
     coordinates = ndb.GeoPtProperty()
-    geohash = ndb.StringProperty()
-    tile = ndb.StringProperty(repeated=True)
+    geohash = ndb.StringProperty()  # precision 10
+    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes 2, 3, 4, 5, 6, 7, 8 and 9
     map = ndb.KeyProperty()
 
 
@@ -113,7 +122,7 @@ class Instance(ndb.Model):
     event_slug = ndb.KeyProperty()  # key of the Event entity
     location_slug = ndb.StringProperty()
     map = ndb.KeyProperty()
-    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes, currently 2, 3, 4 and 5
+    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes 2, 3, 4, 5, 6, 7, 8 and 9
     previous_start_utc = ndb.DateTimeProperty()
     start_local = ndb.DateTimeProperty()
     start_utc = ndb.DateTimeProperty()
@@ -135,22 +144,19 @@ class Event(ndb.Model):
     registration_required = ndb.BooleanProperty()
     owner = ndb.StringProperty()
     moderator = ndb.StringProperty()
-#    state = ndb.StringProperty()
-#    update_after_sync = ndb.BooleanProperty()
     sync_date = ndb.DateTimeProperty()
     final_date = ndb.DateTimeProperty()
     location_name = ndb.TextProperty()
     address = ndb.TextProperty()
     postal_code = ndb.StringProperty()
     coordinates = ndb.GeoPtProperty()
-    geohash = ndb.StringProperty()
-    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes, currently 2, 3, 4 and 5
+    geohash = ndb.StringProperty()  # precision 10
+    tile = ndb.StringProperty(repeated=True)  # stores multiple precisions of geohashes 2, 3, 4, 5, 6, 7, 8 and 9
     location_slug = ndb.StringProperty()
     location_details = ndb.TextProperty()
     tags = ndb.StringProperty(repeated=True)
     hashtags = ndb.StringProperty(repeated=True)
     timezone = ndb.StringProperty()
-#    instances = ndb.StructuredProperty(Instance, repeated=True)
 
     def generate_and_store_instances(self, start_from_final_date=False):
         previous_start_utc = datetime.datetime.strptime("1970-01-01 00:00:00", DATE_TIME_FORMAT)
@@ -258,13 +264,15 @@ class Event(ndb.Model):
                 start_utc=naive_local_datetime_to_naive_utc_datetime(
                     self.start,
                     self.coordinates.lat,
-                    self.coordinates.lon
+                    self.coordinates.lon,
+                    self
                 ),
                 end_local=self.end,
                 end_utc=naive_local_datetime_to_naive_utc_datetime(
                     self.end,
                     self.coordinates.lat,
-                    self.coordinates.lon
+                    self.coordinates.lon,
+                    self
                 ),
                 previous_start_utc=previous_start_utc
             )

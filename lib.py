@@ -1,11 +1,26 @@
 import webapp2
 import logging
 import os
+import datetime
 
 DEV = os.environ['SERVER_SOFTWARE'].startswith('Development')
 
 
 AVAILABLE_LOCALES = ['en', 'es', 'fr', 'nl']
+
+
+def fusion_datetime_string_to_naive_datetime_object(fusion):
+    """ conversion assuming that the fusion datetime string is in Europe/Brussels timezone """
+    naive_datetime = datetime.datetime.strptime(fusion, '%Y-%m-%d %H:%M:%S')
+    return naive_datetime
+
+
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
 
 
 def slugify(value):
@@ -23,33 +38,32 @@ def slugify(value):
     return value
 
 
-def location_slug(event):
+def location_slug(location_name=None, address=None, postal_code=None):
     location_presentation = ''
-    if event['location name']:
-        location_presentation += event['location name']
-    if event['location name'] and event['address']:
+    if location_name:
+        location_presentation += location_name
+    if location_name and address:
         location_presentation += ', '
-    if event['address']:
-        location_presentation += event['address']
-    if not event['address']:
-        location_presentation += event['postal code']
+    if address:
+        location_presentation += address
+    if not address:
+        location_presentation += postal_code
     return slugify(location_presentation)
 
 
-def event_slug(event):
-    # TODO if presentation would ever be needed, this must be refined
+def event_slug(event_name=None, location_slug=None):
     event_presentation = ''
-    event_presentation += event['event name']
+    event_presentation += event_name
     # event_presentation += ', '
-    # event_presentation += event['start']
+    # event_presentation += start
     event_presentation += ', '
-    event_presentation += event['location slug']
+    event_presentation += location_slug
     return slugify(event_presentation)
 
 
 def extract_hash_tags(s):
     import re
-    return set([re.sub(r"(\W+)$", "", j) for j in set([i for i in s.split() if i.startswith("#")])])
+    return list(set([re.sub(r"(\W+)$", "", j)[1:] for j in set([i for i in s.split() if i.startswith("#")])]))
 
 
 def get_localization():

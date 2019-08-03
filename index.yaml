@@ -17,6 +17,14 @@ indexes:
 
 - kind: Event
   properties:
+  - name: coordinates
+  - name: hashtags
+  - name: location_slug
+  - name: tags
+  - name: timezone
+
+- kind: Event
+  properties:
   - name: map
   - name: coordinates
   - name: location_slug
@@ -38,12 +46,26 @@ indexes:
 
 - kind: Event
   properties:
+  - name: map
+  - name: tile
+  - name: coordinates
+  - name: location_slug
+  - name: tags
+  - name: timezone
+
+- kind: Event
+  properties:
   - name: tile
   - name: coordinates
   - name: hashtags
   - name: location_slug
   - name: tags
   - name: timezone
+
+- kind: Instance
+  properties:
+  - name: event_slug
+  - name: start_local
 
 - kind: Instance
   properties:

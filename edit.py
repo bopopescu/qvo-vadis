@@ -29,8 +29,7 @@ class EditHandler(BaseHandler):
             event = [event_ndb.to_dict()]
             location_default = 'true'
         if latitude and longitude and not event_slug and not location_slug:
-            event[0]['latitude'] = latitude
-            event[0]['longitude'] = longitude
+            event[0]['coordinates'] = latitude + "," + longitude
             event[0]['zoom'] = zoom  # zoom is not in a normal event object !
             coordinates_default = 'true'
         if tags and not event_slug:

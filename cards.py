@@ -119,7 +119,7 @@ class EventHandler(BaseHandler):
         if date_time_slug:
             instance = model.Instance.get_by_id(event_slug + '-' + date_time_slug)
         else:
-            instance = model.Instance.query(event_slug == ndb.Key(model.Event, event_slug)).order(model.Instance.start_local).get()
+            instance = model.Instance.query(model.Instance.event_slug == ndb.Key(model.Event, event_slug)).order(model.Instance.start_local).get()
         no_results_message = ''
         if not event or not instance:
             no_results_message = localization[map['language']]['no-results']

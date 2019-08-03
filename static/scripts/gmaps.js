@@ -55,37 +55,35 @@ if (!Array.prototype.includes) {
 // initialise the google maps objects, and add listeners
 function gmaps_init() {
 
-    // center of the universe TODO make this a configurable default
-    var latlng = new google.maps.LatLng(51.2205424,4.4224811);
-
     var options = {
         zoom: 17,
-        center: latlng,
+        center: new google.maps.LatLng(51.2205424,4.4224811),  // ultimate fallback center of the universe
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: false,
         panControl: false,
         zoomControl: true,
-//        zoomControlOptions: {
-//          style: google.maps.ZoomControlStyle.SMALL,
-//          position: google.maps.ControlPosition.RIGHT_BOTTOM
-//        },
+        zoomControlOptions: {
+          style: google.maps.ZoomControlStyle.SMALL,
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
         scaleControl: false,
         streetViewControl: false
     };
 
     // center the map if a geo position is available and no coordinates were in the URL
     if (event_default || location_default || coordinates_default) {
-        var latLng = new google.maps.LatLng(original_event['latitude'], original_event['longitude']);
-        options.center = latLng;
+        options.center = new google.maps.LatLng(original_event['coordinates'].split(',')[0], original_event['coordinates'].split(',')[1]);
         if (coordinates_default) {
             options.zoom = parseInt(original_event['zoom']);
         }
     } else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            options.center = latLng;
+            options.center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         });
+    } else if (isNumeric(default_latitude)) {
+        options.center = new google.maps.LatLng(parseFloat(default_latitude),parseFloat(default_longitude));
     }
+
     // create our map object
     var mapDiv = document.getElementById("gmaps-canvas");
     map = new google.maps.Map(mapDiv, options);
@@ -134,7 +132,10 @@ function gmaps_init() {
         draggable: true
     });
 
-    // marker.setPosition(latLng); // is the marker automatically centered on the map?
+    // display the marker on the map center if the coordinates are of a selected event
+    if (event_default || location_default) {
+        marker.setPosition(options.center);
+    }
 
     // event triggered when marker is dragged and dropped
     google.maps.event.addListener(marker, 'dragend', function() {
@@ -163,7 +164,7 @@ function gmaps_init() {
     $('#gmaps-error').hide();
 
     map.data.addListener('click', function(e) {
-        var latlng = e.feature.getGeometry().get();
+        var latLng = e.feature.getGeometry().get();
         if (e.feature.getProperty('predefined') == "no") {
             // clicking on a location that's in the database of events
             var location_slug = e.feature.getProperty('location_slug');
@@ -182,14 +183,14 @@ function gmaps_init() {
                     address: address,
                     postal_code: postal_code,
                     name: name,
-                    location: latlng
+                    location: latLng
                 });
-                marker.setPosition(latlng);
+                marker.setPosition(latLng);
             });
         } else {
             // clicking on a location that's in the database of predefined locations
             var name = e.feature.getProperty('name');
-            geocoder.geocode({latLng: latlng}, function(results, status) {
+            geocoder.geocode({latLng: latLng}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     // Google geocoding has succeeded!
                     if (results[0]) {
@@ -198,9 +199,9 @@ function gmaps_init() {
                             address: '',
                             postal_code: get_postal_code(results[0]),
                             name: name,
-                            location: latlng
+                            location: latLng
                         });
-                        marker.setPosition(latlng);
+                        marker.setPosition(latLng);
                         return;
                     }
                 }
@@ -209,9 +210,9 @@ function gmaps_init() {
                     address: '',
                     postal_code: '',
                     name: name,
-                    location: latlng
+                    location: latLng
                 });
-                marker.setPosition(latlng);
+                marker.setPosition(latLng);
                 return;
             });
         }
@@ -423,28 +424,28 @@ function initialize_data() {
         $('#start-hour').timepicker('setTime', start_date);
         $('#end-date').datepicker('setDate', end_date);
         $('#end-hour').timepicker('setTime', end_date);
-        if (original_event['calendar rule']) {
-            $('#rrule').val(original_event['calendar rule']);
+        if (original_event['calendar_rule']) {
+            $('#rrule').val(original_event['calendar_rule']);
             $('#repeating').prop('checked', true);
             $('a[name=riedit]').trigger('click');
         }
-        $('#event-name').val(original_event['event name']);
+        $('#event-name').val(original_event['event_name']);
         $('#description').val(original_event['description']);
         $('#contact').val(original_event['contact']);
         $('#website').val(original_event['website']);
-        if (original_event['registration required'] == 'true') {
+        if (original_event['registration_required'] == 'true') {
             $('#registration-required').prop('checked', true);
         }
         $('#owner').val(original_event['owner']);
     }
     if (event_default || location_default) {
-        $('#location-name').val(original_event['location name']);
+        $('#location-name').val(original_event['location_name']);
         $('#address').val(original_event['address']);
-        $('#gmaps-output-postal-code').text(original_event['postal code']);
-        $('#gmaps-output-latitude').text(original_event['latitude']);
-        $('#gmaps-output-longitude').text(original_event['longitude']);
+        $('#gmaps-output-postal-code').text(original_event['postal_code']);
+        $('#gmaps-output-latitude').text(original_event['coordinates'].split(',')[0]);
+        $('#gmaps-output-longitude').text(original_event['coordinates'].split(',')[1]);
         // initializing map position cannot be done here... find 'setCenter'
-        $('#location-details').val(original_event['location details']);
+        $('#location-details').val(original_event['location_details']);
     }
 //    if (coordinates_default) {
         // initializing map position cannot be done here... find 'setCenter'
@@ -526,7 +527,7 @@ $(document).ready(function() {
         now.setSeconds(0);
         now.setMilliseconds(0);
         var event = {};
-        event['event slug'] = '';
+        event['event_slug'] = '';
         var start_date = $("#start-date").datepicker("getDate");
         if (start_date < now) {
             $('#information-missing').show();
@@ -572,9 +573,9 @@ $(document).ready(function() {
             $('#end-hour').addClass('error');
         }
         event['end'] = end_string;
-        event['calendar rule'] = $('#rrule').val();
-        event['event name'] = $('#event-name').val();
-        if (!event['event name']) {
+        event['calendar_rule'] = $('#rrule').val();
+        event['event_name'] = $('#event-name').val();
+        if (!event['event_name']) {
             $('#information-missing').show();
             $('#no-event-name').show();
             $('#event-name').addClass('error');
@@ -582,17 +583,17 @@ $(document).ready(function() {
         event['description'] = $('#description').val();
         event['contact'] = $('#contact').val();
         event['website'] = $('#website').val();
-        event['registration required'] = $('#registration-required').is(':checked') ? 'true' : 'false';
+        event['registration_required'] = $('#registration-required').is(':checked') ? 'true' : 'false';
         event['owner'] = $('#owner').val();
         event['address'] = $('#address').val();
-        event['location name'] = $('#location-name').val();
-        if (!event['location name'] && !event['address']) {
+        event['location_name'] = $('#location-name').val();
+        if (!event['location_name'] && !event['address']) {
             $('#information-missing').show();
             $('#location-name-nor-address').show();
             $('#address').addClass('error');
             $('#location-modal').show();
         }
-        event['postal code'] = $('#gmaps-output-postal-code').text();
+        event['postal_code'] = $('#gmaps-output-postal-code').text();
         event['latitude'] = $('#gmaps-output-latitude').text().replace(',','.');
         event['longitude'] = $('#gmaps-output-longitude').text().replace(',','.');  // I've seen comma in the table, no idea how it got there
         if (!event['latitude']) {
@@ -601,7 +602,7 @@ $(document).ready(function() {
             $('#address').addClass('error');
             $('#location-modal').show();
         }
-        event['location details'] = $('#location-details').val();
+        event['location_details'] = $('#location-details').val();
         var tags = [];
         $('.tag').each(function() {
             if ( $(this).is(':checked') ) {
@@ -617,7 +618,7 @@ $(document).ready(function() {
         if (edit_mode == 'new') {
             var url = "/submit/new";
         } else {
-            var url = "/submit/update/" + original_event['event slug'];
+            var url = "/submit/update/" + original_event['event_slug'];
         }
         if (location.search) {
             url += location.search;

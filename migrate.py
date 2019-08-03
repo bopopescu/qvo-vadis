@@ -1,6 +1,7 @@
 import model
 import webapp2
 import customer_configuration
+import customer_map
 from lib import get_localization, get_language, BaseHandler
 import fusion_tables
 import logging
@@ -9,20 +10,16 @@ import pytz
 from google.appengine.api.datastore_types import GeoPt
 import Geohash
 from google.appengine.ext import ndb
+from lib import isfloat, fusion_datetime_string_to_naive_datetime_object
 
 
-def fusion_datetime_string_to_naive_datetime_object(fusion):
-    """ conversion assuming that the fusion datetime string is in Europe/Brussels timezone """
-    naive_datetime = datetime.datetime.strptime(fusion, '%Y-%m-%d %H:%M:%S')
-    return naive_datetime
-
-
-def isfloat(value):
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
+class FlushEventsAndInstancesHandler(BaseHandler):
+    def get(self):
+        map = customer_map.get_map(self.request)
+        map.flush_events_and_instances()
+        # return the web-page content
+        self.response.out.write("Deleted all Events and Instances for map %s" % map.title)
+        return
 
 
 class MigrateConfigurationHandler(BaseHandler):
@@ -62,17 +59,21 @@ class MigrateLocationsHandler(BaseHandler):
         # transfer the data to the datastore
         for row in data:
             if row['latitude']:  # some rows in the fusion table have empty coordinate values
+                geohash = Geohash.encode(row['latitude'], row['longitude'], precision=10)
                 location = model.Location(
                     map=ndb.Key(model.Map, configuration['id']),
                     name=row['name'],
                     coordinates=GeoPt(row['latitude'], row['longitude']),
-                    geohash=Geohash.encode(row['latitude'], row['longitude']),
+                    geohash=geohash,
                     tile=[
-                        Geohash.encode(row['latitude'], row['longitude'], precision=2),
-                        Geohash.encode(row['latitude'], row['longitude'], precision=3),
-                        Geohash.encode(row['latitude'], row['longitude'], precision=4),
-                        Geohash.encode(row['latitude'], row['longitude'], precision=5),
-                        Geohash.encode(row['latitude'], row['longitude'], precision=6)
+                        geohash[:2],
+                        geohash[:3],
+                        geohash[:4],
+                        geohash[:5],
+                        geohash[:6],
+                        geohash[:7],
+                        geohash[:8],
+                        geohash[:9]
                     ]
                 )
                 location.put()
@@ -93,6 +94,7 @@ class MigrateHandler(BaseHandler):
         model.Map.get_by_id(configuration['id']).flush_events_and_instances()
         # transfer the data to the datastore
         for row in data:
+            geohash = Geohash.encode(row['latitude'], row['longitude'], precision=10)
             event = model.Event(
                 id=row['event slug'],
                 map=ndb.Key(model.Map, configuration['id']),
@@ -112,13 +114,16 @@ class MigrateHandler(BaseHandler):
                 address=row['address'],
                 postal_code=row['postal code'],
                 coordinates=GeoPt(row['latitude'], row['longitude']),
-                geohash=Geohash.encode(row['latitude'], row['longitude']),
+                geohash=geohash,
                 tile=[
-                    Geohash.encode(row['latitude'], row['longitude'], precision=2),
-                    Geohash.encode(row['latitude'], row['longitude'], precision=3),
-                    Geohash.encode(row['latitude'], row['longitude'], precision=4),
-                    Geohash.encode(row['latitude'], row['longitude'], precision=5),
-                    Geohash.encode(row['latitude'], row['longitude'], precision=6)
+                    geohash[:2],
+                    geohash[:3],
+                    geohash[:4],
+                    geohash[:5],
+                    geohash[:6],
+                    geohash[:7],
+                    geohash[:8],
+                    geohash[:9]
                 ],
                 location_slug=row['location slug'],
                 location_details=row['location details'],

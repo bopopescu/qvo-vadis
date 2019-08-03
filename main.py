@@ -8,6 +8,7 @@ email_logger.register_logger('vicmortelmans+maptiming@gmail.com')
 
 routes = [
     webapp2.Route(r'/_ah/start', handler='sync.StartHandler'),
+    webapp2.Route(r'/flush_events_and_instances', handler='migrate.FlushEventsAndInstancesHandler'),
     webapp2.Route(r'/geojson/<tile:[^/]+>', handler='geojson.GeoJSONHandler'),
     webapp2.Route(r'/geojsonsimple', handler='geojson.GeoJSONSimpleHandler'),
     webapp2.Route(r'/geojsonlocations', handler='geojson.GeoJSONLocationsHandler'),
