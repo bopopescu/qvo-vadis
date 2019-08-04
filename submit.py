@@ -1,22 +1,14 @@
 import webapp2
 import customer_map
 import logging
-from lib import slugify, location_slug, event_slug, extract_hash_tags, BaseHandler
+from lib import location_slug, event_slug, extract_hash_tags, BaseHandler
 import json
-import sync
-import fusion_tables
-from datetime import datetime
-from datetime import timedelta
 from google.appengine.api import mail, app_identity
-import os
-from google.appengine.api import taskqueue
 import model
 import Geohash
 from google.appengine.api.datastore_types import GeoPt
 from lib import isfloat, fusion_datetime_string_to_naive_datetime_object
 
-
-FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
 app_id = app_identity.get_application_id()
 

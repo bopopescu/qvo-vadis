@@ -32,6 +32,11 @@ indexes:
 - kind: Event
   properties:
   - name: map
+  - name: location_slug
+
+- kind: Event
+  properties:
+  - name: map
   - name: sync_date
 
 - kind: Event
@@ -66,6 +71,13 @@ indexes:
   properties:
   - name: event_slug
   - name: start_local
+
+- kind: Instance
+  properties:
+  - name: location_slug
+  - name: map
+  - name: date_time_slug
+  - name: event_slug
 
 - kind: Instance
   properties:

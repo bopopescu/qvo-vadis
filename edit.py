@@ -1,11 +1,8 @@
 from jinja_templates import jinja_environment
 import customer_map
-import logging
 from lib import slugify, get_localization, get_language, BaseHandler
-import fusion_tables
 import json
 import model
-from google.appengine.ext.ndb import GeoPt
 
 
 class EditHandler(BaseHandler):

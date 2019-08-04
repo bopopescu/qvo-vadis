@@ -3,7 +3,6 @@ from jinja_templates import jinja_environment
 import customer_map
 import logging
 import datetime
-import fusion_tables
 from lib import get_localization, get_language, BaseHandler
 import json
 import model
@@ -43,6 +42,7 @@ class LocationHandler(BaseHandler):
                 midnight = now.replace(hour=0, minute=0, second=0) + datetime.timedelta(days=1)
                 midnight1 = midnight + datetime.timedelta(days=1)
                 midnight7 = midnight + datetime.timedelta(days=7)
+                first = False
         # fetch all Instances
         instances = model.Instance.query(model.Instance.location_slug == location_slug, model.Instance.map == map.key).order(model.Instance.start_local)
         if timeframe == 'now':
@@ -131,6 +131,8 @@ class EventHandler(BaseHandler):
             map=map,
             event=event,
             instance=instance,
+            latitude=event.coordinates.lat,
+            longitude=event.coordinates.lon,
             format_datetime=format_datetime,
             no_results_message=no_results_message,
             localization=localization[language]
@@ -140,120 +142,18 @@ class EventHandler(BaseHandler):
         return
 
 
-class LocationsHandler(BaseHandler):
-    def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        # detect language and use configuration as default
-        language = get_language(self.request, configuration)
-        localization = get_localization()
-        offset = self.request.get("offset")
-        condition = "'state' = 'public'"
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        if limit:
-            condition += " AND 'start' < '%s'" % limit
-
-        if offset:
-            condition += " OFFSET %s" % offset
-
-        # at least for debugging, limit to 100 results
-        condition += " LIMIT 100"
-        no_results_message = ''
-        data = fusion_tables.select(configuration['master table'], condition=condition)
-        if not data:
-            no_results_message = localization[configuration['language']]['no-results']
-        # remove duplicates
-        unique_data = []
-        location_slugs = []
-        for d in data:
-            location_slug = d['location slug']
-            if location_slug not in location_slugs:
-                unique_data.append(d)
-                location_slugs.append(location_slug)
-        next_url = self.request.path_url + "?offset=%s" % str(int(offset if offset else 0) + 100)
-        # for debugging, the id must be added to an url as parameter
-        id_appendix = ""
-        if self.request.get("id"):
-            id_appendix = "?id=%s" % self.request.get("id")
-            next_url += "&id=%s" % self.request.get("id")
-        template = jinja_environment.get_template('locations.html')
-        content = template.render(
-            configuration=configuration,
-            data=unique_data,
-            date_time_reformat=date_time_reformat,
-            no_results_message=no_results_message,
-            localization=localization[language],
-            id_appendix=id_appendix,
-            offset=offset,
-            next_url=next_url
-        )
-        # return the web-page content
-        self.response.out.write(content)
-        return
-
-
-
 class SitemapByLocationHandler(BaseHandler):
     def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        location = self.request.get("location")
-        condition = "'sequence' > 0"
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        if limit:
-            condition += " AND 'start' < '%s'" % limit
-        if location:
-            condition += " AND 'location slug' = '%s'" % location
-        condition += " ORDER BY 'datetime slug'"
+        map = customer_map.get_map(self.request)
+        location_slug = self.request.get("location")
+        instances = ndb.gql("SELECT event_slug, date_time_slug FROM Instance WHERE location_slug = :1 AND map = :2", location_slug, map.key)
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
-            'event slug',
-            'datetime slug',
-            'sequence',
-            'start'
-        ])
-        if not data:
+        if not instances:
             no_results_message = '# No results'
         template = jinja_environment.get_template('sitemap.txt')
         content = template.render(
-            configuration=configuration,
-            data=data,
-            no_results_message=no_results_message
-        )
-        # return the web-page content
-        self.response.headers['Content-Type'] = "text/plain"
-        self.response.out.write(content)
-        return
-
-
-class SitemapHandler(BaseHandler):
-    def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        offset = self.request.get("offset")
-        batch = self.request.get("batch")
-        condition = "'sequence' > 0"
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        if limit:
-            condition += " AND 'start' < '%s'" % limit
-        if offset:
-            condition += " OFFSET %s" % offset
-        # at least for debugging, limit to 100 results
-        if batch:
-            condition += " LIMIT %s" % batch
-        no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
-            'event slug',
-            'datetime slug',
-            'sequence',
-            'start'
-        ])
-        if not data:
-            no_results_message = '# No results'
-        template = jinja_environment.get_template('sitemap.txt')
-        content = template.render(
-            configuration=configuration,
-            data=data,
+            map=map,
+            instances=instances,
             no_results_message=no_results_message
         )
         # return the web-page content
@@ -264,46 +164,15 @@ class SitemapHandler(BaseHandler):
 
 class IndexByLocationHandler(BaseHandler):
     def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        count = fusion_tables.count(configuration['slave table'])
-        template = jinja_environment.get_template('sitemapindexbylocation.xml')
-        # get a list of all locations (location slug)
-        condition = "'sequence' > 0"
-        # apply commercial limit
-        limit = customer_configuration.get_limit(self.request)
-        if limit:
-            condition += " AND 'start' < '%s'" % limit
-        condition += " GROUP BY 'location slug'"
-        no_results_message = ''
-        locations = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
-            'location slug'
-        ])
-        if not locations:
+        map = customer_map.get_map(self.request)
+        # get all locations on the active map
+        events = ndb.gql("SELECT DISTINCT location_slug FROM Event WHERE map = :1", map.key)
+        if not events:
             no_results_message = '# No results'
+        template = jinja_environment.get_template('sitemapindexbylocation.xml')
         content = template.render(
-            configuration=configuration,
-            locations=locations
-        )
-        # return the web-page content
-        self.response.headers['Content-Type'] = "application/xml"
-        self.response.out.write(content)
-        return
-
-
-class IndexHandler(BaseHandler):
-    def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        count = fusion_tables.count(configuration['slave table'])
-        template = jinja_environment.get_template('sitemapindex.xml')
-        # render the series of offsets
-        batch = 1000
-        offsets = [0]
-        while offsets[-1] < count - batch:
-            offsets.append(offsets[-1] + batch)
-        content = template.render(
-            configuration=configuration,
-            batch=batch,
-            offsets=offsets
+            map=map,
+            events=events
         )
         # return the web-page content
         self.response.headers['Content-Type'] = "application/xml"

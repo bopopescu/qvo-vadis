@@ -2,16 +2,11 @@ import webapp2
 import logging
 from datetime import datetime
 from datetime import timedelta
-import customer_configuration
 import customer_map
-import fusion_tables
-from google.appengine.api import mail
 from lib import DEV
 import model
 from google.appengine.ext import ndb
 
-
-FUSION_TABLE_DATE_TIME_FORMAT = fusion_tables.FUSION_TABLE_DATE_TIME_FORMAT
 
 _start_time = False
 
@@ -341,20 +336,6 @@ class SyncAllHandler(webapp2.RequestHandler):
             self.response.out.write("SyncHandler by force finished with leftovers")
             return
 """
-
-class LoadHandler(webapp2.RequestHandler):
-    def get(self):
-        configuration = customer_configuration.get_configuration(self.request)
-        count = self.request.get('count')
-        for i in xrange(0, int(count)):
-            master = fusion_tables.random_master(configuration)
-            fusion_tables.insert_hold(configuration['master table'], master)
-        fusion_tables.insert_go(configuration['master table'])
-
-        # return the web-page content
-        self.response.out.write("LoadHandler finished")
-        return
-
 
 class StartHandler(webapp2.RequestHandler):
     def get(self):

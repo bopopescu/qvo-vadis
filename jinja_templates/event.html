@@ -11,7 +11,7 @@
 
 <body>
     <!--script type="text/javascript">
-        on_location_known_in_iframe({{event.latitude}},{{event.longitude}});
+        on_location_known_in_iframe({{latitude}},{{longitude}});
         on_location_slug_known_in_iframe("{{event.location_slug}}");
     </script-->
     {% if no_results_message %}
@@ -31,7 +31,7 @@
                         </div>
                     </a>
                     {% endif %}
-                    <a href="https://www.google.com/maps/dir/Current+Location/{{event.latitude}},{{event.longitude}}" target="_blank">
+                    <a href="https://www.google.com/maps/dir/Current+Location/{{latitude}},{{longitude}}" target="_blank">
                         <div id="menu-item-website" class="header-menu-item">
                             {{localization['get-directions']}}
                         </div>
@@ -39,10 +39,10 @@
                 </div>
             </div>
             <div class="header-details" onclick="on_click_location_in_iframe('{{event.location_slug}}')" property="location" typeof="http://schema.org/Place">
-                <div class="header-title" data-location-slug="{{event.location_slug}}" data-latitude="{{event.latitude}}" data-longitude="{{event.longitude}}" property="name">{{event.location_name}}</div>
+                <div class="header-title" data-location-slug="{{event.location_slug}}" data-latitude="{{latitude}}" data-longitude="{{longitude}}" property="name">{{event.location_name}}</div>
                 <div property="geo" typeof="GeoCoordinates">
-                    <meta property="latitude" content="{{event.latitude}}" />
-                    <meta property="longitude" content="{{event.longitude}}" />
+                    <meta property="latitude" content="{{latitude}}" />
+                    <meta property="longitude" content="{{longitude}}" />
                 </div>
                 <meta property="address" content="{{event.address}}" />
                 <meta property="telephone" content="{{event.contact}}" />
