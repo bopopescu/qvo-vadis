@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>{{data[0]['location name']}}</title>
+    <title>{{data[0].location_name}}</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/stylesheets/qr.css"/>
     <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin,latin-ext'>
@@ -22,31 +22,31 @@
     <table>
         <tr>
             <td>
+                <div class="item_title">{{location_name}}</div>
+                <div class="item_suppressed">{{address}}</div>
                 <div id="qr"></div>
-                <div class="item_title">{{data[0]['location name']}}</div>
-                <div class="item_suppressed">{{data[0]['address']}}</div>
             </td>
             <td>
                 {% if not no_results_message %}
                 {% for row in data[:8] %}
                 <div class="item">
                     <div class="item_date">
-                        <span>{{date_time_reformat(row['start'], format='EE d/M', lang=configuration['language'])}}</span>
+                        <span>{{date_time_reformat(row['start_local'], format='EE d/M', lang=map.language)}}</span>
                         <span> </span>
-                        <span>{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</span>
+                        <span>{{date_time_reformat(row['start_local'], format='H:mm', lang=map.language)}}</span>
                     </div>
-                    <div class="item_title">{{row['event name']}}</div>
+                    <div class="item_title">{{row['event_name']}}</div>
                 </div>
                 {% endfor %}
                 <div id="more-items" class="hidden">
                     {% for row in data[8:] %}
                     <div class="item">
                         <div class="item_date">
-                            <span>{{date_time_reformat(row['start'], format='EE d/M', lang=configuration['language'])}}</span>
+                            <span>{{date_time_reformat(row['start_local'], format='EE d/M', lang=map.language)}}</span>
                             <span> </span>
-                            <span>{{date_time_reformat(row['start'], format='H:mm', lang=configuration['language'])}}</span>
+                            <span>{{date_time_reformat(row['start_local'], format='H:mm', lang=map.language)}}</span>
                         </div>
-                        <div class="item_title">{{row['event name']}}</div>
+                        <div class="item_title">{{row['event_name']}}</div>
                     </div>
                     {% endfor %}
                 </div>
@@ -78,13 +78,13 @@
     var top_left_module =  $('.module').first();
     var module_size = parseInt(top_left_module.css('width'),10);
     var offset = parseInt(top_left_module.css('left'),10);
-    $('#qr').css('top', -offset + 'px').css('left', -offset + 'px');  // align qrcode to left and right div edges
+    $('#qr').css('left', -offset + 'px');  // align qrcode to left and right div edges
     var number_of_modules = Math.floor((size - 2 * offset) / module_size);
     var char_size_in_modules = Math.floor(size / 20 / module_size) + 1;
     var font_size = char_size_in_modules * module_size;
     var x = offset + Math.floor(number_of_modules / 2) * module_size;
     var y = offset;
-    var text = "{{configuration['qr code string']}}".toUpperCase();
+    var text = "{{map.qr_code_string}}".toUpperCase();
 
     for (i=0; i<text.length; i++) {
         $('<div/>')

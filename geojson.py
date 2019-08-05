@@ -54,11 +54,13 @@ class GeoJSONHandler(BaseHandler):
                     "is_now": False,
                     "is_today": False,
                     "is_tomorrow": False,
-                    "is_this_week": False
+                    "is_this_week": False,
+                    "passed": True
                 }
             tp = timeperiods_dict[i.event_slug.id()]
             ts = timespots_dict[i.event_slug.id()]
             if i.end_local > ts["now"]:
+                tp["passed"] = False
                 if i.start_local < ts["midnight7"]:
                     tp["is_this_week"] = True
                     if i.start_local < ts["midnight1"] and i.end_local > ts["midnight"]:
@@ -77,26 +79,28 @@ class GeoJSONHandler(BaseHandler):
                     "is_now": False,
                     "is_today": False,
                     "is_tomorrow": False,
-                    "is_this_week": False
+                    "is_this_week": False,
+                    "passed": True
                 }
             tp = timeperiods_dict[e.key.id()]
-            features.append({
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [e.coordinates.lon, e.coordinates.lat]
-                },
-                "properties": {
-                    "now": tp["is_now"],
-                    "today": tp["is_today"],
-                    "tomorrow": tp["is_tomorrow"],
-                    "week": tp["is_this_week"],
-                    "event slug": e.key.id(),
-                    "location slug": e.location_slug,
-                    "tags": e.tags,
-                    "hashtags": e.hashtags
-                }
-            })
+            if not tp["passed"]:
+                features.append({
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [e.coordinates.lon, e.coordinates.lat]
+                    },
+                    "properties": {
+                        "now": tp["is_now"],
+                        "today": tp["is_today"],
+                        "tomorrow": tp["is_tomorrow"],
+                        "week": tp["is_this_week"],
+                        "event slug": e.key.id(),
+                        "location slug": e.location_slug,
+                        "tags": e.tags,
+                        "hashtags": e.hashtags
+                    }
+                })
         feature_collection = {
             "type": "FeatureCollection",
             "features": features
@@ -188,6 +192,7 @@ class GeoJSONSimpleHandler(BaseHandler):
 class GeoJSONLocationHandler(BaseHandler):
     """Returns a geojson dataset containing the event for a location
         (if more than one event is stored, it takes the first that is returned)
+        Used in the Editor to fetch data for a clicked event
 
     Parameters: location_slug
 
