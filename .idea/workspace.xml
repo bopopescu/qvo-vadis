@@ -6,10 +6,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaeb438d-012c-4c83-95d5-22744bb8cd4b" name="Default" comment="addedd reverse geocoding street address in case the address is not in the database (displayed and marked as structured data)">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geojson.py" afterPath="$PROJECT_DIR$/geojson.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jinja_templates/qr.html" afterPath="$PROJECT_DIR$/jinja_templates/qr.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cloud_datastore_admin.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/queue.yaml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.yaml" afterPath="$PROJECT_DIR$/app.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cron.yaml" afterPath="$PROJECT_DIR$/cron.yaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qr.py" afterPath="$PROJECT_DIR$/qr.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.py" afterPath="$PROJECT_DIR$/sync.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sync.yaml" afterPath="$PROJECT_DIR$/sync.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="qvo-vadis.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,7 +44,12 @@
             <state line="96" column="0" selection-start="4331" selection-end="4331" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="3255">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+                <marker date="1564957920608" expanded="true" signature="4760:6206" placeholder="..." />
+                <marker date="1564957920608" expanded="true" signature="4817:6206" placeholder="..." />
+                <marker date="1564957920608" expanded="true" signature="6272:6990" placeholder="..." />
                 <marker date="1564957920608" expanded="true" signature="6404:6489" placeholder="SELECT event..Instance..." />
+                <marker date="1564957920608" expanded="true" signature="7035:7645" placeholder="..." />
+                <marker date="1564957920608" expanded="true" signature="7054:7645" placeholder="..." />
                 <marker date="1564957920608" expanded="true" signature="7176:7231" placeholder="SELECT DISTI..Event..." />
               </folding>
             </state>
@@ -60,10 +68,26 @@
       <file leaf-file-name="qr.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/qr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="0" selection-start="2581" selection-end="2581" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1320">
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state line="2" column="0" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.yaml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="0" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cron.yaml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cron.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="0" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,10 +101,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="geojson.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="geojson.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geojson.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="21" selection-start="3939" selection-end="3939" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="3420">
+            <state line="45" column="51" selection-start="1884" selection-end="1884" vertical-scroll-proportion="0.640648" vertical-offset="135" max-vertical-offset="3420">
               <folding>
                 <marker date="1565043953592" expanded="true" signature="775:823" placeholder="SELECT * FRO..Event..." />
                 <marker date="1565043953592" expanded="true" signature="5312:5349" placeholder="SELECT * FRO..Location..." />
@@ -90,19 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="submit.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/submit.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2520">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sync.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sync.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="0.39344263" vertical-offset="0" max-vertical-offset="1425">
+            <state line="16" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -170,7 +185,6 @@
         <option value="$PROJECT_DIR$/static/scripts/geohash-area.js" />
         <option value="$PROJECT_DIR$/index.yaml" />
         <option value="$PROJECT_DIR$/map.py" />
-        <option value="$PROJECT_DIR$/app.yaml" />
         <option value="$PROJECT_DIR$/jinja_templates/location.html" />
         <option value="$PROJECT_DIR$/static/scripts/map.js" />
         <option value="$PROJECT_DIR$/jinja_templates/map.html" />
@@ -187,9 +201,11 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/edit.py" />
         <option value="$PROJECT_DIR$/geojson.py" />
-        <option value="$PROJECT_DIR$/qr.py" />
         <option value="$PROJECT_DIR$/jinja_templates/qr.html" />
         <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/qr.py" />
+        <option value="$PROJECT_DIR$/app.yaml" />
+        <option value="$PROJECT_DIR$/cron.yaml" />
       </list>
     </option>
   </component>
@@ -953,11 +969,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27272728" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31224066" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26763487" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26763487" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3392116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3392116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1061,11 +1077,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/queue.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/cards.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
@@ -1134,13 +1145,6 @@
         <state line="10" column="4" selection-start="127" selection-end="127" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/scripts/geohash-area.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.9756098" vertical-offset="1215" max-vertical-offset="3465" />
@@ -1149,11 +1153,6 @@
     <entry file="file://$PROJECT_DIR$/jinja_templates/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="114" column="29" selection-start="4822" selection-end="4822" vertical-scroll-proportion="-15.208333" vertical-offset="1345" max-vertical-offset="1980" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cron.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.yaml">
@@ -1284,17 +1283,13 @@
         <state line="96" column="0" selection-start="4331" selection-end="4331" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="3255">
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <marker date="1564957920608" expanded="true" signature="4760:6206" placeholder="..." />
+            <marker date="1564957920608" expanded="true" signature="4817:6206" placeholder="..." />
+            <marker date="1564957920608" expanded="true" signature="6272:6990" placeholder="..." />
             <marker date="1564957920608" expanded="true" signature="6404:6489" placeholder="SELECT event..Instance..." />
+            <marker date="1564957920608" expanded="true" signature="7035:7645" placeholder="..." />
+            <marker date="1564957920608" expanded="true" signature="7054:7645" placeholder="..." />
             <marker date="1564957920608" expanded="true" signature="7176:7231" placeholder="SELECT DISTI..Event..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="0" selection-start="2581" selection-end="2581" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1320">
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1313,22 +1308,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geojson.py">
+    <entry file="file://$PROJECT_DIR$/sync.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="21" selection-start="3939" selection-end="3939" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="3420">
+        <state line="16" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
           <folding>
-            <marker date="1565043953592" expanded="true" signature="775:823" placeholder="SELECT * FRO..Event..." />
-            <marker date="1565043953592" expanded="true" signature="5312:5349" placeholder="SELECT * FRO..Location..." />
-            <marker date="1565043953592" expanded="true" signature="6668:6736" placeholder="SELECT DISTI..Event..." />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
+    <entry file="file://$PROJECT_DIR$/qr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="253" selection-end="253" vertical-scroll-proportion="0.39344263" vertical-offset="0" max-vertical-offset="1425">
+        <state line="2" column="0" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geojson.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="51" selection-start="1884" selection-end="1884" vertical-scroll-proportion="0.640648" vertical-offset="135" max-vertical-offset="3420">
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1565043953592" expanded="true" signature="775:823" placeholder="SELECT * FRO..Event..." />
+            <marker date="1565043953592" expanded="true" signature="5312:5349" placeholder="SELECT * FRO..Location..." />
+            <marker date="1565043953592" expanded="true" signature="6668:6736" placeholder="SELECT DISTI..Event..." />
           </folding>
         </state>
       </provider>

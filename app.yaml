@@ -19,9 +19,11 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
-
 - url: .*
   script: main.app
+- url: /cloud-datastore-export
+  script: cloud_datastore_admin.app
+  login: admin
 
 libraries:
 - name: webapp2

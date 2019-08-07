@@ -1,12 +1,10 @@
 import webapp2
 from jinja_templates import jinja_environment
-import customer_configuration
 import customer_map
 import logging
 import datetime
 import pytz
 import model
-import fusion_tables
 from lib import get_localization, get_language, BaseHandler
 
 

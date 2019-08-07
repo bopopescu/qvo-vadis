@@ -1,5 +1,8 @@
 cron:
 - description: sync
   url: /sync
-  schedule: every 2 hours
+  schedule: every 24 hours
   target: sync  # the module name
+- description: "Daily Cloud Datastore Export"
+  url: /cloud-datastore-export?output_url_prefix=gs://qvo-vadis-datastore-backup
+  schedule: every 24 hours
