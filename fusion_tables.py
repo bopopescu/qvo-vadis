@@ -91,8 +91,8 @@ def list_of_dicts_to_csv(table_id, list_of_dicts):
 def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
     """
      condition can contain GROUP BY and LIMIT statements, but there must be at least one WHERE statement!!
-     filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
-     filter_repeating_rows: only has effect on slave table queries, returns the next upcoming (or ongoing) event
+     filter_obsolete_rows: only has effect on subordinate table queries (by testing on 'datetime slug' field)
+     filter_repeating_rows: only has effect on subordinate table queries, returns the next upcoming (or ongoing) event
     """
     if not cols:
         cols = table_cols(table_id)
@@ -117,7 +117,7 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
         logging.critical("Retried 10 times selecting rows in %s" % table_id)
         raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
-    for row in rows:  # this is an intermediate fix for data entered before se quence field was added to slave tables
+    for row in rows:  # this is an intermediate fix for data entered before se quence field was added to subordinate tables
         if 'sequence' in row and row['sequence'] == 'NaN':
             row['sequence'] = 1
     # for each event only return the row(s) with the highest 'sequence'
@@ -151,7 +151,7 @@ def select(table_id, cols=None, condition=None, filter_obsolete_rows=True):
 def count(table_id, condition=None):
     """
      condition can contain GROUP BY and LIMIT statements, but there must be at least one WHERE statement!!
-     filter_obsolete_rows: only has effect on slave table queries (by testing on 'datetime slug' field)
+     filter_obsolete_rows: only has effect on subordinate table queries (by testing on 'datetime slug' field)
     """
     query = _SQL.count(table_id, condition)
     sleep = 1
@@ -201,7 +201,7 @@ def select_first(table_id, cols=None, condition=None):
         logging.critical("Retried 10 times selecting first row in %s" % table_id)
         raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
-    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to subordinate tables
         if 'sequence' in row and row['sequence'] == 'NaN':
             row['sequence'] = 1
     return rows
@@ -230,7 +230,7 @@ def select_nth(table_id, cols=None, condition=None, n=1):
         logging.critical("Retried 10 times selecting nth row in %s" % table_id)
         raise  # attempts exhausted
     rows = fusion_table_query_result_as_list_of_dict(query_result)
-    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to slave tables
+    for row in rows:  # this is an intermediate fix for data entered before sequence field was added to subordinate tables
         if 'sequence' in row and row['sequence'] == 'NaN':
             row['sequence'] = 1
     return rows
@@ -278,18 +278,18 @@ def insert_go(table_id):
         for attempt in range(10):
             try:
                 service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
-                logging.debug("Trying to insert %d rows in slave %s" % (len(_inserts[table_id]), table_id))
+                logging.debug("Trying to insert %d rows in subordinate %s" % (len(_inserts[table_id]), table_id))
                 csv.seek(0)  # rewind the StringIO object
                 logging.debug("First row: %s" % csv.readline())
                 result = service.table().importRows(tableId=table_id, media_body=media_body).execute()
             except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
                 time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
-                logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in slave %s (%s)" % (sleep, len(_inserts[table_id]), table_id, e))
+                logging.warning("Sleeping %d seconds because of HttpError trying to insert %d rows in subordinate %s (%s)" % (sleep, len(_inserts[table_id]), table_id, e))
                 sleep = sleep * 2
             else:
                 break  # no error caught
         else:
-            logging.critical("Retried 10 times inserting %d rows in slave %s" % (len(_inserts[table_id]), table_id))
+            logging.critical("Retried 10 times inserting %d rows in subordinate %s" % (len(_inserts[table_id]), table_id))
             raise  # attempts exhausted
         if not 'error' in result:
             logging.info("Inserted %d rows in %s" % (len(_inserts[table_id]), table_id))
@@ -310,11 +310,11 @@ def update_with_implicit_rowid(table_id, values):
     for attempt in range(10):
         try:
             service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
-            logging.debug("Trying to insert a row in slave %s" % table_id)
+            logging.debug("Trying to insert a row in subordinate %s" % table_id)
             query_result = service.query().sql(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException, httplib.error) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
-            logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in slave %s (%s)" % (sleep, table_id, e))
+            logging.warning("Sleeping %d seconds because of HttpError trying to insert a row in subordinate %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
         else:
             break  # no error caught
@@ -337,16 +337,16 @@ def delete_with_implicit_rowid(table_id, values):
     for attempt in range(10):
         try:
             service = oauth2_two_legged.get_service(API_CLIENT, VERSION, OAUTH_SCOPE)
-            logging.debug("Trying to delete row from slave %s" % table_id)
+            logging.debug("Trying to delete row from subordinate %s" % table_id)
             query_result = service.query().sql(sql=query).execute()
         except (errors.HttpError, apiproxy_errors.DeadlineExceededError, httplib.HTTPException) as e:
             time.sleep(sleep)  # pause to avoid "Rate Limit Exceeded" error
-            logging.warning("Sleeping %d seconds because of HttpError trying to delete row from slave %s (%s)" % (sleep, table_id, e))
+            logging.warning("Sleeping %d seconds because of HttpError trying to delete row from subordinate %s (%s)" % (sleep, table_id, e))
             sleep = sleep * 2
         else:
             break  # no error caught
     else:
-        logging.critical("Retried 10 times deleting row from slave %s" % table_id)
+        logging.critical("Retried 10 times deleting row from subordinate %s" % table_id)
         raise  # attempts exhausted
     if not 'error' in query_result:
         logging.info("Deleted in %s %s" % (table_id, json.dumps(values)))
@@ -355,12 +355,12 @@ def delete_with_implicit_rowid(table_id, values):
     return
 
 
-def master_to_slave(master):
-    # returns a tuple of a list of slave dicts
+def main_to_subordinate(main):
+    # returns a tuple of a list of subordinate dicts
     # ('list' because a recurring date will produce multiple rows)
     # and the final date as second tuple element
     # first create a dict with the copied attributes
-    slave = {}
+    subordinate = {}
     for key in [
         'event slug',
         'event name',
@@ -379,14 +379,14 @@ def master_to_slave(master):
         'tags',
         'hashtags'
     ]:
-        slave[key] = master[key]
+        subordinate[key] = main[key]
 
     previous_start = "1970-01-01 00:00:00"
     # then calculate the date occurrences
-    if master['calendar rule']:
+    if main['calendar rule']:
         # start field holds the start date for the recurrence rule
-        start_date = datetime.strptime(master['start'], FUSION_TABLE_DATE_TIME_FORMAT).date()
-        end_date = datetime.strptime(master['end'], FUSION_TABLE_DATE_TIME_FORMAT).date()
+        start_date = datetime.strptime(main['start'], FUSION_TABLE_DATE_TIME_FORMAT).date()
+        end_date = datetime.strptime(main['end'], FUSION_TABLE_DATE_TIME_FORMAT).date()
         days = end_date - start_date
         today_date = datetime.today().date()
         if start_date <= today_date:
@@ -395,15 +395,15 @@ def master_to_slave(master):
             'year': start_date.year,
             'month': start_date.month,
             'day': start_date.day,
-            'rrule': master['calendar rule'],
+            'rrule': main['calendar rule'],
             'format': DATE_FORMAT,
             'batch_size': 10,
             'start': 0
         }
-        start = datetime.strptime(master['start'], FUSION_TABLE_DATE_TIME_FORMAT).time()
-        end = datetime.strptime(master['end'], FUSION_TABLE_DATE_TIME_FORMAT).time()
+        start = datetime.strptime(main['start'], FUSION_TABLE_DATE_TIME_FORMAT).time()
+        end = datetime.strptime(main['end'], FUSION_TABLE_DATE_TIME_FORMAT).time()
         today_plus_13_months_date = today_date + timedelta(days=13*30)  # naive, don't care
-        slaves = []
+        subordinates = []
         done = False
         final_date = ''
         while True:
@@ -412,15 +412,15 @@ def master_to_slave(master):
                 start_date = datetime.strptime(occurrence['date'], ISO_DATE_TIME_FORMAT).date()
                 if today_date <= start_date < today_plus_13_months_date:
                     # only add events within one year timeframe from now
-                    new_slave = copy.deepcopy(slave)
-                    new_slave['start'] = datetime.combine(start_date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                    new_slave['end'] = datetime.combine(start_date + days, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-                    new_slave['datetime slug'] = slugify(new_slave['start'])
-                    new_slave['previous start'] = previous_start
-                    previous_start = new_slave['start']
-                    if final_date < new_slave['end']:
-                        final_date = new_slave['end']
-                    slaves.append(new_slave)
+                    new_subordinate = copy.deepcopy(subordinate)
+                    new_subordinate['start'] = datetime.combine(start_date, start).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    new_subordinate['end'] = datetime.combine(start_date + days, end).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+                    new_subordinate['datetime slug'] = slugify(new_subordinate['start'])
+                    new_subordinate['previous start'] = previous_start
+                    previous_start = new_subordinate['start']
+                    if final_date < new_subordinate['end']:
+                        final_date = new_subordinate['end']
+                    subordinates.append(new_subordinate)
                 else:
                     done = True
                     break  # for
@@ -428,13 +428,13 @@ def master_to_slave(master):
                 data['start'] += data['batch_size']
             else:
                 break  # while
-        return (slaves, final_date)
+        return (subordinates, final_date)
     else:  # not recurring, can span multiple days
-        slave['start'] = master['start']
-        slave['end'] = master['end']
-        slave['datetime slug'] = slugify(slave['start'])
-        slave['previous start'] = previous_start
-        return ([slave], slave['end'])
+        subordinate['start'] = main['start']
+        subordinate['end'] = main['end']
+        subordinate['datetime slug'] = slugify(subordinate['start'])
+        subordinate['previous start'] = previous_start
+        return ([subordinate], subordinate['end'])
 
 
 def fusion_table_query_result_as_list_of_dict(data):
@@ -445,51 +445,51 @@ def fusion_table_query_result_as_list_of_dict(data):
     return list
 
 
-def random_master(configuration=None):
-    master = {}
+def random_main(configuration=None):
+    main = {}
     start = datetime(2014, randint(1, 12), randint(1, 28), randint(8, 20), 0, 0)
-    master['start'] = start.strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-    master['description'] = random_text(sentences=1)
-    master['contact'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
-    master['website'] = "http://www.%s.com" % random_text(words=1)
-    master['registration required'] = 'true' if randint(0, 1) == 1 else 'false'
-    master['owner'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
-    master['moderator'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
-    master['state'] = "new"
-    master['sequence'] = "0"
-    master['entry date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-    master['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-    master['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-    master['location name'] = random_text(words=randint(1, 4))
+    main['start'] = start.strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    main['description'] = random_text(sentences=1)
+    main['contact'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
+    main['website'] = "http://www.%s.com" % random_text(words=1)
+    main['registration required'] = 'true' if randint(0, 1) == 1 else 'false'
+    main['owner'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
+    main['moderator'] = "vicmortelmans+%s@gmail.com" % random_text(words=1)
+    main['state'] = "new"
+    main['sequence'] = "0"
+    main['entry date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    main['update date'] = datetime.today().strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    main['renewal date'] = (datetime.today() + timedelta(days=30 * 6)).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+    main['location name'] = random_text(words=randint(1, 4))
     postal_code = randint(1000,9999)
-    master['address'] = "%s %d, %d %s" % (random_text(words=1), randint(1,100), postal_code, random_text(words=1))
-    master['postal code'] = postal_code
-    master['latitude'] = float(randint(50734, 51444)) / 1000
-    master['longitude'] = float(randint(2547, 5840)) / 1000
-    master['location slug'] = location_slug(master)
-    master['location details'] = random_text(words=randint(0,4))
+    main['address'] = "%s %d, %d %s" % (random_text(words=1), randint(1,100), postal_code, random_text(words=1))
+    main['postal code'] = postal_code
+    main['latitude'] = float(randint(50734, 51444)) / 1000
+    main['longitude'] = float(randint(2547, 5840)) / 1000
+    main['location slug'] = location_slug(main)
+    main['location details'] = random_text(words=randint(0,4))
     if configuration:
-        master['tags'] = random_tags(configuration['tags'])
+        main['tags'] = random_tags(configuration['tags'])
     else:
-        master['tags'] = ''
-    master['hashtags'] = random_text(words=randint(0, 1))
+        main['tags'] = ''
+    main['hashtags'] = random_text(words=randint(0, 1))
     # second
     multi_day = True if randint(1, 10) < 2 else False
     if multi_day:
-        master['end'] = (start + timedelta(hours=randint(0, 3), days=randint(1, 7))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
-        master['calendar rule'] = ''
+        main['end'] = (start + timedelta(hours=randint(0, 3), days=randint(1, 7))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+        main['calendar rule'] = ''
     else:
-        master['end'] = (start + timedelta(hours=randint(1, 3))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
+        main['end'] = (start + timedelta(hours=randint(1, 3))).strftime(FUSION_TABLE_DATE_TIME_FORMAT)
         chance = randint(1, 10)
         if chance < 3:
-            master['calendar rule'] = "RRULE:FREQ=DAILY;UNTIL=%s" % (start + timedelta(days=30 * 6)).strftime(ISO_DATE_TIME_FORMAT)
+            main['calendar rule'] = "RRULE:FREQ=DAILY;UNTIL=%s" % (start + timedelta(days=30 * 6)).strftime(ISO_DATE_TIME_FORMAT)
         elif chance < 7:
-            master['calendar rule'] = "RRULE:FREQ=WEEKLY;BYDAY=%s;COUNT=16" % {0: 'MO', 1: 'TU', 2: 'WE', 3: 'TH', 4: 'FR', 5: 'SA', 6: 'SU'}[start.weekday()]
+            main['calendar rule'] = "RRULE:FREQ=WEEKLY;BYDAY=%s;COUNT=16" % {0: 'MO', 1: 'TU', 2: 'WE', 3: 'TH', 4: 'FR', 5: 'SA', 6: 'SU'}[start.weekday()]
         else:
-            master['calendar rule'] = "RRULE:FREQ=MONTHLY;BYMONTHDAY=%d" % start.day
-    master['event name'] = "%s %s" % (master['location name'], master['calendar rule'])
-    master['event slug'] = event_slug(master)
-    return master
+            main['calendar rule'] = "RRULE:FREQ=MONTHLY;BYMONTHDAY=%d" % start.day
+    main['event name'] = "%s %s" % (main['location name'], main['calendar rule'])
+    main['event slug'] = event_slug(main)
+    return main
 
 
 def random_text(words=None, sentences=None):

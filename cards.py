@@ -63,11 +63,11 @@ class LocationHandler(BaseHandler):
         # sort by datetime slug
         condition += " ORDER BY 'datetime slug'"
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition)
         if not data:
             no_results_message = localization[configuration['language']]['no-results']
             condition = "'location slug' = '" + location_slug + "'"  # search without timeframe or tags filter
-            data = fusion_tables.select_first(configuration['slave table'], condition=condition)
+            data = fusion_tables.select_first(configuration['subordinate table'], condition=condition)
             if not data:
                 # TODO what if the location's events have been deleted?
                 # is foreseen: fallback to query on event_slug only
@@ -98,7 +98,7 @@ class EventHandler(BaseHandler):
         if datetime_slug:
             condition += " AND "
             condition += "'datetime slug' = '%s'" % datetime_slug
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition)
         no_results_message = ''
         if not data:
             no_results_message = localization[configuration['language']]['no-results']
@@ -139,7 +139,7 @@ class LocationsHandler(BaseHandler):
         # at least for debugging, limit to 100 results
         condition += " LIMIT 100"
         no_results_message = ''
-        data = fusion_tables.select(configuration['master table'], condition=condition)
+        data = fusion_tables.select(configuration['main table'], condition=condition)
         if not data:
             no_results_message = localization[configuration['language']]['no-results']
         # remove duplicates
@@ -182,7 +182,7 @@ class GeoJSONHandler(BaseHandler):
         cols = ['datetime slug', 'event slug', 'sequence', 'latitude', 'longitude', 'location slug', 'tags', 'hashtags']
         configuration = customer_configuration.get_configuration(self.request)
         # query on event
-        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=cols)
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition, cols=cols)
         # convert the results to GeoJSON
         features = []
         for row in data:
@@ -224,7 +224,7 @@ class SitemapByLocationHandler(BaseHandler):
             condition += " AND 'location slug' = '%s'" % location
         condition += " ORDER BY 'datetime slug'"
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition, cols=[
             'event slug',
             'datetime slug',
             'sequence',
@@ -260,7 +260,7 @@ class SitemapHandler(BaseHandler):
         if batch:
             condition += " LIMIT %s" % batch
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition, cols=[
             'event slug',
             'datetime slug',
             'sequence',
@@ -283,7 +283,7 @@ class SitemapHandler(BaseHandler):
 class IndexByLocationHandler(BaseHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
-        count = fusion_tables.count(configuration['slave table'])
+        count = fusion_tables.count(configuration['subordinate table'])
         template = jinja_environment.get_template('sitemapindexbylocation.xml')
         # get a list of all locations (location slug)
         condition = "'sequence' > 0"
@@ -293,7 +293,7 @@ class IndexByLocationHandler(BaseHandler):
             condition += " AND 'start' < '%s'" % limit
         condition += " GROUP BY 'location slug'"
         no_results_message = ''
-        locations = fusion_tables.select(configuration['slave table'], condition=condition, cols=[
+        locations = fusion_tables.select(configuration['subordinate table'], condition=condition, cols=[
             'location slug'
         ])
         if not locations:
@@ -311,7 +311,7 @@ class IndexByLocationHandler(BaseHandler):
 class IndexHandler(BaseHandler):
     def get(self):
         configuration = customer_configuration.get_configuration(self.request)
-        count = fusion_tables.count(configuration['slave table'])
+        count = fusion_tables.count(configuration['subordinate table'])
         template = jinja_environment.get_template('sitemapindex.xml')
         # render the series of offsets
         batch = 1000

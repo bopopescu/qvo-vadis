@@ -19,10 +19,10 @@ class EditHandler(BaseHandler):
         tags_default = 'false'
         hashtags_default = 'false'
         if event_slug:
-            event = fusion_tables.select_first(configuration['master table'], condition="'event slug' = '%s'" % event_slug)
+            event = fusion_tables.select_first(configuration['main table'], condition="'event slug' = '%s'" % event_slug)
             event_default = 'true'
         if location_slug:
-            event = fusion_tables.select_first(configuration['master table'], condition="'location slug' = '%s'" % location_slug)
+            event = fusion_tables.select_first(configuration['main table'], condition="'location slug' = '%s'" % location_slug)
             location_default = 'true'
         if latitude and longitude and not event_slug and not location_slug:
             event[0]['latitude'] = latitude

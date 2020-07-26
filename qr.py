@@ -25,11 +25,11 @@ class LocationHandler(BaseHandler):
         # sort by datetime slug
         condition += " ORDER BY 'datetime slug'"
         no_results_message = ''
-        data = fusion_tables.select(configuration['slave table'], condition=condition)
+        data = fusion_tables.select(configuration['subordinate table'], condition=condition)
         if not data:
             no_results_message = 'Geen activiteiten voldoen aan de zoekopdracht.'
             condition = "'location slug' = '%s'" % location_slug  # search without time filter
-            data = fusion_tables.select_first(configuration['slave table'], condition)
+            data = fusion_tables.select_first(configuration['subordinate table'], condition)
             if not data:
                 # TODO what if the location's events have been deleted?
                 logging.error("No events found for location (%s)" % condition)

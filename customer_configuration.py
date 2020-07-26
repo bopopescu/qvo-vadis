@@ -29,7 +29,7 @@ def get_configuration(request):
 def get_limit(request):
     """
     returns a datetime if a limit must be applied or False if no limit must be applied,
-    i.e. if the 'commercial limit' is set to 0 or if the number of rows in the slave table is
+    i.e. if the 'commercial limit' is set to 0 or if the number of rows in the subordinate table is
     lower than the 'commercial limit'
     """
     global _limit
@@ -42,10 +42,10 @@ def get_limit(request):
             return False
         if not limit:
             return False
-        threshold_slave = fusion_tables.select_nth(configuration['slave table'], cols=['start'], n=limit)
-        if not threshold_slave:
+        threshold_subordinate = fusion_tables.select_nth(configuration['subordinate table'], cols=['start'], n=limit)
+        if not threshold_subordinate:
             return False
-        _limit[id] = threshold_slave[0]['start']
+        _limit[id] = threshold_subordinate[0]['start']
     return _limit[id]
 
 
